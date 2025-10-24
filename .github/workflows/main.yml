@@ -29,3 +29,4 @@ jobs:
 
       - name: Build and run tests
         run: mvn clean test
+        working-directory: ./Unical-Support-2-./unical-support
