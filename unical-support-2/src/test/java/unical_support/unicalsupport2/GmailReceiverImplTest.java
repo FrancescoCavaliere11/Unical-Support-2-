@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doReturn;
 
 
-@SpringBootTest
+@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
 public class GmailReceiverImplTest {
     private GmailReceiverImpl gmailReceiver;
 
