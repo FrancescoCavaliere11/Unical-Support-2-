@@ -2,6 +2,7 @@ package unical_support.unicalsupport2.service.implementation;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.search.FlagTerm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,14 @@ public class GmailReceiverImpl implements EmailReceiver {
             Folder inbox = store.getFolder("INBOX");
             inbox.open(Folder.READ_WRITE);
 
-            Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
+            for (Message message: inbox.getMessages()){
+                System.out.println(message.getSubject());
+            }
+
+            // Qui prendo solo le emajl che hanno il flag SEEN impostato su false, per il momento le prendiamo tutte
+            // Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
+
+            Message[] messages = inbox.getMessages();
 
             for (Message m : messages) {
                 Address[] from = m.getFrom();
@@ -68,10 +76,12 @@ public class GmailReceiverImpl implements EmailReceiver {
                     emailMessage.setTo(Collections.singletonList(sender));
                 }
                 emailMessage.setSubject(m.getSubject());
-                emailMessage.setBody(extractText(m));
+                emailMessage.setBody(getTextFromMessage(m));
                 result.add(emailMessage);
 
-                m.setFlag(Flags.Flag.SEEN, true);
+                // Quando ci sposteremo in una situazione reale con solo il fetch delle email non lette
+                // lì allora potremmo valutare di segnarle come lette, ora è inutile
+                //m.setFlag(Flags.Flag.SEEN, true);
             }
 
             inbox.close(true);
@@ -79,17 +89,42 @@ public class GmailReceiverImpl implements EmailReceiver {
 
             log.info("Ricevute {} email", messages.length);
         } catch (Exception e) {
-            log.error("❌ Errore durante la lettura delle email: {}", e.getMessage(), e);
+            log.error("Errore durante la lettura delle email: {}", e.getMessage(), e);
+            // TODO fare una custom exception
             throw new RuntimeException("Errore nel recupero email", e);
         }
 
         return result;
     }
 
-    private String extractText(Part part) throws MessagingException, IOException {
-        if (part.isMimeType("text/plain")) {
-            return (String) part.getContent();
+    private String getTextFromMessage(Message message) throws MessagingException, IOException {
+        if (message.isMimeType("text/plain")) {
+            return message.getContent().toString();
         }
+        if (message.isMimeType("multipart/*")) {
+            MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
+            return getTextFromMimeMultipart(mimeMultipart);
+        }
+        return "";
+    }
+
+    private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws MessagingException, IOException{
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < mimeMultipart.getCount(); i++) {
+            BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+            if (bodyPart.isMimeType("text/plain")) {
+                return result + "\n" + bodyPart.getContent();
+            }
+            result.append(this.parseBodyPart(bodyPart));
+        }
+        return result.toString();
+    }
+
+    private String parseBodyPart(BodyPart bodyPart) throws MessagingException, IOException {
+        if (bodyPart.getContent() instanceof MimeMultipart){
+            return getTextFromMimeMultipart((MimeMultipart)bodyPart.getContent());
+        }
+
         return "";
     }
 }
