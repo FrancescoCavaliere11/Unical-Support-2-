@@ -5,12 +5,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Data
 @Table(name = "categories")
+@NoArgsConstructor
 public class Category {
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     @Id
     @UuidGenerator
     private String id;

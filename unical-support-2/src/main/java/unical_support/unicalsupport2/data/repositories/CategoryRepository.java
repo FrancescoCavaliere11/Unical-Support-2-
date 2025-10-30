@@ -6,4 +6,5 @@ import unical_support.unicalsupport2.data.entities.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, String> {
+    boolean existsByNameIgnoreCase(String name);
 }
