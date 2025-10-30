@@ -1,0 +1,228 @@
+Index: unical-support-2/unical-support-2.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/unical-support-2/unical-support-2.log b/unical-support-2/unical-support-2.log
+--- a/unical-support-2/unical-support-2.log	(revision 70e96a9c30e72967a2f682cc48b45bf619fb7c5c)
++++ b/unical-support-2/unical-support-2.log	(date 1761808379853)
+@@ -1,0 +1,51 @@
++1761609479621:c g --n nome --d descriptions
++1761609483887:help
++1761609500506:category help
++1761609506648:help category
++1761609515161:stacktrace
++1761637078439:c g --n nome --d descrizione
++1761637082773:stacktrace
++1761637088439:help
++1761637098132:stacktrace
++1761637323329:help
++1761637342594:c g --n nome --d descrizione
++1761637547048:stacktrace
++1761637550902:cd
++1761637552385:ls
++1761637554669:help
++1761637558251:history
++1761637565136:version
++1761637568708:clear
++1761637571805:help
++1761637574855:clear
++1761638847719:help
++1761639148878:hello-world
++1761639153811:c g
++1761639164470:c g -n nomee -d descriptions
++1761639179938:help category
++1761639184491:help c
++1761639186858:c help
++1761639193248:stacktrace
++1761639261427:clear
++1761639365968:help category generate
++1761639374576:help category
++1761639390599:help category generate
++1761640144696:c g -n n -d d
++1761640162271:c g -n nome1 -d descrizione mooooolto lungaaaaa
++1761640192960:c g -n nome -d come mai mi mette le virgole se faccio spazio?
++1761640305758:c g -n nome prova -d descrizione prova moolto lunga
++1761640358674:c g -n nome di prova - d descrizione di prova
++1761640370387:c g -n nome di prova -d descrizione di prova
++1761640389277:c g -n nome di prova - d descrizione di prova
++1761640395651:c g -n nome di prova -d descrizione di prova
++1761640457218:c g -n "nome di prova" -d descrizione di prova
++1761641847843:g c -n "nome categoria" -d "descrizione moooooolto lungaaaa"
++1761641883721:help
++1761641894538:help category generate
++1761641976442:c g -n n -d d
++1761781736023:category generate --name "NewCategory" --description "A valid description"
++1761781774248:category generate --name "Ne" --description "A valid description"
++1761781897791:category generate --name \\"Ne\\" --description \\"This is a description for the new category.\\"
++1761781923108:category generate --name "Ne" --description "This is a description for the new category."
++1761781980351:category generate --name "New category" --description "This is a description for the new category."
++1761808379852:c g -n "Support" -d "Category for support related emails"
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"5598fd66-85b1-4326-8fcc-cd1fbe4a10f7\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/.idea/dataSources.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/uiDesigner.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/MethodValidationConfig.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotation/annotation/UniqueCategoryName.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotation/validator/UniqueCategoryNameValidator.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/CreateCategoryTest.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/compiler.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/compiler.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/encodings.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/encodings.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/unical-support-2/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/unical-support-2/pom.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/CategoryCommand.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/CategoryCommand.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Category.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Category.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/repositories/CategoryRepository.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/repositories/CategoryRepository.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/unical-support-2/unical-support-2.log\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/unical-support-2/unical-support-2.log\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"AnnotationType\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;aldogioia&quot;\n  }\n}</component>\n  <component name=\"GithubProjectSettings\">\n    <option name=\"branchProtectionPatterns\">\n      <list>\n        <option value=\"main\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/FrancescoCavaliere11/Unical-Support-2-.git&quot;,\n    &quot;accountId&quot;: &quot;d075d8c3-66c3-4583-8f0d-c36ce30be5e5&quot;\n  }\n}</component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 7\n}</component>\n  <component name=\"ProjectId\" id=\"34TkwjDhHrZ1tL5xB77TF4HVO6P\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,\n    &quot;JUnit.BeanPrecenseTest.categoryRepositoryShouldExist.executor&quot;: &quot;Run&quot;,\n    &quot;JUnit.BeanPrecenseTest.executor&quot;: &quot;Run&quot;,\n    &quot;JUnit.CreateCategoryCommandTest.createCategorySuccess.executor&quot;: &quot;Run&quot;,\n    &quot;JUnit.CreateCategoryCommandTest.testCreateCategorySuccess.executor&quot;: &quot;Run&quot;,\n    &quot;JUnit.CreateCategoryTest.createCategorySuccessfully.executor&quot;: &quot;Run&quot;,\n    &quot;JUnit.CreateCategoryTest.createCategoryWithBlankName.executor&quot;: &quot;Run&quot;,\n    &quot;JUnit.EmailSenderTest.executor&quot;: &quot;Run&quot;,\n    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,\n    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,\n    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,\n    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;Spring Boot.UnicalSupport2Application.executor&quot;: &quot;Run&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;spring-shell-configuration&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/francescocavaliere/Desktop/Unical-Support-2-&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  },\n  &quot;keyToStringList&quot;: {\n    &quot;DatabaseDriversLRU&quot;: [\n      &quot;postgresql&quot;\n    ]\n  }\n}</component>\n  <component name=\"ReactorSettings\">\n    <option name=\"notificationShown\" value=\"true\" />\n  </component>\n  <component name=\"RunManager\" selected=\"JUnit.CreateCategoryTest.createCategoryWithBlankName\">\n    <configuration name=\"CreateCategoryTest.createCategorySuccessfully\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"unical-support-2\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"unical_support.unicalsupport2.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"unical_support.unicalsupport2\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"unical_support.unicalsupport2.CreateCategoryTest\" />\n      <option name=\"METHOD_NAME\" value=\"createCategorySuccessfully\" />\n      <option name=\"TEST_OBJECT\" value=\"method\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"CreateCategoryTest.createCategoryWithBlankName\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"unical-support-2\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"unical_support.unicalsupport2.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <option name=\"PACKAGE_NAME\" value=\"unical_support.unicalsupport2\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"unical_support.unicalsupport2.CreateCategoryTest\" />\n      <option name=\"METHOD_NAME\" value=\"createCategoryWithBlankName\" />\n      <option name=\"TEST_OBJECT\" value=\"method\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"EmailSenderTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"unical-support\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"EmailSenderTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"UnicalSupport2Application\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\n      <module name=\"unical-support-2\" />\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"unical_support.unicalsupport2.UnicalSupport2Application\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <list>\n      <item itemvalue=\"JUnit.CreateCategoryTest.createCategoryWithBlankName\" />\n      <item itemvalue=\"JUnit.CreateCategoryTest.createCategorySuccessfully\" />\n      <item itemvalue=\"JUnit.EmailSenderTest\" />\n      <item itemvalue=\"Spring Boot.UnicalSupport2Application\" />\n    </list>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"JUnit.CreateCategoryTest.createCategoryWithBlankName\" />\n        <item itemvalue=\"JUnit.CreateCategoryTest.createCategorySuccessfully\" />\n        <item itemvalue=\"JUnit.EmailSenderTest\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"5598fd66-85b1-4326-8fcc-cd1fbe4a10f7\" name=\"Changes\" comment=\"\" />\n      <created>1761245189946</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1761245189946</updated>\n      <workItem from=\"1761245191528\" duration=\"6000\" />\n      <workItem from=\"1761313838093\" duration=\"80000\" />\n      <workItem from=\"1761323363598\" duration=\"2269000\" />\n      <workItem from=\"1761761577568\" duration=\"237000\" />\n      <workItem from=\"1761764949641\" duration=\"2315000\" />\n      <workItem from=\"1761770935745\" duration=\"964000\" />\n      <workItem from=\"1761771909519\" duration=\"10233000\" />\n      <workItem from=\"1761807715632\" duration=\"907000\" />\n      <workItem from=\"1761809992860\" duration=\"52000\" />\n      <workItem from=\"1761810385634\" duration=\"260000\" />\n      <workItem from=\"1761810686891\" duration=\"1426000\" />\n      <workItem from=\"1761812267103\" duration=\"1206000\" />\n      <workItem from=\"1761814362400\" duration=\"2301000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\n    <expand />\n    <select />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 70e96a9c30e72967a2f682cc48b45bf619fb7c5c)
++++ b/.idea/workspace.xml	(date 1761818689779)
+@@ -4,22 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/MethodValidationConfig.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotation/annotation/UniqueCategoryName.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotation/validator/UniqueCategoryNameValidator.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/CreateCategoryTest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/unical-support-2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/CategoryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/CategoryCommand.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Category.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/repositories/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/repositories/CategoryRepository.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java" afterDir="false" />
++    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="creazione categoria con validazione">
+       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/unical-support-2/unical-support-2.log" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/unical-support-2.log" afterDir="false" />
+     </list>
+@@ -39,7 +24,7 @@
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="main" />
++        <entry key="$PROJECT_DIR$" value="spring-shell-configuration" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -74,42 +59,42 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.BeanPrecenseTest.categoryRepositoryShouldExist.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.BeanPrecenseTest.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.CreateCategoryCommandTest.createCategorySuccess.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.CreateCategoryCommandTest.testCreateCategorySuccess.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.CreateCategoryTest.createCategorySuccessfully.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.CreateCategoryTest.createCategoryWithBlankName.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.EmailSenderTest.executor&quot;: &quot;Run&quot;,
+-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+-    &quot;Spring Boot.UnicalSupport2Application.executor&quot;: &quot;Run&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;spring-shell-configuration&quot;,
+-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;/Users/francescocavaliere/Desktop/Unical-Support-2-&quot;,
+-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "Application.Unnamed.executor": "Run",
++    "JUnit.BeanPrecenseTest.categoryRepositoryShouldExist.executor": "Run",
++    "JUnit.BeanPrecenseTest.executor": "Run",
++    "JUnit.CreateCategoryCommandTest.createCategorySuccess.executor": "Run",
++    "JUnit.CreateCategoryCommandTest.testCreateCategorySuccess.executor": "Run",
++    "JUnit.CreateCategoryTest.createCategorySuccessfully.executor": "Run",
++    "JUnit.CreateCategoryTest.createCategoryWithBlankName.executor": "Run",
++    "JUnit.EmailSenderTest.executor": "Run",
++    "RequestMappingsPanelOrder0": "0",
++    "RequestMappingsPanelOrder1": "1",
++    "RequestMappingsPanelWidth0": "75",
++    "RequestMappingsPanelWidth1": "75",
++    "RunOnceActivity.OpenProjectViewOnStart": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "RunOnceActivity.git.unshallow": "true",
++    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
++    "Spring Boot.UnicalSupport2Application.executor": "Run",
++    "git-widget-placeholder": "create-category",
++    "kotlin-language-version-configured": "true",
++    "last_opened_file_path": "/Users/francescocavaliere/Desktop/Unical-Support-2-",
++    "node.js.detected.package.eslint": "true",
++    "node.js.detected.package.tslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "nodejs_package_manager_path": "npm",
++    "settings.editor.selected.configurable": "preferences.pluginManager",
++    "vue.rearranger.settings.migration": "true"
+   },
+-  &quot;keyToStringList&quot;: {
+-    &quot;DatabaseDriversLRU&quot;: [
+-      &quot;postgresql&quot;
++  "keyToStringList": {
++    "DatabaseDriversLRU": [
++      "postgresql"
+     ]
+   }
+-}</component>
++}]]></component>
+   <component name="ReactorSettings">
+     <option name="notificationShown" value="true" />
+   </component>
+@@ -197,11 +182,25 @@
+       <workItem from="1761810686891" duration="1426000" />
+       <workItem from="1761812267103" duration="1206000" />
+       <workItem from="1761814362400" duration="2301000" />
++      <workItem from="1761818386242" duration="304000" />
+     </task>
++    <task id="LOCAL-00001" summary="creazione categoria con validazione">
++      <option name="closed" value="true" />
++      <created>1761818532348</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1761818532348</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+     <option name="version" value="3" />
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="creazione categoria con validazione" />
++    <option name="LAST_COMMIT_MESSAGE" value="creazione categoria con validazione" />
+   </component>
+   <component name="XSLT-Support.FileAssociations.UIState">
+     <expand />
+Index: unical-support-2/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.application.name=unical-support-2\n\n#Hibernate Configuration\nspring.jpa.hibernate.ddl-auto=update\nspring.jpa.show-sql=true\n\n#Database Configuration\nspring.datasource.url=\nspring.datasource.username=\nspring.datasource.password=\n\n#Spring Shell Configuration\nspring.shell.interactive.enabled=true\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/unical-support-2/src/main/resources/application.properties b/unical-support-2/src/main/resources/application.properties
+--- a/unical-support-2/src/main/resources/application.properties	(revision 70e96a9c30e72967a2f682cc48b45bf619fb7c5c)
++++ b/unical-support-2/src/main/resources/application.properties	(date 1761811314450)
+@@ -5,9 +5,9 @@
+ spring.jpa.show-sql=true
+ 
+ #Database Configuration
+-spring.datasource.url=
+-spring.datasource.username=
+-spring.datasource.password=
++spring.datasource.url=jdbc:postgresql://localhost:5432/unical_support
++spring.datasource.username=postgres
++spring.datasource.password=postgres
+ 
+ #Spring Shell Configuration
+ spring.shell.interactive.enabled=true

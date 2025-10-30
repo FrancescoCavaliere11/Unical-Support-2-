@@ -5,21 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support/src/main/java/unical_support/EmailSender.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support/src/main/java/unical_support/config/EmailConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support/src/main/java/unical_support/model/EmailMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support/src/test/java/EmailSenderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotations/annotation/UniqueCategoryName.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotations/validator/UniqueCategoryNameValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/CategoryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/CategoryCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/repositories/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/repositories/CategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +23,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="AnnotationType" />
         <option value="Class" />
       </list>
     </option>
@@ -36,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="spring-shell-configuration" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -72,7 +67,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "email-system",
+    "Spring Boot.UnicalSupport2Application.executor": "Run",
+    "git-widget-placeholder": "create-category",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -82,14 +78,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.EmailSenderTest">
-    <configuration name="run" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="unical_support.Main" />
-      <module name="unical-support" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Spring Boot.UnicalSupport2Application">
     <configuration name="EmailSenderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support" />
       <option name="PACKAGE_NAME" value="" />
@@ -99,9 +88,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UnicalSupport2Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="unical_support.unicalsupport2.UnicalSupport2Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
-      <item itemvalue="Application.run" />
       <item itemvalue="JUnit.EmailSenderTest" />
+      <item itemvalue="Spring Boot.UnicalSupport2Application" />
     </list>
     <recent_temporary>
       <list>
