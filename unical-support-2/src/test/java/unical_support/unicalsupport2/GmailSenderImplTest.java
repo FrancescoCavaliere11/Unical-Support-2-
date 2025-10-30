@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
 public class GmailSenderImplTest {
     private JavaMailSender mailSender;
     private GmailSenderImpl gmailSender;
