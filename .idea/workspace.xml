@@ -11,6 +11,12 @@
       <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotation/annotation/UniqueCategoryName.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotation/validator/UniqueCategoryNameValidator.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/CreateCategoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/EmailMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailSenderImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailSender.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailReceiverImplTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailSenderImplTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
@@ -22,6 +28,9 @@
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/unical-support-2.log" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/unical-support-2.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailReceiverImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailReceiver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +41,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="AnnotationType" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -142,6 +152,46 @@
       <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.CreateCategoryTest" />
       <option name="METHOD_NAME" value="createCategoryWithBlankName" />
       <option name="TEST_OBJECT" value="method" />
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Unnamed.executor": "Run",
+    "Application.run.executor": "Run",
+    "JUnit.EmailSenderTest.executor": "Run",
+    "JUnit.GmailReceiverImplTest.executor": "Run",
+    "JUnit.GmailSenderImplTest.executor": "Run",
+    "JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully.executor": "Run",
+    "JUnit.GmailSenderImplTest.shouldSendRealEmail.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.UnicalSupport2Application.executor": "Run",
+    "git-widget-placeholder": "EmailService",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RunManager" selected="JUnit.GmailReceiverImplTest">
+    <configuration name="run" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="unical_support.Main" />
+      <module name="unical-support" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -155,6 +205,68 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GmailReceiverImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailReceiverImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GmailSenderImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailSenderImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GmailSenderImplTest.shouldSendEmailSuccessfully" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailSenderImplTest" />
+      <option name="METHOD_NAME" value="shouldSendEmailSuccessfully" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GmailSenderImplTest.shouldSendRealEmail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailSenderImplTest" />
+      <option name="METHOD_NAME" value="shouldSendRealEmail" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UnicalSupport2Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="unical-support-2" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="unical_support.unicalsupport2.UnicalSupport2Application" />
@@ -163,15 +275,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CreateCategoryTest.createCategoryWithBlankName" />
-      <item itemvalue="JUnit.CreateCategoryTest.createCategorySuccessfully" />
+      <item itemvalue="Application.run" />
+      <item itemvalue="JUnit.GmailReceiverImplTest" />
+      <item itemvalue="JUnit.GmailSenderImplTest" />
+      <item itemvalue="JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully" />
+      <item itemvalue="JUnit.GmailSenderImplTest.shouldSendRealEmail" />
       <item itemvalue="JUnit.EmailSenderTest" />
       <item itemvalue="Spring Boot.UnicalSupport2Application" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CreateCategoryTest.createCategoryWithBlankName" />
-        <item itemvalue="JUnit.CreateCategoryTest.createCategorySuccessfully" />
+        <item itemvalue="JUnit.GmailReceiverImplTest" />
+        <item itemvalue="JUnit.GmailSenderImplTest" />
+        <item itemvalue="JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully" />
+        <item itemvalue="JUnit.GmailSenderImplTest.shouldSendRealEmail" />
         <item itemvalue="JUnit.EmailSenderTest" />
       </list>
     </recent_temporary>
