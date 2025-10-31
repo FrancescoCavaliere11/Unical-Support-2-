@@ -27,9 +27,7 @@ public class EmailCommand {
                     return dto;
                 }).toList();
 
-        if (emails.size() > 1)
-            emailClassifier.classifyEmailBatch(emails).forEach(System.out::println);
-        else
-            System.out.println(emailClassifier.classifyEmail(emails.getFirst()));
+        if (!emails.isEmpty())
+            emailClassifier.classifyEmail(emails).forEach(System.out::println);
     }
 }

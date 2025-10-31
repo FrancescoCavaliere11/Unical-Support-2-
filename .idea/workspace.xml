@@ -4,28 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/EmailCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/ClassificationEmailDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="Uniti i email receiver e email classifier">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2.log" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/Model/ClassificationResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/Model/ClassificationResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/UnicalSupport2Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/UnicalSupport2Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/GeminiLlmConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/GeminiLlmConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/SpringShellConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/SpringShellConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/EmailMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/EmailMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/Api/ClassificationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/Config/LlmProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/LLM/Classifier.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/LLM/ClassifierBatch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/LLM/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/Model/ClassificationResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/ClassificationResultDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/Model/EmailData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/Prompting/BatchPrompter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/EmailClassifier/Prompting/Prompter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/EmailCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/EmailCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailClassifierImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailClassifierImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailReceiverImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailReceiverImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailSenderImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailSenderImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/PromptServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/PromptServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailClassifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailClassifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailReceiver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailSender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/PromptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/PromptService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailReceiverImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailReceiverImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailSenderImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailSenderImplTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +57,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -72,39 +68,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Unnamed.executor": "Run",
-    "Application.run.executor": "Run",
-    "JUnit.EmailSenderTest.executor": "Run",
-    "JUnit.GmailReceiverImplTest.executor": "Run",
-    "JUnit.GmailSenderImplTest.executor": "Run",
-    "JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully.executor": "Run",
-    "JUnit.GmailSenderImplTest.shouldSendRealEmail.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.UnicalSupport2Application.executor": "Run",
-    "git-widget-placeholder": "#8 on EmailClassifier",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;Application.run.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmailSenderTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GmailReceiverImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GmailSenderImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GmailSenderImplTest.shouldSendRealEmail.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.UnicalSupport2Application.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#8 on EmailClassifier&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -237,10 +233,24 @@
       <workItem from="1761245191528" duration="6000" />
       <workItem from="1761313838093" duration="80000" />
       <workItem from="1761323363598" duration="2269000" />
+      <workItem from="1761934392453" duration="442000" />
     </task>
+    <task id="LOCAL-00001" summary="Uniti i email receiver e email classifier">
+      <option name="closed" value="true" />
+      <created>1761933594623</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1761933594623</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Uniti i email receiver e email classifier" />
+    <option name="LAST_COMMIT_MESSAGE" value="Uniti i email receiver e email classifier" />
   </component>
 </project>
