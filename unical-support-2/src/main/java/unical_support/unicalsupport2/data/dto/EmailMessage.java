@@ -1,4 +1,4 @@
-package unical_support.unicalsupport2.data;
+package unical_support.unicalsupport2.data.dto;
 
 
 // Capire se serve mantenere in memoria temporaneamente l'email così da poter gestire l'invio

@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
-import unical_support.unicalsupport2.data.EmailMessage;
+import unical_support.unicalsupport2.data.dto.EmailMessage;
 import unical_support.unicalsupport2.service.implementation.GmailSenderImpl;
 
 import java.util.List;
