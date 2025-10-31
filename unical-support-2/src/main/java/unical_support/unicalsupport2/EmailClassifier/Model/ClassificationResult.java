@@ -7,7 +7,6 @@ public class ClassificationResult {
     public enum Category {
         INFORMAZIONI_GENERICHE, RECLAMO, NON_RICONOSCIUTA, ERASMUS_E_MOBILITA_INTERNAZIONALE,
         RICONOSCIMENTO_ESAMI_CFU, ESAMI_E_APPELLI, LAUREA_E_TESI, SERVIZI_CAMPUS
-
     }
 
     private final Category category;

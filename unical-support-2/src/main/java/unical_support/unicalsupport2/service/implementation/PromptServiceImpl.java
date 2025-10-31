@@ -1,7 +1,7 @@
 package unical_support.unicalsupport2.service.implementation;
 
 import org.springframework.stereotype.Service;
-import unical_support.unicalsupport2.EmailClassifier.Model.EmailData;
+import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
 import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class PromptServiceImpl implements PromptService {
     }
 
     @Override
-    public String buildUserMessage(EmailData email) {
+    public String buildUserMessage(ClassificationEmailDto classificationEmailDto) {
         return """
             Email da classificare.
 
@@ -39,7 +39,7 @@ public class PromptServiceImpl implements PromptService {
 
             CORPO:
             %s
-            """.formatted(email.getSubject(), email.getBody());
+            """.formatted(classificationEmailDto.getSubject(), classificationEmailDto.getBody());
     }
 
     @Override
@@ -61,11 +61,11 @@ public class PromptServiceImpl implements PromptService {
     }
 
     @Override
-    public String buildUserMessageBatch(List<EmailData> emails) {
+    public String buildUserMessageBatch(List<ClassificationEmailDto> classificationEmailDtos) {
         StringBuilder sb = new StringBuilder();
         sb.append("Classifica le seguenti email. Rispondi con un JSON array come descritto.\n\n");
-        for (int i = 0; i < emails.size(); i++) {
-            EmailData e = emails.get(i);
+        for (int i = 0; i < classificationEmailDtos.size(); i++) {
+            ClassificationEmailDto e = classificationEmailDtos.get(i);
             sb.append("ID: ").append(i).append("\n");
             sb.append("OGGETTO: ").append(e.getSubject()).append("\n");
             sb.append("CORPO: ").append(e.getBody()).append("\n\n");

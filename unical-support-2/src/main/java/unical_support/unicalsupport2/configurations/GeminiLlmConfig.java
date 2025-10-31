@@ -10,10 +10,10 @@ public class GeminiLlmConfig {
     @Value("${llm.api-key}")
     private String apiKey;
 
-    @Value("${llm.model:gemini-2.5-flash}")
+    @Value("${llm.model}")
     private String model;
 
-    @Value("${llm.timeout-seconds:50}")
+    @Value("${llm.timeout-seconds}")
     private int timeoutSeconds;
 
     @Bean

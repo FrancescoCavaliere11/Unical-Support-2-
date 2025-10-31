@@ -3,13 +3,12 @@ package unical_support.unicalsupport2.service.implementation;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMultipart;
-import jakarta.mail.search.FlagTerm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
-import unical_support.unicalsupport2.data.EmailMessage;
+import unical_support.unicalsupport2.data.dto.EmailMessage;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 
 import java.io.IOException;
@@ -53,10 +52,6 @@ public class GmailReceiverImpl implements EmailReceiver {
 
             Folder inbox = store.getFolder("INBOX");
             inbox.open(Folder.READ_WRITE);
-
-            for (Message message: inbox.getMessages()){
-                System.out.println(message.getSubject());
-            }
 
             // Qui prendo solo le emajl che hanno il flag SEEN impostato su false, per il momento le prendiamo tutte
             // Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
