@@ -16,6 +16,8 @@ import java.util.List;
 // Il prompt è costruito con batchPrompter, e grazie a questo prompt specifico si invia una sola richiesta all'LLM
 // Riceve una risposta con le informazioni per ogni email
 // La trasforma in una lista di ClassificationResult in modo da uniformare i risultati
+
+// todo si può rimuoverere questa classe e usare EmailClassifierImpl con GeminiApiClient
 @Service
 public class ClassifierBatch {
 

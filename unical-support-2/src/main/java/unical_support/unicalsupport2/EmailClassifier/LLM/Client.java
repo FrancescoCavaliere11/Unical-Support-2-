@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import unical_support.unicalsupport2.EmailClassifier.Config.LlmProperties;
 import java.time.Duration;
+// todo rimuovere
 
 // Classe per gestire l'interazione con gemini, costruisce il payload, invia una richiesta HTTP, e poi restituisce
 // E infine valida la risposta ("risposta vuota non valida")

@@ -5,6 +5,7 @@ import unical_support.unicalsupport2.EmailClassifier.Model.EmailData;
 
 import java.util.List;
 
+// todo si può eliminare
 @Component
 public class BatchPrompter {
 
@@ -22,7 +23,7 @@ public class BatchPrompter {
         }
         Non aggiungere testo fuori dal JSON.
         """;
-        // NOTA: ho uniformato "RICONOSCIMENTO_ESAMI_CFU" (nel tuo batch c'era un refuso: "RICONOSCMENTO")
+        // NOTA: ho uniformato "RICONOSCIMENTO_ESAMI_xCFU" (nel tuo batch c'era un refuso: "RICONOSCMENTO")
     }
 
     public String buildUserMessage(List<EmailData> emails) {

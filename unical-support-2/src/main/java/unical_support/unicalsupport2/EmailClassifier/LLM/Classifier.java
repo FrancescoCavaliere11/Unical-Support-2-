@@ -10,6 +10,8 @@ import unical_support.unicalsupport2.EmailClassifier.Prompting.Prompter;
 // calsse basata su due parametri principali System e user : per capire meglio
 // system dice : sei un LLM fai questo
 // User invece passa all'LLM OGGETTO: RICHIESTA XXXX, CORPO: SALVE XXX grazie
+
+// todo si può rimuovere
 @Service
 public class Classifier {
 
@@ -63,8 +65,8 @@ public class Classifier {
         }
     }
 
-    private String safe(String s) { return s == null ? "" : s; }
     // serve a evitare se il modello restituisce valore vuoto, che ci sia eccezione e da ""
+    private String safe(String s) { return s == null ? "" : s; }
 }
 
 

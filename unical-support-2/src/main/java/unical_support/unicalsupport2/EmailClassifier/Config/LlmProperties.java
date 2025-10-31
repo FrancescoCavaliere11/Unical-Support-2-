@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+// todo rimuovere
+
 // Classe di configurazione per leggere le proprietà LLM da application.yml
 @Component
 @ConfigurationProperties(prefix = "llm")

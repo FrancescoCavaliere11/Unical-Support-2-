@@ -3,6 +3,8 @@ package unical_support.unicalsupport2.EmailClassifier.Prompting;
 import org.springframework.stereotype.Component;
 import unical_support.unicalsupport2.EmailClassifier.Model.EmailData;
 
+
+//todo rimuovere
 @Component
 public class Prompter {
 
