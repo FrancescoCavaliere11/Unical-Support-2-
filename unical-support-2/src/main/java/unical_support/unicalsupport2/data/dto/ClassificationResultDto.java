@@ -1,5 +1,6 @@
 package unical_support.unicalsupport2.data.dto;
 
+
 import lombok.Getter;
 
 @Getter
@@ -20,10 +21,6 @@ public class ClassificationResultDto {
         this.confidence = confidence;
         this.explanation = explanation == null ? "" : explanation;
     }
-
-    public Category getCategory() { return category; }
-    public double getConfidence() { return confidence; }
-    public String getExplanation() { return explanation; }
 
     @Override
     public String toString() {

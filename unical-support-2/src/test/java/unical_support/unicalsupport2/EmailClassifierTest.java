@@ -58,7 +58,7 @@ public class EmailClassifierTest {
     }
 
     @Test
-    void EveryResultHas3Part_Category_Confidence_Explanation() throws Exception {
+    void EveryResultHas3Part_Category_Confidence_Explanation()  {
         CategoryRepository repo = mock(CategoryRepository.class);
         GeminiApiClient api = mock(GeminiApiClient.class);
         PromptService ps = mock(PromptService.class);
