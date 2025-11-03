@@ -31,6 +31,9 @@ jobs:
       SPRING_DATASOURCE_USERNAME: test
       SPRING_DATASOURCE_PASSWORD: test
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      llm.api-key: apiKey
+      llm.model: gemini-2.5-flash
+      llm.timeout-seconds: 30
 
     steps:
       - name: Checkout repository
