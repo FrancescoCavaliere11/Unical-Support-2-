@@ -32,6 +32,24 @@ public class CategoryCommand {
         return "Category created successfully";
     }
 
+    // Metodo per importare categorie da un file JSON
+    // Esempio d'uso: shell:> category import --file src/main/resources/dataset.json
+    @Command(command = "import", alias = "i", description = "Import categories from a JSON file")
+    public String importCategories(
+            @Option(longNames = "file", shortNames = 'f', description = "Path to the JSON file containing categories")
+            @NotBlank(message = "file path is required")
+            String pathFile
+    ) {
+        return categoryService.createCategories(pathFile);
+    }
 
-
+    @Command(command = "delete", alias = "d", description = "Delete a category by name")
+    public String deleteCategory(
+            @Option(longNames = "name", shortNames = 'n', description = "Specify the name of the category")
+            @NotBlank(message = "name is required")
+            @Size(min = 3, max = 50, message = "name must be between 3 and 50 characters")
+            String name
+    ) {
+        return categoryService.deleteCategory(name);
+    }
 }
