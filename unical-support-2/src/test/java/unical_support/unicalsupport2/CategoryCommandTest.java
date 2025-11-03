@@ -22,8 +22,6 @@ class CategoryCommandTest {
     @Mock
     private CategoryService categoryService;
 
-    private CategoryCommand categoryCommand;
-
     @TempDir
     Path tempDir;
 
