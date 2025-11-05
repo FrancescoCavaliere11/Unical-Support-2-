@@ -52,7 +52,7 @@ jobs:
 
     env:
       SPRING_DATASOURCE_URL: ${{ secrets.DB_URL }}
-      SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_USER }}
+      SPRING_DATASOURCE_USERNAME: test
       SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
