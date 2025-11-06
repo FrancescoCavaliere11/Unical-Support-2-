@@ -56,9 +56,17 @@ jobs:
       SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
-      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-      LLM_MODEL: gemini-2.5-flash
+      # LLM config
       LLM_TIMEOUT_SECONDS: 30
+      LLM_PROVIDER: gemini
+
+      # Gemini config
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: gemini-2.5-flash
+
+      # Groq config
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      GROQ_MODEL: openai/gpt-oss-20b
 
     steps:
       - name: Checkout repository
