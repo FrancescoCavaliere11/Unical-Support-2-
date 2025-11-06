@@ -8,10 +8,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class GeminiLlmConfig {
-    @Value("${llm.api-key}")
+    @Value("${gemini.api-key}")
     private String apiKey;
 
-    @Value("${llm.model}")
+    @Value("${gemini.model}")
     private String model;
 
     @Value("${llm.timeout-seconds}")

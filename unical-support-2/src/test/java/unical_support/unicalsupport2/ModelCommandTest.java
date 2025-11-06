@@ -4,12 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import unical_support.unicalsupport2.commands.ModelCommand;
 import unical_support.unicalsupport2.runtime.ActiveLlmRegistry;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
 @ExtendWith(MockitoExtension.class)
 class ModelCommandTest {
 

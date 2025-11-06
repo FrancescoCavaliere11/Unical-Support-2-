@@ -18,13 +18,13 @@ public class GroqLlmConfig {
     @Value("${groq.base-url:https://api.groq.com/openai/v1}")
     private String baseUrl;
 
-    @Value("${groq.timeout-seconds:30}")
+    @Value("${llm.timeout-seconds}")
     private int timeoutSeconds;
 
     @Bean
     public WebClient groqWebClient(WebClient.Builder builder) {
         return builder
-                .baseUrl(baseUrl)
+                .baseUrl("https://api.groq.com/openai/v1")
                 .defaultHeader("Authorization", "Bearer " + apiKey)
                 .build();
     }
