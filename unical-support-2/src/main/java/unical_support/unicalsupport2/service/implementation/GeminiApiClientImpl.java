@@ -5,24 +5,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import unical_support.unicalsupport2.configurations.GeminiLlmConfig;
-import unical_support.unicalsupport2.service.interfaces.GeminiApiClient;
+import unical_support.unicalsupport2.service.interfaces.LlmClient;
 
 import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
-public class GeminiApiClientImpl implements GeminiApiClient {
+@Slf4j
+public class GeminiApiClientImpl implements LlmClient {
     private final WebClient geminiWebClient;
     private final GeminiLlmConfig.GeminiProperties geminiProperties;
 
-
     @Override
     public String chat(String systemMessage, String userMessage) throws Exception {
+        log.info("Invoco Gemini generateContent, model={}", geminiProperties.model());
+
         ObjectMapper mapper = new ObjectMapper();
 
         String prompt = systemMessage + "\n\n" + userMessage;
@@ -41,7 +44,8 @@ public class GeminiApiClientImpl implements GeminiApiClient {
         contents.add(content);
         req.set("contents", contents);
 
-        String url = String.format("/v1beta/models/%s:generateContent?key=%s", geminiProperties.model(), geminiProperties.apiKey());
+        String url = String.format("/v1beta/models/%s:generateContent?key=%s",
+                geminiProperties.model(), geminiProperties.apiKey());
 
         String body = geminiWebClient.post()
                 .uri(url)
