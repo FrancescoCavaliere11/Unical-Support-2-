@@ -14,13 +14,16 @@ public class GeminiLlmConfig {
     @Value("${gemini.model}")
     private String model;
 
+    @Value("${gemini.base-url}")
+    private String baseUrl;
+
     @Value("${llm.timeout-seconds}")
     private int timeoutSeconds;
 
     @Bean
     public WebClient geminiWebClient(WebClient.Builder builder) {
         return builder
-                .baseUrl("https://generativelanguage.googleapis.com")
+                .baseUrl(baseUrl)
                 .build();
     }
 
