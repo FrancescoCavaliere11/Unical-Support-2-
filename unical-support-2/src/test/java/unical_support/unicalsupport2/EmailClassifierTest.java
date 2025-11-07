@@ -2,10 +2,14 @@ package unical_support.unicalsupport2;
 
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
+import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.service.implementation.EmailClassifierImpl;
 import unical_support.unicalsupport2.service.implementation.PromptServiceImpl;
@@ -17,7 +21,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+//@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+@ExtendWith(MockitoExtension.class)
 public class EmailClassifierTest {
     @Mock
     private CategoryRepository categoryRepository;
@@ -51,15 +56,15 @@ public class EmailClassifierTest {
         List<ClassificationResultDto> out = svc.classifyEmail(List.of(e1, e2, e3));
 
         assertThat(out).hasSize(3);
-        out.forEach(r -> assertThat(r.getCategory())
-                .as("Categoria di fallback quando il modello non risponde")
-                .isEqualTo("NON_RICONOSCIUTA"));
+        out.forEach(r -> assertThat(r.getCategories())
+                .as("Mappa delle categorie deve contenere solo la fallback")
+                .containsEntry("NON_RICONOSCIUTA", 0.0));
 
         verify(geminiApiClient, times(1)).chat(anyString(), anyString());
     }
 
     @Test
-    void EveryResultHas3Part_Category_Confidence_Explanation() throws Exception {
+    void EveryResultHasCategoriesAndExplanation() throws Exception {
 
         PromptService ps = new PromptServiceImpl(categoryRepository);
 
@@ -119,9 +124,64 @@ public class EmailClassifierTest {
 
         assertThat(out).hasSize(10);
         out.forEach(r -> {
-            assertThat(r.getCategory()).isNotNull();
-            assertThat(r.getConfidence()).isBetween(0.0, 1.0);
-            assertThat(r.getExplanation()).isNotBlank();
+
+            assertThat(r.getCategories())
+                    .as("Ogni risultato deve avere almeno una categoria")
+                    .isNotEmpty();
+
+
+            r.getCategories().forEach((cat, conf) -> {
+                assertThat(cat).isNotBlank();
+                assertThat(conf)
+                        .as("Confidenza deve essere tra 0 e 1")
+                        .isBetween(0.0, 1.0);
+            });
+
+            assertThat(r.getExplanation())
+                    .as("Spiegazione non deve essere vuota")
+                    .isNotBlank();
         });
     }
+
+    @Test
+    void acceptsOldSingleLabelFormat() throws Exception {
+        when(promptService.buildSystemMessageBatch()).thenReturn("system");
+        when(promptService.buildUserMessageBatch(anyList())).thenReturn("user");
+
+        when(geminiApiClient.chat(anyString(), anyString())).thenReturn("""
+        [
+          {"id":0,"category":"RECLAMO","confidence":0.9,"explanation":"ok"}
+        ]
+        """);
+
+        Category c1 = new Category();
+        c1.setId("1");
+        c1.setName("RECLAMO");
+        c1.setDescription("Segnalazioni e reclami vari");
+
+        Category c2 = new Category();
+        c2.setId("2");
+        c2.setName("ESAMI_E_APPELLI");
+        c2.setDescription("Gestione degli appelli e iscrizioni");
+
+        Category c3 = new Category();
+        c3.setId("3");
+        c3.setName("SERVIZI_CAMPUS");
+        c3.setDescription("Servizi e infrastrutture del campus");
+
+        when(categoryRepository.findAll()).thenReturn(List.of(c1, c2, c3));
+
+        EmailClassifierImpl svc = new EmailClassifierImpl(categoryRepository, geminiApiClient, promptService);
+        ClassificationEmailDto e = new ClassificationEmailDto();
+        e.setSubject("Reclamo per certificato");
+        e.setBody("Certificato non ricevuto.");
+
+        List<ClassificationResultDto> out = svc.classifyEmail(List.of(e));
+
+        assertThat(out).hasSize(1);
+        assertThat(out.get(0).getCategories())
+                .as("Compatibilità con vecchio formato category/confidence")
+                .containsEntry("RECLAMO", 0.9);
+    }
+
 }

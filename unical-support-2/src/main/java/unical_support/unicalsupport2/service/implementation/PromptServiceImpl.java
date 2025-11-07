@@ -22,14 +22,18 @@ public class PromptServiceImpl implements PromptService {
                 .toList();
 
         return "Sei un classificatore di email per una segreteria universitaria.\n" +
+                "Puoi assegnare UNA o PIÙ categorie a ciascuna email.\n" +
+                "Scrivi UNA sola spiegazione per ciascuna email, che motivi tutte le categorie scelte.\n" +
                 "Restituisci SOLO un JSON array, senza testo extra, senza markdown.\n" +
                 "Ogni elemento dell'array deve avere questo schema:\n" +
                 "{\n" +
-                "  \"id\": number,   // ID dell'email fornito nell'input\n" +
-                "  \"category\": " + String.join(" | ", categories) + ",\n" +
-                "  \"confidence\": number,   // tra 0 e 1\n" +
+                "  \"id\": number,     // ID dell'email fornito nell'input\n" +
+                "  \"categories\": [   // elenco di categorie riconosciute\n" +
+                "     {\"name\": string, \"confidence\": number}   // tra 0 e 1\n" +
+                "  ],\n" +
                 "  \"explanation\": string   // breve spiegazione in italiano\n" +
                 "}\n\n" +
+                "Categorie possibili: " + String.join(", ", categories) + "\n\n" +
                 "Non aggiungere testo fuori dal JSON.\n";
     }
 

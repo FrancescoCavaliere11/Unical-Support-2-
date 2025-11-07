@@ -1,15 +1,15 @@
 package unical_support.unicalsupport2.data.dto;
 
 import lombok.Data;
+import java.util.Map;
 
 @Data
 public class ClassificationResultDto {
-    private final String category;
-    private final double confidence;
+    private final Map<String, Double> categories;
     private final String explanation;
 
     @Override
     public String toString() {
-        return "\nCategory= " + category + "\nConfidence= " + confidence + "\nExplanation= " + explanation + "\n\n";
+        return "Categories=" + categories + ", explanation=" + explanation;
     }
 }
