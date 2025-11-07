@@ -10,6 +10,6 @@ public class ClassificationResultDto {
 
     @Override
     public String toString() {
-        return "Category=" + category + ", confidence=" + confidence + ", explanation=" + explanation;
+        return "\nCategory= " + category + "\nConfidence= " + confidence + "\nExplanation= " + explanation + "\n\n";
     }
 }
