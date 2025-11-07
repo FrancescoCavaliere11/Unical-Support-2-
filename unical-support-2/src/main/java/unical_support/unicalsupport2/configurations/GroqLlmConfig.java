@@ -24,7 +24,7 @@ public class GroqLlmConfig {
     @Bean
     public WebClient groqWebClient(WebClient.Builder builder) {
         return builder
-                .baseUrl("https://api.groq.com/openai/v1")
+                .baseUrl(baseUrl)
                 .defaultHeader("Authorization", "Bearer " + apiKey)
                 .build();
     }
