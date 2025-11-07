@@ -2,7 +2,6 @@ package unical_support.unicalsupport2.commands;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.command.annotation.Command;
-import org.springframework.validation.annotation.Validated;
 import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.EmailMessage;
@@ -12,19 +11,18 @@ import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 import java.util.List;
 
+@Command(command = "start" , alias = "s", description = "Commands for start email fetching and classification")
 @RequiredArgsConstructor
-@Command(command = "fetch", alias = "f", description = "Fetch emails from the server")
 public class EmailCommand {
 
     private final EmailReceiver emailReceiver;
     private final EmailClassifier emailClassifier;
     private final EmailSender emailSender;
 
+    @Command(command = "fetch", alias = "f", description = "Fetch emails from the server")
     public void fetchEmailAndClassify() {
-        //Prendo le mail originali
         List<EmailMessage> originalEmails = emailReceiver.receiveEmails();
 
-        //Preparo le mail per classificarle
         List<ClassificationEmailDto> emailsToClassify = originalEmails.stream()
                 .map(emailMessage -> {
                     ClassificationEmailDto dto = new ClassificationEmailDto();
@@ -34,41 +32,34 @@ public class EmailCommand {
                 })
                 .toList();
 
-        //Se non ci sono mail ca classificare esco
         if (emailsToClassify.isEmpty()) return;
-        
 
-        //Uso il classificatore per classificare la varie mail
+
         List<ClassificationResultDto> results = emailClassifier.classifyEmail(emailsToClassify);
 
-    
-        //results.forEach(System.out::println);
-
-        //Uso il for per vedere quali mail non sono state riconosciute
         for (int i = 0; i < results.size(); i++) {
             ClassificationResultDto r = results.get(i);
+            System.out.println(r);
             if ("NON_RICONOSCIUTA".equalsIgnoreCase(r.getCategory())) {
-                //Recupero la mail originale, per trovare il subject e il body orginale
-                EmailMessage original = originalEmails.get(i);
-
-                //Creazione della nuova mail che dovremo spedire
-                EmailMessage toForward = new EmailMessage();
-                //Qui viene specificato a chi verrà inoltrata la mail
-                toForward.setTo(List.of("unical-scarti@tuodominio.it"));
-                //Inserisco l'oggetto della mial che devo inoltrare
-                toForward.setSubject("NON_RICONOSCIUTA" + " " + original.getSubject());
-
-                //Recupero il mittente, se non esiste inserisco una frase di fallback
-                String sender = (original.getTo() != null && !original.getTo().isEmpty())
-                        ? original.getTo().get(0)
-                        : "(mittente sconosciuto)";
-                
-                        //Costruisco la mail
-                toForward.setBody("Mittente originale: " + sender + "\n\n" + original.getBody());
-
-                //Chiamo send email per inoltrarle alla mailbox che gestirà le mail non riconosciute
+                EmailMessage toForward = getEmailMessage(originalEmails, i);
                 emailSender.sendEmail(toForward);
             }
         }
+    }
+
+    private static EmailMessage getEmailMessage(List<EmailMessage> originalEmails, int i) {
+        EmailMessage original = originalEmails.get(i);
+
+        EmailMessage toForward = new EmailMessage();
+        //TODO change email address
+        toForward.setTo(List.of("misentouncavallo@gmail.com"));
+        toForward.setSubject("Email non riconosciuta: " + original.getSubject());
+
+        String sender = (original.getTo() != null && !original.getTo().isEmpty())
+                ? original.getTo().getFirst()
+                : "(mittente sconosciuto)";
+
+        toForward.setBody("Mittente originale: " + sender + "\n\n" + original.getBody());
+        return toForward;
     }
 }
