@@ -86,6 +86,20 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+    @Override
+    public String listCategories() {
+        List<Category> categories = categoryRepository.findAll();
+
+        if (categories.isEmpty()) log.warn("No categories found.");
+        else log.info("Listing all categories:");
+
+        StringBuilder sb = new StringBuilder();
+        for (Category category : categories) {
+            sb.append(category.toString());
+        }
+        return sb.toString();
+    }
+
     private boolean validateCategoryData(String name, String description) {
         if (categoryRepository.existsByNameIgnoreCase(name))
             return false;
