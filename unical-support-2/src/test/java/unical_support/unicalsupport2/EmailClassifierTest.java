@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
 import unical_support.unicalsupport2.data.entities.Category;
@@ -21,7 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-//@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
 @ExtendWith(MockitoExtension.class)
 public class EmailClassifierTest {
     @Mock
@@ -179,7 +178,7 @@ public class EmailClassifierTest {
         List<ClassificationResultDto> out = svc.classifyEmail(List.of(e));
 
         assertThat(out).hasSize(1);
-        assertThat(out.get(0).getCategories())
+        assertThat(out.getFirst().getCategories())
                 .as("Compatibilità con vecchio formato category/confidence")
                 .containsEntry("RECLAMO", 0.9);
     }
