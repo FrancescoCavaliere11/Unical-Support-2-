@@ -20,4 +20,10 @@ public class Category {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @Override
+    public String toString() {
+        return "name= " + name  +
+                "\ndescription= " + description + "\n\n";
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import unical_support.unicalsupport2.security.customAnnotations.annotation.UniqueCategoryName;
 import unical_support.unicalsupport2.service.interfaces.CategoryService;
 
+
 @Command(command = "category" , alias = "c", description = "Commands for managing categories")
 @Validated
 @RequiredArgsConstructor
@@ -51,5 +52,11 @@ public class CategoryCommand {
             String name
     ) {
         return categoryService.deleteCategory(name);
+    }
+
+
+    @Command(command = "list", alias = "ls", description = "List all categories")
+    public String listCategories() {
+        return categoryService.listCategories();
     }
 }
