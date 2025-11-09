@@ -1,11 +1,11 @@
 package unical_support.unicalsupport2.data.dto;
 
 import lombok.Data;
-import java.util.Map;
+import java.util.List;
 
 @Data
 public class ClassificationResultDto {
-    private final Map<String, Double> categories;
+    private final List<SingleCategoryDto> categories;
     private final String explanation;
 
     @Override

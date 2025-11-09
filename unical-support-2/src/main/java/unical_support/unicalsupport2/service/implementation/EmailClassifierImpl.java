@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
+import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
@@ -35,7 +36,7 @@ public class EmailClassifierImpl implements EmailClassifier {
             // Prepara lista risultati con NON_RICONOSCIUTA di default
             List<ClassificationResultDto> out = new ArrayList<>(Collections.nCopies(
                     classificationEmailDtos.size(),
-                    new ClassificationResultDto(Map.of("NON_RICONOSCIUTA", 0.0), "No result")
+                    new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")), "No result")
             ));
 
             for (JsonNode n : arr) {
@@ -51,7 +52,7 @@ public class EmailClassifierImpl implements EmailClassifier {
             // In caso di JSON non array o errore, restituisci tutti NON_RICONOSCIUTA
             return classificationEmailDtos.stream()
                     .map(e -> new ClassificationResultDto(
-                            Map.of("NON_RICONOSCIUTA", 0.0),
+                            List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")),
                             "Errore batch/API: " + x.getMessage())
                     )
                     .toList();
@@ -59,7 +60,7 @@ public class EmailClassifierImpl implements EmailClassifier {
     }
 
     private ClassificationResultDto parseSingleResult(JsonNode json){
-        Map<String, Double> categoriesMap = new HashMap<>();
+        List<SingleCategoryDto> categoriesList = new ArrayList<>();
         String explanation = safe(json.path("explanation").asText());
 
         // Recupero l'elenco delle categorie dal DB
@@ -73,21 +74,23 @@ public class EmailClassifierImpl implements EmailClassifier {
             for (JsonNode n : json.path("categories")) {
                 String cat = safe(n.path("name").asText());
                 double conf = n.path("confidence").isNumber() ? n.path("confidence").asDouble() : 0.0;
+                String text = safe(n.path("text").asText());
 
-                addCategoryToMap(categoriesMap, cat, conf, categories);
+                addCategoryToList(categoriesList, cat, conf, text, categories);
             }
         } else {
             String categoryStr = safe(json.path("category").asText());
             double confidence = json.path("confidence").isNumber() ? json.path("confidence").asDouble() : 0.0;
+            String text = safe(json.path("text").asText());
 
-            addCategoryToMap(categoriesMap, categoryStr, confidence, categories);
+            addCategoryToList(categoriesList, categoryStr, confidence, text, categories);
         }
 
-        return new ClassificationResultDto(categoriesMap, explanation);
+        return new ClassificationResultDto(categoriesList, explanation);
     }
 
     // Metodo per aggiungere alla mappa una categoria con la propria confidenza
-    private void addCategoryToMap(Map<String, Double> categoriesMap, String category, double confidence, List<String> categories){
+    private void addCategoryToList(List<SingleCategoryDto> categoriesList, String category, double confidence, String text, List<String> categories){
         // Valida la categoria
         String cat = categories.stream()
                 .filter(c -> c.equalsIgnoreCase(category))
@@ -98,7 +101,7 @@ public class EmailClassifierImpl implements EmailClassifier {
         if (confidence < 0) confidence = 0;
         if (confidence > 1) confidence = 1;
 
-        categoriesMap.put(cat, confidence);
+        categoriesList.add(new SingleCategoryDto(cat, confidence, text));
     }
 
     // Serve a evitare se il modello restituisce valore vuoto, che ci sia eccezione e da ""

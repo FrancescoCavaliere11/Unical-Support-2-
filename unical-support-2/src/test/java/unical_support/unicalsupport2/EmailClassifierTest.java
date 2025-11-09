@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
+import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.service.implementation.EmailClassifierImpl;
@@ -20,9 +21,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+//@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
 @ExtendWith(MockitoExtension.class)
 public class EmailClassifierTest {
+
     @Mock
     private CategoryRepository categoryRepository;
 
@@ -36,18 +38,18 @@ public class EmailClassifierTest {
     void acceptsEmptyOrNullSubjectBody() throws Exception {
         when(promptService.buildSystemMessageBatch()).thenReturn("system");
         when(promptService.buildUserMessageBatch(anyList())).thenReturn("user");
-
         when(geminiApiClient.chat(anyString(), anyString())).thenReturn("[]");
 
         EmailClassifierImpl svc = new EmailClassifierImpl(categoryRepository, geminiApiClient, promptService);
 
-
         ClassificationEmailDto e1 = new ClassificationEmailDto();
         e1.setSubject(null);
         e1.setBody("");
+
         ClassificationEmailDto e2 = new ClassificationEmailDto();
         e2.setSubject("");
         e2.setBody(null);
+
         ClassificationEmailDto e3 = new ClassificationEmailDto();
         e3.setSubject(" ");
         e3.setBody("   ");
@@ -55,19 +57,27 @@ public class EmailClassifierTest {
         List<ClassificationResultDto> out = svc.classifyEmail(List.of(e1, e2, e3));
 
         assertThat(out).hasSize(3);
-        out.forEach(r -> assertThat(r.getCategories())
-                .as("Mappa delle categorie deve contenere solo la fallback")
-                .containsEntry("NON_RICONOSCIUTA", 0.0));
+
+        out.forEach(r -> {
+            assertThat(r.getCategories())
+                    .as("Deve contenere solo la categoria di fallback")
+                    .hasSize(1)
+                    .first()
+                    .extracting(SingleCategoryDto::getCategory)
+                    .isEqualTo("NON_RICONOSCIUTA");
+
+            System.out.println("Fallback corretto: " + r);
+        });
 
         verify(geminiApiClient, times(1)).chat(anyString(), anyString());
     }
 
     @Test
-    void EveryResultHasCategoriesAndExplanation() throws Exception {
+    void everyResultHasCategoriesAndExplanation() throws Exception {
 
         PromptService ps = new PromptServiceImpl(categoryRepository);
 
-        // ✅ risposta JSON con 10 elementi e i 3 campi richiesti
+        // Risposta JSON con 10 elementi e i 3 campi richiesti
         when(geminiApiClient.chat(anyString(), anyString())).thenReturn("""
                   [
                     {"id":0,"category":"RECLAMO","confidence":0.75,"explanation":"ok"},
@@ -85,7 +95,6 @@ public class EmailClassifierTest {
 
         EmailClassifierImpl svc = new EmailClassifierImpl(categoryRepository, geminiApiClient, ps);
 
-        // input costruito con setSubject/setBody (come fai tu)
         ClassificationEmailDto e1 = new ClassificationEmailDto();
         e1.setSubject("SERVIZI NON FUNZIONANTI");
         e1.setBody("I servizi web non funzionano.");
@@ -122,18 +131,26 @@ public class EmailClassifierTest {
         ));
 
         assertThat(out).hasSize(10);
+
         out.forEach(r -> {
+
+            System.out.println("Risultato: " + r);
 
             assertThat(r.getCategories())
                     .as("Ogni risultato deve avere almeno una categoria")
                     .isNotEmpty();
 
+            r.getCategories().forEach(cat -> {
 
-            r.getCategories().forEach((cat, conf) -> {
-                assertThat(cat).isNotBlank();
-                assertThat(conf)
+                assertThat(cat.getCategory()).isNotBlank();
+
+                assertThat(cat.getConfidence())
                         .as("Confidenza deve essere tra 0 e 1")
                         .isBetween(0.0, 1.0);
+
+                assertThat(cat.getText())
+                        .as("Il testo associato può essere vuoto ma non nullo")
+                        .isNotNull();
             });
 
             assertThat(r.getExplanation())
@@ -178,9 +195,56 @@ public class EmailClassifierTest {
         List<ClassificationResultDto> out = svc.classifyEmail(List.of(e));
 
         assertThat(out).hasSize(1);
-        assertThat(out.getFirst().getCategories())
-                .as("Compatibilità con vecchio formato category/confidence")
-                .containsEntry("RECLAMO", 0.9);
+
+        var cats = out.getFirst().getCategories();
+        assertThat(cats).hasSize(1);
+        assertThat(cats.getFirst().getCategory()).isEqualTo("RECLAMO");
+        assertThat(cats.getFirst().getConfidence()).isEqualTo(0.9);
+        assertThat(cats.getFirst().getText()).isNotNull();
+    }
+
+    @Test
+    void multiLabelParsingWorksCorrectly() throws Exception {
+        when(promptService.buildSystemMessageBatch()).thenReturn("system");
+        when(promptService.buildUserMessageBatch(anyList())).thenReturn("user");
+
+        when(geminiApiClient.chat(anyString(), anyString())).thenReturn("""
+        [
+          {"id":0,"categories":[
+             {"name":"ESAMI_E_APPELLI","confidence":0.8,"text":"prenotazione esame"},
+             {"name":"SERVIZI_CAMPUS","confidence":0.6,"text":"rete wifi"}
+          ],"explanation":"Riguarda più aree"}
+        ]
+        """);
+
+        Category c1 = new Category();
+        c1.setId("1");
+        c1.setName("ESAMI_E_APPELLI");
+        Category c2 = new Category();
+        c2.setId("2");
+        c2.setName("SERVIZI_CAMPUS");
+
+        when(categoryRepository.findAll()).thenReturn(List.of(c1, c2));
+
+        EmailClassifierImpl svc = new EmailClassifierImpl(categoryRepository, geminiApiClient, promptService);
+
+        ClassificationEmailDto e = new ClassificationEmailDto();
+        e.setSubject("Problema Esse3 e servizi campus");
+        e.setBody("Errore prenotazione esami e servizi down.");
+
+        List<ClassificationResultDto> out = svc.classifyEmail(List.of(e));
+
+        assertThat(out).hasSize(1);
+        System.out.println("Risultato multi-label: " + out.getFirst());
+        List<SingleCategoryDto> cats = out.getFirst().getCategories();
+        assertThat(cats).extracting(SingleCategoryDto::getCategory)
+                .containsExactlyInAnyOrder("ESAMI_E_APPELLI", "SERVIZI_CAMPUS");
+
+        cats.forEach(cat ->
+                assertThat(cat.getText())
+                        .as("Ogni categoria deve avere un testo associato")
+                        .isNotBlank()
+        );
     }
 
 }
