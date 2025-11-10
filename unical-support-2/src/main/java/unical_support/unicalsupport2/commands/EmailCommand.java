@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.command.annotation.Command;
 import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.EmailMessage;
+import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 import java.util.List;
-import java.util.Map;
 
 @Command(command = "start" , alias = "s", description = "Commands for start email fetching and classification")
 @RequiredArgsConstructor

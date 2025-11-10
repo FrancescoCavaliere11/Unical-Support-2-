@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
-import unical_support.unicalsupport2.data.dto.EmailMessage;
+import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.service.implementation.GmailReceiverImpl;
 
 import java.util.List;

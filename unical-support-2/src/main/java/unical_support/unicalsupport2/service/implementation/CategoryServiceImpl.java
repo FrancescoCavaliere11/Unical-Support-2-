@@ -75,7 +75,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public String deleteCategory(String name) {
-        Category category = categoryRepository.findByName(name)
+        Category category = categoryRepository.findByNameIgnoreCase(name)
                 .orElse(null);
 
         if (category == null) {
