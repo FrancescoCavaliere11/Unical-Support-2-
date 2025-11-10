@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import unical_support.unicalsupport2.data.dto.EmailMessage;
+import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 

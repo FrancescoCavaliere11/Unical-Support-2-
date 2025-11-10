@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
-import unical_support.unicalsupport2.data.dto.EmailMessage;
+import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 
 import java.io.IOException;

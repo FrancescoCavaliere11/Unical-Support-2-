@@ -6,14 +6,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import unical_support.unicalsupport2.commands.EmailCommand;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.EmailMessage;
+import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
