@@ -18,7 +18,7 @@ public class PromptServiceImpl implements PromptService {
     public String buildSystemMessageBatch() {
         List<String> categories = categoryRepository.findAll()
                 .stream()
-                .map(cat -> "\"" + cat.getName() + "\"")
+                .map(cat -> "name: \"" + cat.getName() + "\", description: \"" + cat.getDescription() + "\"")
                 .toList();
 
         return "Sei un classificatore di email per una segreteria universitaria.\n" +
