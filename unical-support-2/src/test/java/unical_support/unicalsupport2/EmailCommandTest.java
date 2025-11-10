@@ -7,11 +7,13 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import unical_support.unicalsupport2.commands.EmailCommand;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.EmailMessage;
+import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
@@ -40,7 +42,7 @@ class EmailCommandIntegrationTest {
         when(emailReceiver.receiveEmails()).thenReturn(List.of(fakeEmail));
 
         ClassificationResultDto fakeResult =
-                new ClassificationResultDto("NON_RICONOSCIUTA", 0.1, "Categoria non trovata");
+                new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata");
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(fakeResult));
 
         EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender);
@@ -65,7 +67,7 @@ class EmailCommandIntegrationTest {
         when(emailReceiver.receiveEmails()).thenReturn(List.of(email));
 
         ClassificationResultDto recognized =
-                new ClassificationResultDto("ISCRIZIONE", 0.95, "Corrisponde alla categoria Iscrizione");
+                new ClassificationResultDto(List.of(new SingleCategoryDto("ISCRIZIONE", 0.95, "parte relativa all’iscrizione")), "Corrisponde alla categoria Iscrizione");
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(recognized));
 
         EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender);

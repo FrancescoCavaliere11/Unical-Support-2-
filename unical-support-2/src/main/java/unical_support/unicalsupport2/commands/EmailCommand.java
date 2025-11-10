@@ -5,11 +5,13 @@ import org.springframework.shell.command.annotation.Command;
 import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.EmailMessage;
+import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 import java.util.List;
+import java.util.Map;
 
 @Command(command = "start" , alias = "s", description = "Commands for start email fetching and classification")
 @RequiredArgsConstructor
@@ -40,7 +42,18 @@ public class EmailCommand {
         for (int i = 0; i < results.size(); i++) {
             ClassificationResultDto r = results.get(i);
             System.out.println(r);
-            if ("NON_RICONOSCIUTA".equalsIgnoreCase(r.getCategory())) {
+
+            List<SingleCategoryDto> categories = r.getCategories();
+
+            boolean nonRiconosciuta = false;
+            for (SingleCategoryDto c : categories) {
+                if ("NON_RICONOSCIUTA".equalsIgnoreCase(c.getCategory())) {
+                    nonRiconosciuta = true;
+                    break;
+                }
+            }
+
+            if (nonRiconosciuta) {
                 EmailMessage toForward = getEmailMessage(originalEmails, i);
                 emailSender.sendEmail(toForward);
             }
