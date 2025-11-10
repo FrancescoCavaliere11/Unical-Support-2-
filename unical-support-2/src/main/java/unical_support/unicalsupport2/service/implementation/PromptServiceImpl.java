@@ -18,18 +18,29 @@ public class PromptServiceImpl implements PromptService {
     public String buildSystemMessageBatch() {
         List<String> categories = categoryRepository.findAll()
                 .stream()
-                .map(cat -> "\"" + cat.getName() + "\"")
+                .map(cat -> "name: \"" + cat.getName() + "\", description: \"" + cat.getDescription() + "\"")
                 .toList();
 
         return "Sei un classificatore di email per una segreteria universitaria.\n" +
+                "Puoi assegnare UNA o PIÙ categorie a ciascuna email.\n" +
+                "Per ogni categoria assegnata, devi fornire:\n" +
+                " - CONFIDENCE (numero tra 0 e 1): quanto sei sicuro che quella categoria sia appropriata.\n" +
+                " - TEXT: copia ESATTAMENTE la porzione di testo dall'email che giustifica quella categoria.\n" +
+                "Scrivi UNA sola spiegazione per ciascuna email, che motivi tutte le categorie scelte.\n" +
                 "Restituisci SOLO un JSON array, senza testo extra, senza markdown.\n" +
                 "Ogni elemento dell'array deve avere questo schema:\n" +
                 "{\n" +
-                "  \"id\": number,   // ID dell'email fornito nell'input\n" +
-                "  \"category\": " + String.join(" | ", categories) + ",\n" +
-                "  \"confidence\": number,   // tra 0 e 1\n" +
-                "  \"explanation\": string   // breve spiegazione in italiano\n" +
+                "  \"id\": number,     // ID dell'email fornito nell'input\n" +
+                "  \"categories\": [   // elenco di categorie riconosciute\n" +
+                "     {\n" +
+                "       \"name\": string,\n" +
+                "       \"confidence\": number,     // numero tra 0 e 1\n" +
+                "       \"text\": string            // testo estratto dall'email\n" +
+                "     }\n" +
+                "  ],\n" +
+                "  \"explanation\": string   // breve spiegazione complessiva in italiano\n" +
                 "}\n\n" +
+                "Categorie possibili: " + String.join(", ", categories) + "\n\n" +
                 "Non aggiungere testo fuori dal JSON.\n";
     }
 
