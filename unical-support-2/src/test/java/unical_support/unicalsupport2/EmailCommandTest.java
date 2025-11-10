@@ -3,6 +3,7 @@ package unical_support.unicalsupport2;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import unical_support.unicalsupport2.commands.EmailCommand;
 import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.EmailMessage;
@@ -17,35 +18,59 @@ import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
-public class EmailCommandTest {
+class EmailCommandIntegrationTest {
 
-   @Test
+    @MockitoBean
+    private EmailReceiver emailReceiver;
+
+    @MockitoBean
+    private EmailClassifier emailClassifier;
+
+    @MockitoBean
+    private EmailSender emailSender;
+
+
+    @Test
     void emailNotRecognizedShouldBeForwarded() {
-        EmailReceiver receiver = mock(EmailReceiver.class);
-        EmailClassifier classifier = mock(EmailClassifier.class);
-        EmailSender sender = mock(EmailSender.class);
-
         EmailMessage fakeEmail = new EmailMessage();
         fakeEmail.setTo(List.of("mittente@esempio.it"));
         fakeEmail.setSubject("Domanda strana");
         fakeEmail.setBody("Corpo della mail");
-        when(receiver.receiveEmails()).thenReturn(List.of(fakeEmail));
+
+        when(emailReceiver.receiveEmails()).thenReturn(List.of(fakeEmail));
 
         ClassificationResultDto fakeResult =
                 new ClassificationResultDto("NON_RICONOSCIUTA", 0.1, "Categoria non trovata");
-        when(classifier.classifyEmail(anyList())).thenReturn(List.of(fakeResult));
+        when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(fakeResult));
 
-        EmailCommand command = new EmailCommand(receiver, classifier, sender);
-
-        command.fetchEmailAndClassify();
+        EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender);
+        emailCommand.fetchEmailAndClassify();
 
         var captor = org.mockito.ArgumentCaptor.forClass(EmailMessage.class);
-        verify(sender, times(1)).sendEmail(captor.capture());
+        verify(emailSender, times(1)).sendEmail(captor.capture());
 
         EmailMessage forwarded = captor.getValue();
-        assertThat(forwarded.getTo()).containsExactly("unical-scarti@tuodominio.it");
-        assertThat(forwarded.getSubject()).startsWith("NON_RICONOSCIUTA");
+        assertThat(forwarded.getTo()).containsExactly("misentouncavallo@gmail.com");
+        assertThat(forwarded.getSubject()).startsWith("Email non riconosciuta:");
         assertThat(forwarded.getBody()).contains("mittente@esempio.it");
     }
 
+    @Test
+    void recognizedEmailsShouldNotBeForwarded() {
+        EmailMessage email = new EmailMessage();
+        email.setTo(List.of("utente@esempio.it"));
+        email.setSubject("Richiesta iscrizione");
+        email.setBody("Vorrei iscrivermi al corso di AI.");
+
+        when(emailReceiver.receiveEmails()).thenReturn(List.of(email));
+
+        ClassificationResultDto recognized =
+                new ClassificationResultDto("ISCRIZIONE", 0.95, "Corrisponde alla categoria Iscrizione");
+        when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(recognized));
+
+        EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender);
+        emailCommand.fetchEmailAndClassify();
+
+        verify(emailSender, never()).sendEmail(any());
+    }
 }
