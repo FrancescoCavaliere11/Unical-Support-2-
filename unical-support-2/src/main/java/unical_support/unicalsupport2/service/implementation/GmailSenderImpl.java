@@ -11,17 +11,48 @@ import org.springframework.stereotype.Service;
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
-
+/**
+ * Service that sends email messages using the configured {@code JavaMailSender}.
+ *
+ * <p>This implementation is active when the application property {@code mail.provider}
+ * is set to {@code gmail} (or when the property is missing). The sender address is
+ * injected from {@code spring.mail.username}.</p>
+ *
+ * <p>Responsibilities:
+ * - Build a {@code MimeMessage} from an {@code EmailMessage}.
+ * - Set sender, recipients, subject and plain text body.
+ * - Send the message via {@code JavaMailSender} and log the outcome.</p>
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "mail.provider", havingValue = "gmail", matchIfMissing = true)
 public class GmailSenderImpl implements EmailSender {
+    /**
+     * Spring's mail sender used to create and send MIME messages.
+     */
     private final JavaMailSender javaMailSender;
 
+    /**
+     * Default sender address injected from {@code spring.mail.username}.
+     */
     @Value("${spring.mail.username}")
     private String fromEmail;
 
+    /**
+     * Sends the provided {@code EmailMessage} as a plain-text MIME email.
+     *
+     * <p>Behavior:</p>
+     * <ul>
+     *   <li>Create a {@code MimeMessage} and a {@code MimeMessageHelper} with UTF-8.</li>
+     *   <li>Set the {@code from} address, recipients, subject and body (plain text).</li>
+     *   <li>Send the message via {@code JavaMailSender} and log success or error.</li>
+     * </ul>
+     *
+     * <p>Errors are logged and rethrown as a {@code RuntimeException}</p>
+     *
+     * @param emailMessage message containing recipients, subject and body
+     */
     @Override
     public void sendEmail(EmailMessage emailMessage) {
         try {

@@ -17,14 +17,33 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+
+/**
+ * Email receiver implementation that fetches messages from an IMAP Gmail account.
+ *
+ * <p>This service is active when the application property {@code mail.provider}
+ * is set to {@code gmail} (or when the property is missing). Credentials and IMAP
+ * connection details are injected from application properties.</p>
+ *
+ * <p>Responsibilities:
+ * - Connect to the IMAP server using provided credentials,
+ * - Read messages from the INBOX,
+ * - Convert each {@code Message} into the project's {@code EmailMessage} DTO,
+ * - Return the collected messages.</p>
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "mail.provider", havingValue = "gmail", matchIfMissing = true)
 public class GmailReceiverImpl implements EmailReceiver {
+    /**
+     * Username (email) used to authenticate to the IMAP server.
+     */
     @Value("${spring.mail.username}")
     private String username;
-
+    /**
+     * Password (app-specific password) used to authenticate to the IMAP server.
+     */
     @Value("${spring.mail.password}")
     private String password;
 
@@ -34,6 +53,22 @@ public class GmailReceiverImpl implements EmailReceiver {
     @Value("${spring.mail.imap.port}")
     private int imapPort;
 
+    /**
+     * Connects to the configured IMAP server, reads messages from the INBOX and
+     * converts them to {@code EmailMessage} instances.
+     *
+     * <p>Behavior:</p>
+     * <ul>
+     *   <li>Create a {@code Session} and {@code Store} for IMAPS.</li>
+     *   <li>Open the INBOX in read-write mode and iterate messages.</li>
+     *   <li>Build {@code EmailMessage} objects with sender, subject and plain text body.</li>
+     *   <li>Close folder and store and return the collected list.</li>
+     * </ul>
+     *
+     * <p>Side effects: logs info/errors and may throw a {@code RuntimeException} on errors.</p>
+     *
+     * @return list of received {@code EmailMessage} (empty if none)
+     */
     @Override
     public List<EmailMessage> receiveEmails() {
 
@@ -96,6 +131,18 @@ public class GmailReceiverImpl implements EmailReceiver {
         return result;
     }
 
+    /**
+     * Extracts a plain-text representation from the given {@code Message}.
+     *
+     * <p>Supports:
+     * - text/plain messages,
+     * - multipart messages (delegates to {@link #getTextFromMimeMultipart}).</p>
+     *
+     * @param message the email message to extract text from
+     * @return extracted plain text or an empty string if unsupported
+     * @throws MessagingException on mail parsing errors
+     * @throws IOException on IO errors reading parts
+     */
     private String getTextFromMessage(Message message) throws MessagingException, IOException {
         if (message.isMimeType("text/plain")) {
             return message.getContent().toString();
@@ -107,6 +154,17 @@ public class GmailReceiverImpl implements EmailReceiver {
         return "";
     }
 
+    /**
+     * Walks a {@code MimeMultipart} and concatenates plain-text parts.
+     *
+     * <p>Returns the combined text of the multipart parts. For parts that are themselves
+     * multipart, recursion is applied.</p>
+     *
+     * @param mimeMultipart the multipart container
+     * @return concatenated plain text content
+     * @throws MessagingException on mail parsing errors
+     * @throws IOException on IO errors reading parts
+     */
     private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws MessagingException, IOException{
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < mimeMultipart.getCount(); i++) {
@@ -119,6 +177,14 @@ public class GmailReceiverImpl implements EmailReceiver {
         return result.toString();
     }
 
+    /**
+     * Parses a single body part, returning plain text if the part contains nested multipart content.
+     *
+     * @param bodyPart the body part to parse
+     * @return extracted text or an empty string if unsupported
+     * @throws MessagingException on mail parsing errors
+     * @throws IOException on IO errors reading the body part
+     */
     private String parseBodyPart(BodyPart bodyPart) throws MessagingException, IOException {
         if (bodyPart.getContent() instanceof MimeMultipart){
             return getTextFromMimeMultipart((MimeMultipart)bodyPart.getContent());
