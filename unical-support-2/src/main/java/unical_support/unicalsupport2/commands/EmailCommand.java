@@ -103,7 +103,7 @@ public class EmailCommand {
         EmailMessage original = originalEmails.get(i);
 
         EmailMessage toForward = new EmailMessage();
-        toForward.setTo(List.of("")); //TODO change email address
+        toForward.setTo(List.of("misentouncavallo@gmail.com")); //TODO change email address
         toForward.setSubject("Email non riconosciuta: " + original.getSubject());
 
         String sender = (original.getTo() != null && !original.getTo().isEmpty())
