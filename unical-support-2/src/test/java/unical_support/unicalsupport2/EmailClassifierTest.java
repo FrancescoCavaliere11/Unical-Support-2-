@@ -5,24 +5,23 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
-import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
+import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
+import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
+import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
-import unical_support.unicalsupport2.data.repositories.TemplateRepository;
+import unical_support.unicalsupport2.prompting.PromptStrategy;
+import unical_support.unicalsupport2.prompting.PromptStrategyFactory;
 import unical_support.unicalsupport2.service.implementation.EmailClassifierImpl;
-import unical_support.unicalsupport2.service.implementation.PromptServiceImpl;
-import unical_support.unicalsupport2.service.interfaces.GeminiApiClient;
-import unical_support.unicalsupport2.service.interfaces.PromptService;
+import unical_support.unicalsupport2.prompting.PromptService;
+import unical_support.unicalsupport2.service.interfaces.LlmClient;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+//@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
 @ExtendWith(MockitoExtension.class)
 public class EmailClassifierTest {
 
@@ -30,19 +29,21 @@ public class EmailClassifierTest {
     private CategoryRepository categoryRepository;
 
     @Mock
-    TemplateRepository templateRepository;
-
-    @Mock
-    private GeminiApiClient geminiApiClient;
+    private LlmClient geminiApiClient;
 
     @Mock
     private PromptService promptService;
 
+    @Mock
+    private PromptStrategyFactory promptStrategyFactory;
+
+    @Mock
+    private PromptStrategy promptStrategy;
+
     @Test
     void acceptsEmptyOrNullSubjectBody() throws Exception {
-        when(promptService.buildSystemMessageBatch()).thenReturn("system");
-        when(promptService.buildUserMessageBatch(anyList())).thenReturn("user");
-        when(geminiApiClient.chat(anyString(), anyString())).thenReturn("[]");
+        when(promptService.buildClassifyPrompt(anyList())).thenReturn("system");
+        when(geminiApiClient.chat(anyString())).thenReturn("[]");
 
         EmailClassifierImpl svc = new EmailClassifierImpl(categoryRepository, geminiApiClient, promptService);
 
@@ -73,16 +74,18 @@ public class EmailClassifierTest {
             System.out.println("Fallback corretto: " + r);
         });
 
-        verify(geminiApiClient, times(1)).chat(anyString(), anyString());
+        verify(geminiApiClient, times(1)).chat(anyString());
     }
 
     @Test
     void everyResultHasCategoriesAndExplanation() throws Exception {
+        when(promptStrategyFactory.getStrategy(anyString())).thenReturn(promptStrategy);
+        when(promptStrategy.buildClassifyPrompt(anyList())).thenReturn("prompt di test");
 
-        PromptService ps = new PromptServiceImpl(categoryRepository, templateRepository);
+        PromptService ps = new PromptService(promptStrategyFactory);
 
         // Risposta JSON con 10 elementi e i 3 campi richiesti
-        when(geminiApiClient.chat(anyString(), anyString())).thenReturn("""
+        when(geminiApiClient.chat(anyString())).thenReturn("""
                   [
                     {"id":0,"category":"RECLAMO","confidence":0.75,"explanation":"ok"},
                     {"id":1,"category":"ESAMI_E_APPELLI","confidence":0.82,"explanation":"ok"},
@@ -165,10 +168,9 @@ public class EmailClassifierTest {
 
     @Test
     void acceptsOldSingleLabelFormat() throws Exception {
-        when(promptService.buildSystemMessageBatch()).thenReturn("system");
-        when(promptService.buildUserMessageBatch(anyList())).thenReturn("user");
+        when(promptService.buildClassifyPrompt(anyList())).thenReturn("system");
 
-        when(geminiApiClient.chat(anyString(), anyString())).thenReturn("""
+        when(geminiApiClient.chat(anyString())).thenReturn("""
         [
           {"id":0,"category":"RECLAMO","confidence":0.9,"explanation":"ok"}
         ]
@@ -209,10 +211,9 @@ public class EmailClassifierTest {
 
     @Test
     void multiLabelParsingWorksCorrectly() throws Exception {
-        when(promptService.buildSystemMessageBatch()).thenReturn("system");
-        when(promptService.buildUserMessageBatch(anyList())).thenReturn("user");
+        when(promptService.buildClassifyPrompt(anyList())).thenReturn("system");
 
-        when(geminiApiClient.chat(anyString(), anyString())).thenReturn("""
+        when(geminiApiClient.chat(anyString())).thenReturn("""
         [
           {"id":0,"categories":[
              {"name":"ESAMI_E_APPELLI","confidence":0.8,"text":"prenotazione esame"},
