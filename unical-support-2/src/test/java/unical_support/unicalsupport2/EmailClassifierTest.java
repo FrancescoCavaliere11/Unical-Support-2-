@@ -13,7 +13,7 @@ import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.service.implementation.EmailClassifierImpl;
 import unical_support.unicalsupport2.service.implementation.PromptServiceImpl;
-import unical_support.unicalsupport2.service.interfaces.GeminiApiClient;
+import unical_support.unicalsupport2.service.interfaces.LlmClient;
 import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class EmailClassifierTest {
     private CategoryRepository categoryRepository;
 
     @Mock
-    private GeminiApiClient geminiApiClient;
+    private LlmClient geminiApiClient;
 
     @Mock
     private PromptService promptService;

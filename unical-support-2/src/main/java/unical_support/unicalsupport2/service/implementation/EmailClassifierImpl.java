@@ -11,7 +11,7 @@ import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
-import unical_support.unicalsupport2.service.interfaces.GeminiApiClient;
+import unical_support.unicalsupport2.service.interfaces.LlmClient;
 import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.*;
@@ -20,7 +20,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class EmailClassifierImpl implements EmailClassifier {
     private final CategoryRepository categoryRepository;
-    private final GeminiApiClient geminiApiClient;
+    private final LlmClient geminiApiClient;
     private final PromptService promptService;
     private final ObjectMapper mapper = new ObjectMapper();
 
