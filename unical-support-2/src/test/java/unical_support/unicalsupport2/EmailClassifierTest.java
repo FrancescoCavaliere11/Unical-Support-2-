@@ -6,11 +6,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
-import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
+import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
+import unical_support.unicalsupport2.data.repositories.TemplateRepository;
 import unical_support.unicalsupport2.service.implementation.EmailClassifierImpl;
 import unical_support.unicalsupport2.service.implementation.PromptServiceImpl;
 import unical_support.unicalsupport2.service.interfaces.GeminiApiClient;
@@ -21,12 +22,15 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-//@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
 @ExtendWith(MockitoExtension.class)
 public class EmailClassifierTest {
 
     @Mock
     private CategoryRepository categoryRepository;
+
+    @Mock
+    TemplateRepository templateRepository;
 
     @Mock
     private GeminiApiClient geminiApiClient;
@@ -75,7 +79,7 @@ public class EmailClassifierTest {
     @Test
     void everyResultHasCategoriesAndExplanation() throws Exception {
 
-        PromptService ps = new PromptServiceImpl(categoryRepository);
+        PromptService ps = new PromptServiceImpl(categoryRepository, templateRepository);
 
         // Risposta JSON con 10 elementi e i 3 campi richiesti
         when(geminiApiClient.chat(anyString(), anyString())).thenReturn("""

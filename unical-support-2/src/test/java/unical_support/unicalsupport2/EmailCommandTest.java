@@ -5,9 +5,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import unical_support.unicalsupport2.commands.EmailCommand;
-import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.EmailMessage;
-import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
+import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
@@ -41,7 +41,7 @@ class EmailCommandIntegrationTest {
         when(emailReceiver.receiveEmails()).thenReturn(List.of(fakeEmail));
 
         ClassificationResultDto fakeResult =
-                new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata");
+                new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata", 0);
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(fakeResult));
 
         EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender);
@@ -66,7 +66,7 @@ class EmailCommandIntegrationTest {
         when(emailReceiver.receiveEmails()).thenReturn(List.of(email));
 
         ClassificationResultDto recognized =
-                new ClassificationResultDto(List.of(new SingleCategoryDto("ISCRIZIONE", 0.95, "parte relativa all’iscrizione")), "Corrisponde alla categoria Iscrizione");
+                new ClassificationResultDto(List.of(new SingleCategoryDto("ISCRIZIONE", 0.95, "parte relativa all’iscrizione")), "Corrisponde alla categoria Iscrizione", 0);
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(recognized));
 
         EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender);

@@ -2,10 +2,10 @@ package unical_support.unicalsupport2.commands;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.command.annotation.Command;
-import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
-import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.EmailMessage;
-import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
+import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
