@@ -10,9 +10,9 @@ import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
+import unical_support.unicalsupport2.prompting.PromptService;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
-import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.*;
 
@@ -27,10 +27,8 @@ public class EmailClassifierImpl implements EmailClassifier {
     @Override
     public List<ClassificationResultDto> classifyEmail(List<ClassificationEmailDto> classificationEmailDtos) {
         try {
-            String system = promptService.buildSystemMessageBatch();                        // Sei un LLM fai questo
-            String user   = promptService.buildUserMessageBatch(classificationEmailDtos);   // Stringa con Email0..EmailN
-
-            String raw = geminiApiClient.chat(system, user);        // Così si invia una sola richiesta con TUTTE LE EMAIL
+            String system = promptService.buildClassifyPrompt(classificationEmailDtos);     // Sei un LLM fai questo
+            String raw = geminiApiClient.chat(system);        // Così si invia una sola richiesta con TUTTE LE EMAIL
             ArrayNode arr = (ArrayNode) mapper.readTree(raw);       // JSON navigabile, se ci sono problemi da eccezione
 
             // Prepara lista risultati con NON_RICONOSCIUTA di default

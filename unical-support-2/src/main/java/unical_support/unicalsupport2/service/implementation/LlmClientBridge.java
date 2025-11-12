@@ -14,8 +14,8 @@ public class LlmClientBridge implements LlmClient {
     private final LlmClientFactory factory;
 
     @Override
-    public String chat(String systemMessage, String userMessage) throws Exception {
+    public String chat(String prompt) throws Exception {
         LlmClient dynamic = factory.current();
-        return dynamic.chat(systemMessage, userMessage);
+        return dynamic.chat(prompt);
     }
 }
