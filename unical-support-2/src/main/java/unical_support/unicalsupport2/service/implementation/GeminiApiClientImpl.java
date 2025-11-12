@@ -23,12 +23,10 @@ public class GeminiApiClientImpl implements LlmClient {
     private final GeminiLlmConfig.GeminiProperties geminiProperties;
 
     @Override
-    public String chat(String systemMessage, String userMessage) throws Exception {
+    public String chat(String prompt) throws Exception {
         log.info("Invoco Gemini generateContent, model={}", geminiProperties.model());
 
         ObjectMapper mapper = new ObjectMapper();
-
-        String prompt = systemMessage + "\n\n" + userMessage;
 
         ObjectNode req = mapper.createObjectNode();
         ArrayNode contents = mapper.createArrayNode();

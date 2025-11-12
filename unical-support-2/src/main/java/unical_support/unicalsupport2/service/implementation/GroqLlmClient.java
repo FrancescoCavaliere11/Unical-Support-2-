@@ -25,7 +25,7 @@ public class GroqLlmClient implements LlmClient {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public String chat(String systemMessage, String userMessage) throws Exception {
+    public String chat(String prompt) throws Exception {
         log.info("Invoco Groq /chat/completions, model={}", groqProperties.model());
 
         ObjectNode req = mapper.createObjectNode();
@@ -35,14 +35,14 @@ public class GroqLlmClient implements LlmClient {
         ArrayNode messages = mapper.createArrayNode();
 
         ObjectNode sys = mapper.createObjectNode();
-        sys.put("role", "system");
-        sys.put("content", systemMessage);
+        sys.put("role", "system"); //TODO lasiare system?
+        sys.put("content", prompt);
         messages.add(sys);
 
-        ObjectNode user = mapper.createObjectNode();
-        user.put("role", "user");
-        user.put("content", userMessage);
-        messages.add(user);
+//        ObjectNode user = mapper.createObjectNode();
+//        user.put("role", "user");
+//        user.put("content", userMessage);
+//        messages.add(user);
 
         req.set("messages", messages);
 
