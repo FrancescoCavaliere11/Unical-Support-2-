@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
-import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 
 import java.util.List;
 
@@ -20,5 +20,10 @@ public class PromptService {
     public String buildClassifyPrompt(List<ClassificationEmailDto> classificationEmailDtos) {
         PromptStrategy strategy = promptStrategyFactory.getStrategy(currentStrategy);
         return strategy.buildClassifyPrompt(classificationEmailDtos);
+    }
+
+    public String buildResponderPrompt(List<unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto> emails) {
+        PromptStrategy strategy = promptStrategyFactory.getStrategy(currentStrategy);
+        return strategy.buildResponderPrompt(emails);
     }
 }

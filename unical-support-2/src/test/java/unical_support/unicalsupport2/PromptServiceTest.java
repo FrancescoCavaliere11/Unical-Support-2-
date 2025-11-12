@@ -1,7 +1,7 @@
 package unical_support.unicalsupport2;
 
 import org.junit.jupiter.api.Test;
-import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.prompting.PromptService;
 import unical_support.unicalsupport2.prompting.PromptStrategy;
 import unical_support.unicalsupport2.prompting.PromptStrategyFactory;

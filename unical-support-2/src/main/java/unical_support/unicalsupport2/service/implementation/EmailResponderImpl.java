@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
+import unical_support.unicalsupport2.prompting.PromptService;
 import unical_support.unicalsupport2.service.interfaces.EmailResponder;
-import unical_support.unicalsupport2.service.interfaces.GeminiApiClient;
-import unical_support.unicalsupport2.service.interfaces.PromptService;
+import unical_support.unicalsupport2.service.interfaces.LlmClient;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,32 +21,17 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class EmailResponderImpl implements EmailResponder {
-    private final GeminiApiClient geminiApiClient;
+    private final LlmClient geminiApiClient;
     private final PromptService promptService;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    /**
-     * Generates responses for classified emails.
-     * <p>
-     * Workflow:
-     * <ol>
-     *     <li>Build the system prompt using {@link PromptService#buildSystemMessageResponse()}.</li>
-     *     <li>Build the user prompt with the emails using {@link PromptService#buildUserMessageResponse(List)}.</li>
-     *     <li>Send the combined prompt to Gemini via {@link GeminiApiClient#chat(String, String)}.</li>
-     *     <li>Parse the JSON output into {@link ResponderResultDto} and {@link SingleResponseDto}.</li>
-     *     <li>Populate a list with size equal to the number of emails received.</li>
-     * </ol>
-     *
-     * @param emails List of classified emails with categories and extracted text
-     * @return List of {@link ResponderResultDto}, with one response per email
-     */
+
     @Override
     public List<ResponderResultDto> generateEmailResponse(List<ClassificationResultDto> emails) {
         try {
-            String system = promptService.buildSystemMessageResponse();
-            String user = promptService.buildUserMessageResponse(emails);
+            String prompt = promptService.buildResponderPrompt(emails);
 
-            String raw = geminiApiClient.chat(system, user);
+            String raw = geminiApiClient.chat(prompt);
 
             ArrayNode arr = (ArrayNode) mapper.readTree(raw);
 
