@@ -10,7 +10,8 @@ import unical_support.unicalsupport2.commands.*;
         EmailCommand.class,
         ModelCommand.class,
         TemplateCommand.class,
-        PromptCommand.class
+        PromptCommand.class,
+        JudgerCommand.class
 })
 public class SpringShellConfig {
 }

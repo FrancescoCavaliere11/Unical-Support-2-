@@ -11,6 +11,7 @@ import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
+import unical_support.unicalsupport2.service.interfaces.JudgerService;
 
 import java.util.List;
 
@@ -30,6 +31,9 @@ class EmailCommandIntegrationTest {
     @MockitoBean
     private EmailSender emailSender;
 
+    @MockitoBean
+    private JudgerService  judgerService;
+
 
     @Test
     void emailNotRecognizedShouldBeForwarded() {
@@ -44,7 +48,7 @@ class EmailCommandIntegrationTest {
                 new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata");
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(fakeResult));
 
-        EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender);
+        EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender,judgerService);
         emailCommand.fetchEmailAndClassify();
 
         var captor = org.mockito.ArgumentCaptor.forClass(EmailMessage.class);
@@ -69,7 +73,7 @@ class EmailCommandIntegrationTest {
                 new ClassificationResultDto(List.of(new SingleCategoryDto("ISCRIZIONE", 0.95, "parte relativa all’iscrizione")), "Corrisponde alla categoria Iscrizione");
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(recognized));
 
-        EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender);
+        EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender,judgerService);
         emailCommand.fetchEmailAndClassify();
 
         verify(emailSender, never()).sendEmail(any());

@@ -19,6 +19,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class EmailClassifierImpl implements EmailClassifier {
+
     private final CategoryRepository categoryRepository;
     private final LlmClient geminiApiClient;
     private final PromptService promptService;
@@ -27,27 +28,47 @@ public class EmailClassifierImpl implements EmailClassifier {
     @Override
     public List<ClassificationResultDto> classifyEmail(List<ClassificationEmailDto> classificationEmailDtos) {
         try {
-            String system = promptService.buildClassifyPrompt(classificationEmailDtos);     // Sei un LLM fai questo
-            String raw = geminiApiClient.chat(system);        // Così si invia una sola richiesta con TUTTE LE EMAIL
-            ArrayNode arr = (ArrayNode) mapper.readTree(raw);       // JSON navigabile, se ci sono problemi da eccezione
 
-            // Prepara lista risultati con NON_RICONOSCIUTA di default
+            String prompt = promptService.buildClassifyPrompt(classificationEmailDtos);
+
+
+            String raw = geminiApiClient.chat(prompt);
+
+
+            String cleaned = sanitizeJson(raw);
+
+
+            JsonNode root = mapper.readTree(cleaned);
+            ArrayNode arr;
+            if (root.isArray()) {
+                arr = (ArrayNode) root;
+            } else {
+                arr = mapper.createArrayNode();
+                arr.add(root);
+            }
+
+
             List<ClassificationResultDto> out = new ArrayList<>(Collections.nCopies(
                     classificationEmailDtos.size(),
-                    new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")), "No result")
+                    new ClassificationResultDto(
+                            List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")),
+                            "No result")
             ));
 
             for (JsonNode n : arr) {
-                // Ogni Email ha un ID che corrisponde alla posizione dell'email
                 int id = n.path("id").asInt(-1);
-                if (id < 0 || id >= classificationEmailDtos.size()) continue;
+                if (id < 0 || id >= classificationEmailDtos.size()) {
+
+                    continue;
+                }
 
                 out.set(id, parseSingleResult(n));
             }
+
             return out;
 
         } catch (Exception x) {
-            // In caso di JSON non array o errore, restituisci tutti NON_RICONOSCIUTA
+
             return classificationEmailDtos.stream()
                     .map(e -> new ClassificationResultDto(
                             List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")),
@@ -57,17 +78,19 @@ public class EmailClassifierImpl implements EmailClassifier {
         }
     }
 
-    private ClassificationResultDto parseSingleResult(JsonNode json){
+    /**
+     * Parsing del risultato per una singola email
+     */
+    private ClassificationResultDto parseSingleResult(JsonNode json) {
         List<SingleCategoryDto> categoriesList = new ArrayList<>();
         String explanation = safe(json.path("explanation").asText());
 
-        // Recupero l'elenco delle categorie dal DB
+
         List<String> categories = categoryRepository.findAll()
                 .stream()
                 .map(Category::getName)
                 .toList();
 
-        // Classificazione multi-label
         if (json.path("categories").isArray()) {
             for (JsonNode n : json.path("categories")) {
                 String cat = safe(n.path("name").asText());
@@ -77,6 +100,7 @@ public class EmailClassifierImpl implements EmailClassifier {
                 addCategoryToList(categoriesList, cat, conf, text, categories);
             }
         } else {
+
             String categoryStr = safe(json.path("category").asText());
             double confidence = json.path("confidence").isNumber() ? json.path("confidence").asDouble() : 0.0;
             String text = safe(json.path("text").asText());
@@ -87,21 +111,70 @@ public class EmailClassifierImpl implements EmailClassifier {
         return new ClassificationResultDto(categoriesList, explanation);
     }
 
-    // Metodo per aggiungere alla mappa una categoria con la propria confidenza
-    private void addCategoryToList(List<SingleCategoryDto> categoriesList, String category, double confidence, String text, List<String> categories){
-        // Valida la categoria
-        String cat = categories.stream()
+    /**
+     * Aggiunge una categoria alla lista, validandola rispetto a quelle di DB e clampando la confidence.
+     */
+    private void addCategoryToList(List<SingleCategoryDto> categoriesList,
+                                   String category,
+                                   double confidence,
+                                   String text,
+                                   List<String> validCategories) {
+
+
+        String cat = validCategories.stream()
                 .filter(c -> c.equalsIgnoreCase(category))
                 .findFirst()
                 .orElse("NON_RICONOSCIUTA");
 
-        // Intervallo valore confidenza
+        // Clamping della confidence nell'intervallo [0,1]
         if (confidence < 0) confidence = 0;
         if (confidence > 1) confidence = 1;
 
         categoriesList.add(new SingleCategoryDto(cat, confidence, text));
     }
 
-    // Serve a evitare se il modello restituisce valore vuoto, che ci sia eccezione e da ""
-    private String safe(String s) { return s == null ? "" : s; }
+
+    private String safe(String s) {
+        return s == null ? "" : s;
+    }
+
+    /**
+     * Rende la risposta del modello parsabile come JSON "pulito".
+     * - Rimuove eventuali ```
+     * - Se ci sono caratteri prima di '[' o '{', taglia fino al primo di questi.
+     */
+    private String sanitizeJson(String raw) {
+        if (raw == null) return "[]";
+        String s = raw.trim();
+
+
+        if (s.startsWith("```")) {
+            int firstNewline = s.indexOf('\n');
+            if (firstNewline > 0) {
+                s = s.substring(firstNewline + 1);
+            } else {
+                s = s.substring(3);
+            }
+            int lastFence = s.lastIndexOf("```");
+            if (lastFence >= 0) {
+                s = s.substring(0, lastFence);
+            }
+            s = s.trim();
+        }
+
+
+        int start = -1;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '[' || c == '{') {
+                start = i;
+                break;
+            }
+        }
+        if (start > 0) {
+            s = s.substring(start);
+        }
+
+        return s.trim();
+    }
 }
