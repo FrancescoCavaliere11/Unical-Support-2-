@@ -3,12 +3,17 @@ package unical_support.unicalsupport2.prompting.implementations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
-import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
+import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
+import unical_support.unicalsupport2.data.entities.Template;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
+import unical_support.unicalsupport2.data.repositories.TemplateRepository;
 import unical_support.unicalsupport2.prompting.PromptStrategy;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component("fewShot")
 @RequiredArgsConstructor
@@ -16,6 +21,7 @@ public class FewShotPromptStrategy implements PromptStrategy {
 
     private final CategoryRepository categoryRepository;
     private final ObjectMapper mapper = new ObjectMapper();
+    private final TemplateRepository templateRepository;
 
     // ==========================
     // 1) PROMPT PER CLASSIFIER
@@ -190,5 +196,133 @@ public class FewShotPromptStrategy implements PromptStrategy {
 
     private String ns(String s) {
         return s == null ? "" : s;
+    }
+
+    @Override
+    public String buildResponderPrompt(List<ClassificationResultDto> emails) {
+        // todo aggiungere il few shot
+        StringBuilder sb = new StringBuilder();
+        sb.append("""
+            Sei un assistente AI che genera risposte email per una segreteria universitaria.
+            
+            OBIETTIVO
+            Riceverai:
+            - Una lista di email
+            - Per ogni email: una lista di categorie già classificate (con confidence e testo estratto)
+            - Una lista di template disponibili
+            
+            Per OGNI email:
+            - Per OGNI categoria assegnata all'email:
+              - Determina se esiste un template corrispondente
+              - Se sì, compila il template sostituendo {{parametri}} usando il testo dell’email e/o della categoria
+              - Se no, segnala che non esiste un template applicabile
+             
+            
+            STRUTTURA OUTPUT OBBLIGATORIA
+            Devi restituire SOLO un array JSON, uno per ogni email, nello stesso ordine fornito.
+            
+            Formato di ogni elemento dell'array:
+            
+            {
+              "email_id": number,
+              "responses": [
+                {
+                  "category": "nome_categoria",
+                  "template": "nome_template" | null,
+                  "content": "testo compilato" | null,
+                  "parameters": {
+                    "param1": "valore" | null,
+                    "param2": "valore" | null
+                  },
+                  "reason": "OK" | "NO_TEMPLATE_MATCH" | "MISSING_REQUIRED_PARAMETER"
+                }
+              ]
+            }
+            
+            IL CAMPO email_id DEVE corrispondere all'id dell'email nell'input.
+            Devi cercare di riempire tutti i parametri con required = true dei template, altrimenti metti a NULL il parametro e metti MISSING_REQUIRED_PARAMETER NEL CAMPO reason, seguito da tutti i parametri mancanti separati da virgola. Se riesci riempi anche i parametri non required.
+            REGOLE IMPORTANTI
+            - SEMPRE restituisci una risposta per ogni categoria dell'email
+            - I parametri possono essere estratti:
+              - dal testo della mail, oppure
+              - dal testo associato alla categoria
+            - NON inventare parametri che il template non contiene
+            - Se un parametro richiesto non può essere estratto → mettilo a null
+            - Non aggiungere testo fuori dal JSON
+            - Nessun commento, nessun markdown
+            - Ordine dell’output = ordine input email
+            
+            ESEMPI SEMANTICI (NON REALI)
+            
+            [
+              {
+                "email_id": 0,
+                "responses": [
+                  {
+                    "category": "IMMATRICOLAZIONE",
+                    "template": "RICHIESTA_IMMATRICOLAZIONE",
+                    "content": "Gentile Mario, per immatricolarti devi...",
+                    "parameters": { "nome": "Mario" },
+                    "reason": "OK"
+                  },
+                  {
+                    "category": "TASSE",
+                    "template": null,
+                    "content": null,
+                    "parameters": {},
+                    "reason": "NO_TEMPLATE_MATCH"
+                  }
+                ]
+              }
+            ]
+            
+            Fine istruzioni.
+            """
+        );
+
+        Map<String, List<Template>> templatesCache = new HashMap<>();
+
+        sb.append("Di seguito le email classificate e i template disponibili.\n");
+        sb.append("Genera la risposta nel formato JSON richiesto.\n\n");
+
+        for (ClassificationResultDto email : emails) {
+            sb.append("EMAIL ID: ").append(email.getId()).append("\n");
+            sb.append("CATEGORIE:\n");
+
+            for (SingleCategoryDto category : email.getCategories()) {
+                String categoryName = category.getCategory();
+
+                List<Template> templates = templatesCache.computeIfAbsent(
+                        categoryName,
+                        k -> templateRepository.findByCategoryNameIgnoreCase(categoryName)
+                );
+
+                sb.append(" - Categoria: ").append(category.getCategory()).append("\n");
+                sb.append("   Confidence: ").append(category.getConfidence()).append("\n");
+                sb.append("   Testo: ").append(category.getText()).append("\n");
+
+                if (!templates.isEmpty()) {
+                    sb.append("   Template disponibili:\n");
+                    for (Template t : templates) {
+                        sb.append("     * Nome: ").append(t.getName()).append("\n");
+                        sb.append("       Parametri: ").append(
+                                t.getParameters().stream()
+                                        .map(p -> p.getName() + " (required=" + p.isRequired() + ")")
+                                        .toList()
+                        ).append("\n");
+                        sb.append("       Contenuto template: ").append(
+                                t.getContent().replace("\n", " ").replace("\r", "")
+                        ).append("\n");
+                    }
+                } else {
+                    sb.append("   Template disponibili: nessuno\n");
+                }
+            }
+            sb.append("\n");
+        }
+
+        sb.append("Genera ora SOLO l'array JSON di risposta, seguendo ESATTAMENTE il formato definito nel system prompt, senza testo aggiuntivo.\n");
+
+        return sb.toString();
     }
 }

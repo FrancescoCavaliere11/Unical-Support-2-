@@ -2,8 +2,8 @@ package unical_support.unicalsupport2.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
-import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.JudgementResultDto;
 import unical_support.unicalsupport2.service.interfaces.JudgePromptService;
 

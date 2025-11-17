@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import unical_support.unicalsupport2.data.dto.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.ClassificationEmailDto;
-import unical_support.unicalsupport2.data.dto.SingleCategoryDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
+import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.prompting.PromptService;
@@ -19,7 +19,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class EmailClassifierImpl implements EmailClassifier {
-
     private final CategoryRepository categoryRepository;
     private final LlmClient geminiApiClient;
     private final PromptService promptService;
@@ -47,13 +46,17 @@ public class EmailClassifierImpl implements EmailClassifier {
                 arr.add(root);
             }
 
-
-            List<ClassificationResultDto> out = new ArrayList<>(Collections.nCopies(
-                    classificationEmailDtos.size(),
-                    new ClassificationResultDto(
-                            List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")),
-                            "No result")
-            ));
+            // Prepara lista risultati con NON_RICONOSCIUTA di default
+            List<ClassificationResultDto> out = new ArrayList<>();
+            for (int i = 0; i < classificationEmailDtos.size(); i++) {
+                out.add(
+                        new ClassificationResultDto(
+                                List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")),
+                                "No result",
+                                i // ID = posizione nella lista
+                        )
+                );
+            }
 
             for (JsonNode n : arr) {
                 int id = n.path("id").asInt(-1);
@@ -64,17 +67,22 @@ public class EmailClassifierImpl implements EmailClassifier {
 
                 out.set(id, parseSingleResult(n));
             }
-
             return out;
 
         } catch (Exception x) {
+            // In caso di JSON non array o errore, restituisci tutti NON_RICONOSCIUTA
+            List<ClassificationResultDto> classificationResultDtos = new ArrayList<>();
+            for (int i = 0; i < classificationEmailDtos.size(); i++) {
+                classificationResultDtos.add(
+                        new ClassificationResultDto(
+                                List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")),
+                                "Errore batch/API: " + x.getMessage(),
+                                i // ID = posizione nella lista
+                        )
+                );
+            }
 
-            return classificationEmailDtos.stream()
-                    .map(e -> new ClassificationResultDto(
-                            List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")),
-                            "Errore batch/API: " + x.getMessage())
-                    )
-                    .toList();
+            return classificationResultDtos;
         }
     }
 
@@ -108,7 +116,7 @@ public class EmailClassifierImpl implements EmailClassifier {
             addCategoryToList(categoriesList, categoryStr, confidence, text, categories);
         }
 
-        return new ClassificationResultDto(categoriesList, explanation);
+        return new ClassificationResultDto(categoriesList, explanation, json.path("id").asInt(-1));
     }
 
     /**

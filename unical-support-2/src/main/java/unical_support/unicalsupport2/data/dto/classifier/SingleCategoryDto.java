@@ -1,4 +1,4 @@
-package unical_support.unicalsupport2.data.dto;
+package unical_support.unicalsupport2.data.dto.classifier;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
