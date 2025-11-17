@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Prompt strategy implementing Zero-Shot Chain of Thought prompting for email classification, judgement, and response generation.
+ */
 @Component("zeroShotCoT")
 @RequiredArgsConstructor
 public class ZeroShotChainOfThoughtPromptStrategy implements PromptStrategy {
@@ -24,6 +27,12 @@ public class ZeroShotChainOfThoughtPromptStrategy implements PromptStrategy {
 
     private final TemplateRepository templateRepository;
 
+    /**
+     * Builds a prompt for classifying emails using Zero-Shot Chain of Thought reasoning.
+     *
+     * @param classificationEmailDtos List of emails to classify.
+     * @return Constructed prompt string.
+     */
     @Override
     public String buildClassifyPrompt(List<ClassificationEmailDto> classificationEmailDtos) {
         List<String> categories = categoryRepository.findAll()
@@ -67,9 +76,14 @@ public class ZeroShotChainOfThoughtPromptStrategy implements PromptStrategy {
         return prompt.toString();
     }
 
-    // ==========================
-    // 2) PROMPT PER JUDGER
-    // ==========================
+
+    /**
+     * Builds a prompt for judging the classifications of emails.
+     *
+     * @param emails List of emails that were classified.
+     * @param results List of classification results to judge.
+     * @return Constructed prompt string.
+     */
     @Override
     public String buildJudgePrompt(List<ClassificationEmailDto> emails,
                                    List<ClassificationResultDto> results) {
@@ -164,6 +178,12 @@ public class ZeroShotChainOfThoughtPromptStrategy implements PromptStrategy {
     }
 
 
+    /**
+     * Builds a prompt for generating email responses based on classified emails and available templates.
+     *
+     * @param emails List of classified emails.
+     * @return Constructed prompt string.
+     */
     @Override
     public String buildResponderPrompt(List<ClassificationResultDto> emails) {
         StringBuilder sb = new StringBuilder();
