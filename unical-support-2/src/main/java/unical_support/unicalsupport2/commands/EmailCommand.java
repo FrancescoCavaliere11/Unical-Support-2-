@@ -6,8 +6,10 @@ import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
+import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
+import unical_support.unicalsupport2.service.interfaces.EmailResponder;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 import java.util.List;
@@ -28,6 +30,7 @@ public class EmailCommand {
     private final EmailReceiver emailReceiver;
     private final EmailClassifier emailClassifier;
     private final EmailSender emailSender;
+    private final EmailResponder emailResponder;
 
     /**
      * Fetches emails, classifies them and forwards those labeled {@code NON_RICONOSCIUTA}.
@@ -64,10 +67,11 @@ public class EmailCommand {
         if (emailsToClassify.isEmpty()) return;
 
 
-        List<ClassificationResultDto> results = emailClassifier.classifyEmail(emailsToClassify);
+        List<ClassificationResultDto> classificationResult = emailClassifier.classifyEmail(emailsToClassify);
+        List<ResponderResultDto> responderResult = emailResponder.generateEmailResponse(classificationResult);
 
-        for (int i = 0; i < results.size(); i++) {
-            ClassificationResultDto r = results.get(i);
+        for (int i = 0; i < classificationResult.size(); i++) {
+            ClassificationResultDto r = classificationResult.get(i);
             System.out.println(r);
 
             List<SingleCategoryDto> categories = r.getCategories();
@@ -84,7 +88,20 @@ public class EmailCommand {
                 EmailMessage toForward = getEmailMessage(originalEmails, i);
                 emailSender.sendEmail(toForward);
             }
+
         }
+
+
+        System.out.println("\n\n--- RISPOSTE GENERATE AUTOMATICAMENTE ---\n\n");
+        for(int i = 0; i < responderResult.size(); i++) {
+            ResponderResultDto r = responderResult.get(i);
+            EmailMessage reviewEmail = getEmailMessageForResponder(originalEmails.get(i), r);
+            emailSender.sendEmail(reviewEmail);
+            System.out.println(reviewEmail.getBody());
+
+        }
+
+
     }
 
     /**
@@ -103,7 +120,7 @@ public class EmailCommand {
         EmailMessage original = originalEmails.get(i);
 
         EmailMessage toForward = new EmailMessage();
-        toForward.setTo(List.of("misentouncavallo@gmail.com")); //TODO change email address
+        toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
         toForward.setSubject("Email non riconosciuta: " + original.getSubject());
 
         String sender = (original.getTo() != null && !original.getTo().isEmpty())
@@ -113,4 +130,54 @@ public class EmailCommand {
         toForward.setBody("Mittente originale: " + sender + "\n\n" + original.getBody());
         return toForward;
     }
+
+
+    // todo documentazione
+    private static EmailMessage getEmailMessageForResponder(
+            EmailMessage originalEmail,
+            ResponderResultDto responderResult
+    ) {
+        EmailMessage reviewEmail = new EmailMessage();
+        reviewEmail.setTo(List.of("francescounical@gmail.com"));    // todo cambiare
+        reviewEmail.setSubject("Verifica automatica risposta per: " + originalEmail.getSubject());
+
+        StringBuilder body = new StringBuilder();
+        body.append("=== EMAIL ORIGINALE ===\n\n")
+                .append("Mittente originale: ").append(
+                        originalEmail.getTo() != null && !originalEmail.getTo().isEmpty()
+                                ? originalEmail.getTo().getFirst()
+                                : "(mittente sconosciuto)"
+                ).append("\n\n")
+                .append(originalEmail.getBody())
+                .append("\n\n")
+                .append("=== RISPOSTE GENERATE ===\n");
+
+        for (var singleResponse : responderResult.getResponses()) {
+            body.append("\nCategoria: ").append(singleResponse.getCategory());
+            body.append("\nTemplate: ").append(
+                    singleResponse.getTemplate() != null
+                            ? singleResponse.getTemplate()
+                            : "(nessun template disponibile)"
+            );
+            body.append("\nMotivo: ").append(singleResponse.getReason());
+
+
+            if (singleResponse.getParameter() != null && !singleResponse.getParameter().isEmpty()) {
+                body.append("\nParametri estratti:");
+                singleResponse.getParameter().forEach((k, v) ->
+                        body.append("\n - ").append(k).append(": ").append(v != null ? v : "(mancante)")
+                );
+            }
+
+            if (singleResponse.getContent() != null) {
+                body.append("\n\nContenuto generato:\n").append(singleResponse.getContent());
+            }
+
+            body.append("\n----------------------------------------\n");
+        }
+
+        reviewEmail.setBody(body.toString());
+        return reviewEmail;
+    }
+
 }

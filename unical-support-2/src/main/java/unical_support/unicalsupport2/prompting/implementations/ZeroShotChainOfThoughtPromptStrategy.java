@@ -67,7 +67,6 @@ public class ZeroShotChainOfThoughtPromptStrategy implements PromptStrategy {
 
     @Override
     public String buildResponderPrompt(List<ClassificationResultDto> emails) {
-        // todo aggiungere il zero shot
         StringBuilder sb = new StringBuilder();
         sb.append("""
             Sei un assistente AI che genera risposte email per una segreteria universitaria.
@@ -84,9 +83,16 @@ public class ZeroShotChainOfThoughtPromptStrategy implements PromptStrategy {
               - Se sì, compila il template sostituendo {{parametri}} usando il testo dell’email e/o della categoria
               - Se no, segnala che non esiste un template applicabile
              
+            Ragiona passo passo su ogni risposta che dai:
+            
+            1. analizza il testo dell'email e il testo associato alla categoria per estrarre i parametri necessari
+            2. seleziona il template più adatto per la categoria
+            3. compila il template con i parametri estratti
+            4. valuta se tutti i parametri richiesti sono stati compilati
+            5. genera la risposta finale in formato JSON
             
             STRUTTURA OUTPUT OBBLIGATORIA
-            Devi restituire SOLO un array JSON, uno per ogni email, nello stesso ordine fornito.
+            Rispondi solo con un JSON array, in cui ogni elemento dell'array ha la seguente struttura. Rispondi nello stesso ordine in cui ti arrivano le email
             
             Formato di ogni elemento dell'array:
             
@@ -108,6 +114,9 @@ public class ZeroShotChainOfThoughtPromptStrategy implements PromptStrategy {
             
             IL CAMPO email_id DEVE corrispondere all'id dell'email nell'input.
             Devi cercare di riempire tutti i parametri con required = true dei template, altrimenti metti a NULL il parametro e metti MISSING_REQUIRED_PARAMETER NEL CAMPO reason, seguito da tutti i parametri mancanti separati da virgola. Se riesci riempi anche i parametri non required.
+            - Se un parametro NON required non può essere estratto:
+              - nel campo "parameters" il valore deve essere null
+              - nel campo "content" devi lasciare invariato il placeholder {{nome_parametro}}
             REGOLE IMPORTANTI
             - SEMPRE restituisci una risposta per ogni categoria dell'email
             - I parametri possono essere estratti:
