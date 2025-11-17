@@ -72,7 +72,7 @@ public class EmailCommand {
 
         List<ClassificationResultDto> classificationResult = emailClassifier.classifyEmail(emailsToClassify);
         List<ResponderResultDto> responderResult = emailResponder.generateEmailResponse(classificationResult);
-        List<JudgementResultDto> judgements = judgerService.judge(emailsToClassify, results);
+        List<JudgementResultDto> judgements = judgerService.judge(emailsToClassify, classificationResult);
 
         System.out.println("\n=== RISULTATI CLASSIFICATORE ===");
 
@@ -131,7 +131,8 @@ public class EmailCommand {
         EmailMessage original = originalEmails.get(i);
 
         EmailMessage toForward = new EmailMessage();
-        toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
+        // toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
+        toForward.setTo(List.of("francescounical@gmail.com"));
         toForward.setSubject("Email non riconosciuta: " + original.getSubject());
 
         String sender = (original.getTo() != null && !original.getTo().isEmpty())
@@ -143,7 +144,18 @@ public class EmailCommand {
     }
 
 
-    // todo documentazione
+    /**
+     * Builds an email summarizing the generated responses for review.
+     *
+     * <p>The returned {@code EmailMessage} contains:
+     * - a recipient (hardcoded),
+     * - a subject prefixed with {@code "Verifica automatica risposta per: "},
+     * - the original email details and generated responses in the message body.</p>
+     *
+     * @param originalEmail the original email message
+     * @param responderResult the generated responses to summarize
+     * @return an {@code EmailMessage} ready to be sent for review
+     */
     private static EmailMessage getEmailMessageForResponder(
             EmailMessage originalEmail,
             ResponderResultDto responderResult
