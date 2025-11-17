@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implementation of the EmailResponder interface that generates email responses using a language model.
+ */
 @Service
 @RequiredArgsConstructor
 public class EmailResponderImpl implements EmailResponder {
@@ -25,7 +28,12 @@ public class EmailResponderImpl implements EmailResponder {
     private final PromptService promptService;
     private final ObjectMapper mapper = new ObjectMapper();
 
-
+    /**
+     * Generates email responses using a language model.
+     *
+     * @param emails List of classified emails to respond to.
+     * @return List of ResponderResultDto containing generated responses.
+     */
     @Override
     public List<ResponderResultDto> generateEmailResponse(List<ClassificationResultDto> emails) {
         try {

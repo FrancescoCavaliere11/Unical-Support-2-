@@ -46,6 +46,9 @@ public class EmailCommand {
      *   <li>Invokes {@code emailClassifier.classifyEmail(List)} and prints each result to stdout.</li>
      *   <li>For any result containing category {@code NON_RICONOSCIUTA} (case-insensitive),
      *       forwards the original email using {@code emailSender.sendEmail}.</li>
+ *       <li>Generates email responses using {@code emailResponder.generateEmailResponse(List)}
+     *       and prints them to stdout.</li>
+ *       <li>Invokes {@code judgerService.judge(List, List)} to obtain judgements and prints them to stdout.</li>
      * </ul>
      *
      * <p>Usage:</p>

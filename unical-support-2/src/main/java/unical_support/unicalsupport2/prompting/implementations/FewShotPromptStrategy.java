@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implementation of PromptStrategy that builds prompts using few-shot learning examples.
+ */
 @Component("fewShot")
 @RequiredArgsConstructor
 public class FewShotPromptStrategy implements PromptStrategy {
@@ -23,9 +26,12 @@ public class FewShotPromptStrategy implements PromptStrategy {
     private final ObjectMapper mapper = new ObjectMapper();
     private final TemplateRepository templateRepository;
 
-    // ==========================
-    // 1) PROMPT PER CLASSIFIER
-    // ==========================
+    /**
+     * Builds a prompt for classifying emails using few-shot learning.
+     *
+     * @param classificationEmailDtos List of emails to classify.
+     * @return The constructed prompt string.
+     */
     @Override
     public String buildClassifyPrompt(List<ClassificationEmailDto> classificationEmailDtos) {
         List<String> categories = categoryRepository.findAll()
@@ -102,8 +108,13 @@ public class FewShotPromptStrategy implements PromptStrategy {
     }
 
 
-    // PROMPT PER JUDGER
-
+    /**
+     * Builds a prompt for judging the classification results of emails.
+     *
+     * @param emails  List of emails that were classified.
+     * @param results Corresponding classification results to judge.
+     * @return The constructed prompt string.
+     */
     @Override
     public String buildJudgePrompt(List<ClassificationEmailDto> emails,
                                    List<ClassificationResultDto> results) {
@@ -198,6 +209,12 @@ public class FewShotPromptStrategy implements PromptStrategy {
         return s == null ? "" : s;
     }
 
+    /**
+     * Builds a prompt for generating email responses based on classified emails.
+     *
+     * @param emails List of classified emails.
+     * @return The constructed prompt string.
+     */
     @Override
     public String buildResponderPrompt(List<ClassificationResultDto> emails) {
         // todo aggiungere il few shot
