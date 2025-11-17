@@ -2,6 +2,7 @@ package unical_support.unicalsupport2.commands;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.command.annotation.Command;
+import unical_support.unicalsupport2.data.dto.JudgementResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.EmailMessage;
@@ -11,6 +12,7 @@ import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailResponder;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
+import unical_support.unicalsupport2.service.interfaces.JudgerService;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class EmailCommand {
     private final EmailClassifier emailClassifier;
     private final EmailSender emailSender;
     private final EmailResponder emailResponder;
+    private final JudgerService judgerService;
 
     /**
      * Fetches emails, classifies them and forwards those labeled {@code NON_RICONOSCIUTA}.
@@ -69,6 +72,9 @@ public class EmailCommand {
 
         List<ClassificationResultDto> classificationResult = emailClassifier.classifyEmail(emailsToClassify);
         List<ResponderResultDto> responderResult = emailResponder.generateEmailResponse(classificationResult);
+        List<JudgementResultDto> judgements = judgerService.judge(emailsToClassify, results);
+
+        System.out.println("\n=== RISULTATI CLASSIFICATORE ===");
 
         for (int i = 0; i < classificationResult.size(); i++) {
             ClassificationResultDto r = classificationResult.get(i);
@@ -88,11 +94,16 @@ public class EmailCommand {
                 EmailMessage toForward = getEmailMessage(originalEmails, i);
                 emailSender.sendEmail(toForward);
             }
-
         }
 
+        System.out.println("\n=== RISULTATI JUDGER ===");
+
+        for (JudgementResultDto j : judgements) {
+            System.out.println(j);
+        }
 
         System.out.println("\n\n--- RISPOSTE GENERATE AUTOMATICAMENTE ---\n\n");
+
         for(int i = 0; i < responderResult.size(); i++) {
             ResponderResultDto r = responderResult.get(i);
             EmailMessage reviewEmail = getEmailMessageForResponder(originalEmails.get(i), r);

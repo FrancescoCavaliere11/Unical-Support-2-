@@ -8,4 +8,5 @@ import java.util.List;
 public interface PromptStrategy {
     String buildClassifyPrompt(List<ClassificationEmailDto> classificationEmailDtos);
     String buildResponderPrompt(List<ClassificationResultDto> emails);
+    String buildJudgePrompt(List<ClassificationEmailDto> classificationEmailDtos, List<ClassificationResultDto> results);
 }
