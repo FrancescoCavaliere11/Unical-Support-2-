@@ -59,7 +59,7 @@ class EmailCommandIntegrationTest {
         verify(emailSender, times(1)).sendEmail(captor.capture());
 
         EmailMessage forwarded = captor.getValue();
-        assertThat(forwarded.getTo()).containsExactly("misentouncavallo@gmail.com");
+        assertThat(forwarded.getTo()).containsExactly("lorenzo.test.04112025@gmail.com");
         assertThat(forwarded.getSubject()).startsWith("Email non riconosciuta:");
         assertThat(forwarded.getBody()).contains("mittente@esempio.it");
     }

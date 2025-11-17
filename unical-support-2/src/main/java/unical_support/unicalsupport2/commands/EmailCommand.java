@@ -131,8 +131,7 @@ public class EmailCommand {
         EmailMessage original = originalEmails.get(i);
 
         EmailMessage toForward = new EmailMessage();
-        // toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
-        toForward.setTo(List.of("francescounical@gmail.com"));
+        toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
         toForward.setSubject("Email non riconosciuta: " + original.getSubject());
 
         String sender = (original.getTo() != null && !original.getTo().isEmpty())
@@ -161,7 +160,7 @@ public class EmailCommand {
             ResponderResultDto responderResult
     ) {
         EmailMessage reviewEmail = new EmailMessage();
-        reviewEmail.setTo(List.of("francescounical@gmail.com"));    // todo cambiare
+        reviewEmail.setTo(List.of("lorenzo.test.04112025@gmail.com"));
         reviewEmail.setSubject("Verifica automatica risposta per: " + originalEmail.getSubject());
 
         StringBuilder body = new StringBuilder();
