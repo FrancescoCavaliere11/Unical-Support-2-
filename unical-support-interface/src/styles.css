@@ -87,6 +87,11 @@ h1, h2, h3 {
 
 p {
   color: var(--text-weak);
+  line-height: 1.5em;
+}
+
+span {
+  color: var(--text-strong);
 }
 
 hugeicons-icon {

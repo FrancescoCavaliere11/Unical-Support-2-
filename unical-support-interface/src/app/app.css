@@ -4,7 +4,7 @@
   flex-direction: column;
   position: relative;
   background: var(--background);
-  min-height: 200svh;
+  min-height: 100svh;
 }
 
 header, nav {
@@ -29,6 +29,7 @@ nav {
   position: sticky;
   top: 0;
   background: var(--background);
+  z-index: 99;
 }
 
 a {
