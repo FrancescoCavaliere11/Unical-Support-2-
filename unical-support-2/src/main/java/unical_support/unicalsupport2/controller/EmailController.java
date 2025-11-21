@@ -25,7 +25,7 @@ public class EmailController {
     }
 
     @PatchMapping
-    public ResponseEntity<List<HttpStatus>> updateCategory(
+    public ResponseEntity<HttpStatus> updateCategory(
             @Valid @RequestBody UpdateEmailCategoryDto updateEmailCategoryDto
     ) {
 //        emailService.updateEmailCategory(updateEmailCategoryDto);
