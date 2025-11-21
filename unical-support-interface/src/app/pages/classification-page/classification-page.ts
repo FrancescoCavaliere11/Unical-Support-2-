@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LabelIcon} from '@hugeicons/core-free-icons';
+import {EmailDto} from '../../model/email-dto';
+import {Email} from '../../services/email';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Category} from '../../services/category';
+import {CategoryDto} from '../../model/category-dto';
 
 @Component({
   selector: 'app-classification-page',
@@ -7,10 +12,87 @@ import {LabelIcon} from '@hugeicons/core-free-icons';
   templateUrl: './classification-page.html',
   styleUrls: ['./classification-page.css', '../../../../public/styles/skeleton.css'],
 })
-export class ClassificationPage {
+export class ClassificationPage implements OnInit {
   protected readonly LabelIcon = LabelIcon;
 
-  protected emails: number[] = [1,2,3,4,5,6]
+  protected emails: EmailDto[] = []
+  protected categories: CategoryDto[] = []
+  protected skeletons: number[] = []
 
+  protected selectedEmail: EmailDto | null = null;
 
+  protected form: FormGroup = new FormGroup({});
+
+  protected isLoading: boolean = false;
+  protected isFetching: boolean = false;
+
+  constructor(
+    private emailService: Email,
+    private categoryService: Category,
+    private formBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
+    this.skeletons = Array(20).fill(0);
+
+    this.form = this.formBuilder.group({
+      id: [''],
+      categoryId: ['', Validators.required],
+      description: ['', Validators.required]
+    })
+  }
+
+  ngOnInit(): void {
+    this.isFetching = true;
+
+    //TODO
+    /*this.categoryService.getCategories()
+      .subscribe(categories => this.categories = categories);*/
+
+    this.emailService.getEmails().subscribe({
+        next: emails => {
+          this.emails = emails
+          this.isFetching = false;
+          this.changeDetectorRef.detectChanges();
+        },
+        error: _ => {
+          this.isFetching = false;
+          this.changeDetectorRef.detectChanges();
+          alert("Errore nel caricamento delle email");
+        },
+      });
+  }
+
+  get confidenceLabel() {
+    const c = this.selectedEmail?.confidence ?? 0;
+    if (c >= 60) return 'high';
+    if (c >= 30) return 'mid';
+    return 'low';
+  }
+
+  selectEmail(email: EmailDto) {
+    this.selectedEmail = email;
+    this.form.patchValue({
+      id: this.selectedEmail.id,
+      categoryId: this.selectedEmail.category.id
+    })
+  }
+
+  submit() {
+    if (this.form.invalid || this.isLoading) return;
+
+    this.isLoading = true;
+    let updateDto = this.form.value;
+
+    this.emailService.updateCategoryForEmail(updateDto)
+      .subscribe({
+        next: ()=> {
+          this.emails = this.emails.filter(email => email.id !== this.selectedEmail!.id);
+          this.isLoading = false;
+        },
+        error: (error)=> {
+          alert(error);
+          this.isLoading = false;
+        }
+      })
+  }
 }

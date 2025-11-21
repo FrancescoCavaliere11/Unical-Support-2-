@@ -1,6 +1,7 @@
 import {CategoryDto} from './category-dto';
 
 export class EmailDto {
+  id: string;
   from: string[];
   subject: string;
   content: string;
@@ -8,6 +9,7 @@ export class EmailDto {
   category: CategoryDto
 
   constructor(data: any) {
+    this.id = data.id;
     this.from = data.from;
     this.subject = data.subject;
     this.content = data.content;

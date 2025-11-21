@@ -11,14 +11,13 @@ export class Email {
 
   protected constructor(private http: HttpClient) {}
 
-  protected getEmails() {
+  getEmails() {
     return this.http.get<EmailDto[]>(this._apiUrl)
   }
 
-  protected updateCategoryForEmail(
-    id: string,
-    categoryId: string
+  updateCategoryForEmail(
+    updateDto :{ id: string, categoryId: string }
   ) {
-    return this.http.patch<EmailDto[]>(this._apiUrl, {id, categoryId})
+    return this.http.patch<EmailDto[]>(this._apiUrl, updateDto)
   }
 }
