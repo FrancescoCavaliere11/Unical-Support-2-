@@ -7,6 +7,10 @@
   font-family: "Poppins", sans-serif;
 }
 
+html, body {
+  overscroll-behavior: none;
+}
+
 /* LIGHT */
 :root {
   --background: #FAFAFA;
@@ -98,4 +102,34 @@ hugeicons-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* SKELETON */
+
+.skeleton-item {
+  width: 100%;
+  height: 100px;
+  background: var(--fill);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  gap: 4pt;
+  border-radius: 8pt;
+  padding: 16pt;
+  color: var(--text-weak);
+}
+
+.skeleton-item.animated {
+  background: linear-gradient(90deg, var(--fill) 0%, var(--stroke-weak) 50%, var(--fill) 100%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 3s infinite linear;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }

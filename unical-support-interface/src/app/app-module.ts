@@ -7,6 +7,7 @@ import { ClassificationPage } from './pages/classification-page/classification-p
 import { AnswersPage } from './pages/answers-page/answers-page';
 import {HugeiconsIconComponent} from '@hugeicons/angular';
 import { EmailToClassifyItem } from './components/email-to-classify-item/email-to-classify-item';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -15,11 +16,12 @@ import { EmailToClassifyItem } from './components/email-to-classify-item/email-t
     AnswersPage,
     EmailToClassifyItem
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HugeiconsIconComponent
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HugeiconsIconComponent,
+        ReactiveFormsModule
+    ],
   providers: [
     provideBrowserGlobalErrorListeners()
   ],
