@@ -1,5 +1,6 @@
 package unical_support.unicalsupport2.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,9 @@ public class EmailController {
     }
 
     @PatchMapping
-    public ResponseEntity<List<HttpStatus>> updateCategory(UpdateEmailCategoryDto updateEmailCategoryDto) {
+    public ResponseEntity<List<HttpStatus>> updateCategory(
+            @Valid @RequestBody UpdateEmailCategoryDto updateEmailCategoryDto
+    ) {
 //        emailService.updateEmailCategory(updateEmailCategoryDto);
 
         return ResponseEntity
