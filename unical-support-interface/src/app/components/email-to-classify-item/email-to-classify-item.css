@@ -27,6 +27,17 @@ p:last-of-type {
   text-overflow: ellipsis;
 }
 
+.category-assigned {
+  display: flex;
+  flex-direction: column;
+  gap: 4pt;
+}
+
+.category-assigned > p {
+  padding: 4pt 8pt;
+  background: var(--fill);
+}
+
 .confidence-info {
   display: flex;
   justify-content: space-between;
