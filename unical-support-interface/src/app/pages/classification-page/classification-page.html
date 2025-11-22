@@ -1,0 +1,67 @@
+<section class="skeleton">
+  <div class="list">
+    @if (isFetching) {
+      @for (_ of skeletons; let index = $index; track index) {
+        <div class="skeleton-item animated"></div>
+      }
+    }
+    @else if (emails.length === 0) {
+      <div class="skeleton-item">
+        Nessuna email da classificare.
+      </div>
+    }
+    @else {
+      @for (email of emails; track email) {
+        <app-email-to-classify-item
+          [emailDto]="email"
+          (click)="selectEmail(email)">
+        </app-email-to-classify-item>
+      }
+    }
+  </div>
+
+  <form [formGroup]="form" (submit)="submit()" class="preview">
+    @if (selectedEmail !== null) {
+      <div class="sec-header">
+        <hugeicons-icon [icon]="LabelIcon"></hugeicons-icon>
+        <h2>Classifica Email</h2>
+      </div>
+
+      <div class="sec">
+        <span>Da:</span>
+        <p>{{ selectedEmail.fromString }}</p>
+      </div>
+      <div class="sec">
+        <span>Oggetto:</span>
+        <p>{{ selectedEmail?.subject }}</p>
+      </div>
+      <div class="sec">
+        <span>Messaggio:</span>
+        <p>{{ selectedEmail.content }}</p>
+      </div>
+      <div class="confidence-info">
+        <span>Confidence: {{ selectedEmail.confidence }}%</span>
+        <span [ngClass]="confidenceLabel">
+          {{ confidenceLabel === 'high' ? 'Alta'
+            : confidenceLabel === 'mid' ? 'Media'
+            : 'Bassa'
+          }}
+      </span>
+      </div>
+
+      <select formControlName="categoryId">
+        @for (category of categories; track category.id) {
+          <option [value]="category.id">{{ category.name }}</option>
+        }
+      </select>
+
+      <textarea formControlName="description" placeholder="Scrivi il motivo della categoria scelta."></textarea>
+
+      <button type="submit" [disabled]="form.invalid || isLoading">
+        Conferma Classificazione
+      </button>
+    } @else {
+      <p>Seleziona una Email prima di poterla classificare.</p>
+    }
+  </form>
+</section>

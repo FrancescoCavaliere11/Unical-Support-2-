@@ -1,0 +1,26 @@
+<section class="wrapper" [class.dark]="settingsService.darkMode">
+  <header>
+    <img src="logo.png" alt="Logo Università della Calabria">
+    <h1>Sistema gestione Email</h1>
+  </header>
+
+  <nav>
+    <a routerLink="classification" routerLinkActive="active">
+      <hugeicons-icon [icon]="LabelIcon" class="nav-icon"></hugeicons-icon>
+      Email non classificate
+    </a>
+    <a routerLink="answers" routerLinkActive="active">
+      <hugeicons-icon [icon]="Mail01Icon" class="nav-icon"></hugeicons-icon>
+      Risposte incomplete
+    </a>
+  </nav>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer>
+    <!-- TODO vedere se serve inserire qualche informazione -->
+  </footer>
+
+</section>
