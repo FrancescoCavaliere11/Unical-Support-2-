@@ -12,7 +12,7 @@ import {CategoryDto} from '../../model/category-dto';
   templateUrl: './classification-page.html',
   styleUrls: [
     './classification-page.css',
-    '../../../../public/styles/skeleton.css',
+    '../../../../public/styles/layout.css',
     '../../../../public/styles/input.css'
   ],
 })

@@ -116,7 +116,10 @@ hugeicons-icon {
   border-radius: 8pt;
   padding: 16pt;
   color: var(--text-weak);
+  font-size: 14px;
+  border: 1px solid transparent;
 }
+
 
 .skeleton-item.animated {
   background: linear-gradient(90deg, var(--fill) 0%, var(--stroke-weak) 50%, var(--fill) 100%);
