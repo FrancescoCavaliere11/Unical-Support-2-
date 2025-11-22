@@ -9,7 +9,10 @@ import {EmailDto} from '../../model/email-dto';
 })
 export class EmailToClassifyItem {
   @Input({required: true})
-  public emailDto!: EmailDto;
+  emailDto!: EmailDto;
+
+  @Input({required: true})
+  isSelected!: boolean;
 
 
 }

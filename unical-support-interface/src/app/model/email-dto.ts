@@ -6,7 +6,7 @@ export class EmailDto {
   subject: string;
   content: string;
   confidence: number;
-  category: CategoryDto
+  category?: CategoryDto
 
   constructor(data: any) {
     this.id = data.id;
@@ -23,5 +23,12 @@ export class EmailDto {
     let firstAddress: string = this.from[0];
     if (this.from.length === 1) return firstAddress;
     else return firstAddress + " +" + (this.from.length - 1);
+  }
+
+  get confidenceLabel() {
+    const c = this.confidence ?? 0;
+    if (c >= 60) return 'high';
+    if (c >= 30) return 'mid';
+    return 'low';
   }
 }

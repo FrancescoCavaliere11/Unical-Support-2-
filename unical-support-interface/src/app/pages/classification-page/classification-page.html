@@ -14,6 +14,7 @@
       @for (email of emails; track email) {
         <app-email-to-classify-item
           [emailDto]="email"
+          [isSelected]="(selectedEmail?.id ?? '') === email.id "
           (click)="selectEmail(email)">
         </app-email-to-classify-item>
       }
@@ -41,15 +42,16 @@
       </div>
       <div class="confidence-info">
         <span>Confidence: {{ selectedEmail.confidence }}%</span>
-        <span [ngClass]="confidenceLabel">
-          {{ confidenceLabel === 'high' ? 'Alta'
-            : confidenceLabel === 'mid' ? 'Media'
+        <span [ngClass]="selectedEmail.confidenceLabel">
+          {{ selectedEmail.confidenceLabel === 'high' ? 'Alta'
+            : selectedEmail.confidenceLabel === 'mid' ? 'Media'
             : 'Bassa'
           }}
       </span>
       </div>
 
       <select formControlName="categoryId">
+        <option [value]="" selected disabled>Seleziona una categoria</option>
         @for (category of categories; track category.id) {
           <option [value]="category.id">{{ category.name }}</option>
         }

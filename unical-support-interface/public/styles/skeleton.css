@@ -23,7 +23,7 @@
   padding: 16pt;
   height: fit-content;
   background: var(--fill);
-  border: 1px solid var(--stroke-strong);
+  border: 1px solid var(--stroke-weak);
   border-radius: 8pt;
   max-height: calc(100vh - (47px + 32pt));
   overflow-y: auto;
