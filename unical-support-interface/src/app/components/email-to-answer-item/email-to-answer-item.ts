@@ -3,15 +3,16 @@ import {EmailDto} from '../../model/email-dto';
 import {Mail01Icon, Tag01Icon} from '@hugeicons/core-free-icons';
 
 @Component({
-  selector: 'app-email-to-classify-item',
+  selector: 'app-email-to-answer-item',
   standalone: false,
-  templateUrl: './email-to-classify-item.html',
-  styleUrls: ['./email-to-classify-item.css', '../../../../public/styles/email-item.scss'],
+  templateUrl: './email-to-answer-item.html',
+  styleUrls: ['./email-to-answer-item.css', '../../../../public/styles/email-item.scss'],
 })
-export class EmailToClassifyItem {
+export class EmailToAnswerItem {
   @Input({required: true}) emailDto!: EmailDto;
   @Input({required: true}) isSelected!: boolean;
 
   protected readonly Mail01Icon = Mail01Icon;
   protected readonly Tag01Icon = Tag01Icon;
+
 }

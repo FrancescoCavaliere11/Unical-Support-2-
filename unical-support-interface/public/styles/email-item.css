@@ -1,0 +1,41 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 4pt;
+  width: 100%;
+  background: var(--fill);
+  border-radius: 8pt;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: 16pt;
+}
+
+.item:hover {
+  border: 1px solid var(--brand-stroke-weak);
+}
+
+item.selected {
+  border: 1px solid var(--brand-stroke-strong);
+}
+
+.item-header {
+  display: flex;
+  align-items: center;
+}
+
+.item-header > p {
+  display: flex;
+  gap: 2pt;
+}
+
+p:first-of-type {
+  padding: 4pt 0;
+}
+
+p:last-of-type {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+}
