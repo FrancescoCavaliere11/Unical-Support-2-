@@ -1,20 +1,14 @@
-import {CategoryDto} from './category-dto';
-
-export class EmailDto {
+export abstract class EmailDto {
   id: string;
   from: string[];
   subject: string;
   content: string;
-  confidence: number;
-  category?: CategoryDto
 
   constructor(data: any) {
     this.id = data.id;
     this.from = data.from;
     this.subject = data.subject;
     this.content = data.content;
-    this.confidence = data.confidence;
-    this.category = data.category;
   }
 
   get fromString(): string {
@@ -23,12 +17,5 @@ export class EmailDto {
     let firstAddress: string = this.from[0];
     if (this.from.length === 1) return firstAddress;
     else return firstAddress + " +" + (this.from.length - 1);
-  }
-
-  get confidenceLabel() {
-    const c = this.confidence ?? 0;
-    if (c >= 60) return 'high';
-    if (c >= 30) return 'mid';
-    return 'low';
   }
 }

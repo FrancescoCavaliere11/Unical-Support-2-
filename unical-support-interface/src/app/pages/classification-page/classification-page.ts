@@ -5,6 +5,7 @@ import {Email} from '../../services/email';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../services/category';
 import {CategoryDto} from '../../model/category-dto';
+import {EmailToClassifyDto} from '../../model/email-to-classify-dto';
 
 @Component({
   selector: 'app-classification-page',
@@ -19,11 +20,11 @@ import {CategoryDto} from '../../model/category-dto';
 export class ClassificationPage implements OnInit {
   protected readonly LabelIcon = LabelIcon;
 
-  protected emails: EmailDto[] = []
+  protected emails: EmailToClassifyDto[] = []
   protected categories: CategoryDto[] = []
   protected skeletons: number[] = []
 
-  protected selectedEmail: EmailDto | null = null;
+  protected selectedEmail: EmailToClassifyDto | null = null;
 
   protected form: FormGroup = new FormGroup({});
 
@@ -65,12 +66,12 @@ export class ClassificationPage implements OnInit {
       });
   }
 
-  selectEmail(email: EmailDto) {
+  selectEmail(email: EmailToClassifyDto) {
     this.selectedEmail = email;
     this.form.patchValue({
       id: this.selectedEmail.id,
-      categoryId: this.selectedEmail.category?.id ?? '',
-      description: this.selectedEmail.category?.description ?? ''
+      //categoryId: this.selectedEmail.classifierResult?.id ?? '', TODO gestire il multiselect
+      explanation: this.selectedEmail.classifierResult?.explanation ?? ''
     })
   }
 

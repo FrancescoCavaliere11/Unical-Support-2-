@@ -3,17 +3,22 @@ import {EmailDto} from '../../model/email-dto';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Email} from '../../services/email';
 import {Mail01Icon} from '@hugeicons/core-free-icons';
+import {EmailToAnswerDto} from '../../model/email-to-answer-dto';
 
 @Component({
   selector: 'app-answers-page',
   standalone: false,
   templateUrl: './answers-page.html',
-  styleUrl: './answers-page.css',
+  styleUrls: [
+    './answers-page.css',
+    '../../../../public/styles/layout.css',
+    '../../../../public/styles/input.css'
+  ],
 })
 export class AnswersPage {
   protected readonly Mail01Icon = Mail01Icon;
 
-  protected emails: EmailDto[] = []
+  protected emails: EmailToAnswerDto[] = []
   protected skeletons: number[] = []
 
   protected selectedEmail: EmailDto | null = null;
@@ -32,6 +37,7 @@ export class AnswersPage {
 
     this.form = this.formBuilder.group({
       id: [''],
+      response: ['', Validators.required],
     })
   }
 

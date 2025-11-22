@@ -23,7 +23,29 @@
 
   <form [formGroup]="form" (submit)="submit()" class="preview">
     @if (selectedEmail !== null) {
-      <p>Ancora da implementare</p>
+      <div class="sec-header">
+        <hugeicons-icon [icon]="Mail01Icon"></hugeicons-icon>
+        <h2>Rispondi Email</h2>
+      </div>
+
+      <div class="sec">
+        <span>Da:</span>
+        <p>{{ selectedEmail.fromString }}</p>
+      </div>
+      <div class="sec">
+        <span>Oggetto:</span>
+        <p>{{ selectedEmail?.subject }}</p>
+      </div>
+      <div class="sec">
+        <span>Messaggio:</span>
+        <p>{{ selectedEmail.content }}</p>
+      </div>
+
+      <textarea formControlName="response" placeholder="Rispondi alla mail"></textarea>
+
+      <button type="submit" [disabled]="form.invalid || isLoading">
+        Conferma Classificazione
+      </button>
     } @else {
       <p>Seleziona una Email prima di poter rispondere.</p>
     }
