@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import unical_support.unicalsupport2.data.dto.CategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.service.interfaces.CategoryService;
@@ -20,6 +22,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public void createCategory(String name, String description) {
@@ -84,6 +87,14 @@ public class CategoryServiceImpl implements CategoryService {
             categoryRepository.delete(category);
             return "Category with name '" + name + "' deleted successfully.";
         }
+    }
+
+    @Override
+    public List<CategoryDto> getAll() {
+        return categoryRepository.findAll()
+                .stream()
+                .map(category -> modelMapper.map(category, CategoryDto.class))
+                .toList();
     }
 
     @Override

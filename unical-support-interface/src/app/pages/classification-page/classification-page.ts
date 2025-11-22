@@ -10,7 +10,11 @@ import {CategoryDto} from '../../model/category-dto';
   selector: 'app-classification-page',
   standalone: false,
   templateUrl: './classification-page.html',
-  styleUrls: ['./classification-page.css', '../../../../public/styles/skeleton.css'],
+  styleUrls: [
+    './classification-page.css',
+    '../../../../public/styles/skeleton.css',
+    '../../../../public/styles/input.css'
+  ],
 })
 export class ClassificationPage implements OnInit {
   protected readonly LabelIcon = LabelIcon;
@@ -32,7 +36,7 @@ export class ClassificationPage implements OnInit {
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
-    this.skeletons = Array(20).fill(0);
+    this.skeletons = Array(15).fill(0);
 
     this.form = this.formBuilder.group({
       id: [''],
@@ -44,9 +48,8 @@ export class ClassificationPage implements OnInit {
   ngOnInit(): void {
     this.isFetching = true;
 
-    //TODO
-    /*this.categoryService.getCategories()
-      .subscribe(categories => this.categories = categories);*/
+    this.categoryService.getCategories()
+      .subscribe(categories => this.categories = categories);
 
     this.emailService.getEmails().subscribe({
         next: emails => {
@@ -62,18 +65,12 @@ export class ClassificationPage implements OnInit {
       });
   }
 
-  get confidenceLabel() {
-    const c = this.selectedEmail?.confidence ?? 0;
-    if (c >= 60) return 'high';
-    if (c >= 30) return 'mid';
-    return 'low';
-  }
-
   selectEmail(email: EmailDto) {
     this.selectedEmail = email;
     this.form.patchValue({
       id: this.selectedEmail.id,
-      categoryId: this.selectedEmail.category.id
+      categoryId: this.selectedEmail.category?.id ?? '',
+      description: this.selectedEmail.category?.description ?? ''
     })
   }
 

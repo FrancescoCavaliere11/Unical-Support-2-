@@ -1,0 +1,47 @@
+select, textarea {
+  border-radius: 4pt;
+  background: var(--fill);
+  border: 1px solid var(--stroke-weak);
+  color: var(--text-strong);
+  outline: none;
+  transition: .3s ease-in-out;
+}
+
+select {
+  height: 28pt;
+}
+
+textarea {
+  padding: 4pt;
+  height: 50pt;
+}
+
+select:hover, textarea:hover {
+  border: 1px solid var(--stroke-strong);
+}
+
+select:hover, textarea:hover {
+  border: 1px solid var(--stroke-strong);
+}
+
+button {
+  height: 28pt;
+  border-radius: 8pt;
+  background: var(--brand-weak);
+  color: var(--text-strong);
+  outline: none;
+  border: none;
+  font-size: 11pt;
+  cursor: pointer;
+  transition: .3s ease-in-out;
+}
+
+button:hover {
+  background: var(--brand-strong);
+}
+
+button:disabled {
+  background: var(--stroke-strong);
+  color: var(--text-weak);
+  cursor: not-allowed;
+}
