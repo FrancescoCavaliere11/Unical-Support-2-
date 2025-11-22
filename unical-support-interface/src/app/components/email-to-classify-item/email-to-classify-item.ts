@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {EmailDto} from '../../model/email-dto';
-import {Mail01Icon, Tag01Icon} from '@hugeicons/core-free-icons';
+import {Mail01Icon, LabelIcon} from '@hugeicons/core-free-icons';
 
 @Component({
   selector: 'app-email-to-classify-item',
@@ -13,5 +13,5 @@ export class EmailToClassifyItem {
   @Input({required: true}) isSelected!: boolean;
 
   protected readonly Mail01Icon = Mail01Icon;
-  protected readonly Tag01Icon = Tag01Icon;
+  protected readonly LabelIcon = LabelIcon;
 }

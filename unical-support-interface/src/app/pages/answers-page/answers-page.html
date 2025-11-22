@@ -1,1 +1,31 @@
-<p>answers-page works!</p>
+<section class="skeleton">
+  <div class="list">
+    @if (isFetching) {
+      @for (_ of skeletons; let index = $index; track index) {
+        <div class="skeleton-item animated"></div>
+      }
+    }
+    @else if (emails.length === 0) {
+      <div class="skeleton-item">
+        <p>Nessuna email in attesa di risposta.</p>
+      </div>
+    }
+    @else {
+      @for (email of emails; track email) {
+        <app-email-to-answer-item
+          [emailDto]="email"
+          [isSelected]="(selectedEmail?.id ?? '') === email.id "
+          (click)="selectEmail(email)">
+        </app-email-to-answer-item>
+      }
+    }
+  </div>
+
+  <form [formGroup]="form" (submit)="submit()" class="preview">
+    @if (selectedEmail !== null) {
+      <p>Ancora da implementare</p>
+    } @else {
+      <p>Seleziona una Email prima di poter rispondere.</p>
+    }
+  </form>
+</section>
