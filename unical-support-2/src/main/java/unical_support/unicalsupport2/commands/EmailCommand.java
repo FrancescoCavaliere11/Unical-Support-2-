@@ -11,7 +11,6 @@ import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 import java.util.List;
-import java.util.Map;
 
 @Command(command = "start" , alias = "s", description = "Commands for start email fetching and classification")
 @RequiredArgsConstructor
