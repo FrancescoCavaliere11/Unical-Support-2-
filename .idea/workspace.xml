@@ -4,45 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/EmailCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/GeminiLlmConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/ClassificationEmailDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/ClassificationResultDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GeminiApiClientImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/PromptServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/GeminiApiClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/PromptService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/EmailClassifierTest.java" afterDir="false" />
+    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="Refactor del codice">
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/TemplateCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/embeddables/TemplateParameter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Template.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/repositories/TemplateRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/TemplateServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/TemplateService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/TemplateServiceImplTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdff9745-58e9-411c-a5f3-688e0de1126e/storage_v2/_src_/database/unical_support.br2srQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cdff9745-58e9-411c-a5f3-688e0de1126e/storage_v2/_src_/database/unical_support.br2srQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2.log" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/EmailCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/commands/EmailCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/SpringShellConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/SpringShellConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/EmailMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/EmailMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailClassifierImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailClassifierImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/EmailMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/EmailMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/repositories/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/repositories/CategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/CategoryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailReceiverImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailReceiverImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailSenderImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/GmailSenderImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailClassifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailClassifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/CategoryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailReceiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailSender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/CategoryCommandTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/CategoryCommandTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/EmailCommandTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/EmailCommandTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailReceiverImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailReceiverImplTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailSenderImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/GmailSenderImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/src/main/java/unical_support/EmailSender.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/src/main/java/unical_support/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/src/main/java/unical_support/config/EmailConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/src/main/java/unical_support/model/EmailMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support/src/test/java/EmailSenderTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +65,16 @@
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/FrancescoCavaliere11/Unical-Support-2-.git&quot;,
     &quot;accountId&quot;: &quot;d075d8c3-66c3-4583-8f0d-c36ce30be5e5&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;FrancescoCavaliere11&quot;,
+    &quot;repository&quot;: &quot;Unical-Support-2-&quot;
   }
 }</component>
   <component name="MarkdownSettingsMigration">
@@ -95,11 +94,16 @@
     "Application.run.executor": "Run",
     "JUnit.CategoryCommandTest.executor": "Run",
     "JUnit.EmailClassifierTest.executor": "Run",
+    "JUnit.EmailCommandIntegrationTest.executor": "Run",
     "JUnit.EmailSenderTest.executor": "Run",
     "JUnit.GmailReceiverImplTest.executor": "Run",
     "JUnit.GmailSenderImplTest.executor": "Run",
     "JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully.executor": "Run",
     "JUnit.GmailSenderImplTest.shouldSendRealEmail.executor": "Run",
+    "JUnit.TemplateServiceImplTest (1).executor": "Run",
+    "JUnit.TemplateServiceImplTest.executor": "Run",
+    "JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly.executor": "Run",
+    "JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam.executor": "Run",
     "JUnit.UnicalSupport2ApplicationTests.executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -111,9 +115,9 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.UnicalSupport2Application.executor": "Run",
-    "git-widget-placeholder": "ultimate-classifier",
+    "git-widget-placeholder": "template-system",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/aldogioia/Development/Master Degree/Research&Development/Unical-Support-2-/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces",
+    "last_opened_file_path": "/Users/aldogioia/Master Degree/Research&Development/Unical-Support-2-",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -151,51 +155,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CategoryCommandTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="unical-support-2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.CategoryCommandTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EmailClassifierTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="unical-support-2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.EmailClassifierTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GmailReceiverImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="unical-support-2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailReceiverImplTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="GmailSenderImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support-2" />
       <extension name="coverage">
@@ -211,7 +170,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UnicalSupport2ApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TemplateServiceImplTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support-2" />
       <extension name="coverage">
         <pattern>
@@ -220,22 +179,58 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.UnicalSupport2ApplicationTests" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.TemplateServiceImplTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="Unical-Support-2-" />
+    <configuration name="TemplateServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="unical_support.unicalsupport2.service.implementation.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2.service.implementation" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.service.implementation.TemplateServiceImplTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="Unical-Support-2-" />
-      <option name="filePath" />
-      <method v="2" />
+    <configuration name="TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.TemplateServiceImplTest" />
+      <option name="METHOD_NAME" value="renderTemplate_shouldReplacePlaceholdersCorrectly" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.TemplateServiceImplTest" />
+      <option name="METHOD_NAME" value="renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="UnicalSupport2Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="unical-support-2" />
@@ -246,28 +241,28 @@
     </configuration>
     <list>
       <item itemvalue="Application.run" />
-      <item itemvalue="JUnit.EmailClassifierTest" />
-      <item itemvalue="JUnit.UnicalSupport2ApplicationTests" />
-      <item itemvalue="JUnit.CategoryCommandTest" />
-      <item itemvalue="JUnit.GmailReceiverImplTest" />
+      <item itemvalue="JUnit.TemplateServiceImplTest" />
+      <item itemvalue="JUnit.TemplateServiceImplTest (1)" />
+      <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" />
+      <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" />
       <item itemvalue="JUnit.GmailSenderImplTest" />
       <item itemvalue="Spring Boot.UnicalSupport2Application" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UnicalSupport2ApplicationTests" />
+        <item itemvalue="JUnit.TemplateServiceImplTest (1)" />
+        <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" />
+        <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" />
+        <item itemvalue="JUnit.TemplateServiceImplTest" />
         <item itemvalue="JUnit.GmailSenderImplTest" />
-        <item itemvalue="JUnit.GmailReceiverImplTest" />
-        <item itemvalue="JUnit.EmailClassifierTest" />
-        <item itemvalue="JUnit.CategoryCommandTest" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26199.169" />
-        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-IU-252.26199.169" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
       </set>
     </attachedChunks>
   </component>
@@ -283,7 +278,17 @@
       <workItem from="1761313838093" duration="80000" />
       <workItem from="1761323363598" duration="2269000" />
       <workItem from="1762170983049" duration="770000" />
+      <workItem from="1762789250935" duration="13521000" />
     </task>
+    <task id="LOCAL-00001" summary="Refactor del codice">
+      <option name="closed" value="true" />
+      <created>1762539872036</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762539872036</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,5 +304,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Refactor del codice" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor del codice" />
   </component>
 </project>

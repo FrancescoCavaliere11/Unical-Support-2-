@@ -1,0 +1,23 @@
+<div class="item" [class.selected]="isSelected">
+  <div class="item-header">
+    <p>
+      <hugeicons-icon [icon]="Mail01Icon"></hugeicons-icon>
+      {{ emailDto.fromString }}
+    </p>
+    <p>
+      <hugeicons-icon [icon]="LabelIcon"></hugeicons-icon>
+      {{ emailDto.classifierResult.categoriesToString }}
+    </p>
+  </div>
+  <h3>{{ emailDto.subject }}</h3>
+  <p>{{ emailDto.content }}</p>
+  <div class="confidence-info">
+    <span>Confidence: {{ emailDto.classifierResult.confidence }}%</span>
+    <span [ngClass]="emailDto.confidenceLabel">
+        {{ emailDto.confidenceLabel === 'high' ? 'Alta'
+      : emailDto.confidenceLabel === 'mid' ? 'Media'
+        : 'Bassa'
+      }}
+      </span>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+.confidence-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+span {
+  font-size: 14px;
+}
+
+.high, .mid, .low {
+  padding: 2pt 8pt;
+  border-radius: 8pt;
+}
+
+span.high {
+  color: var(--success-strong);
+  background: var(--success-fill);
+}
+
+span.mid {
+  color: var(--warning-strong);
+  background: var(--warning-fill);
+}
+
+span.low {
+  color: var(--error-strong);
+  background: var(--error-fill);
+}

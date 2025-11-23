@@ -1,0 +1,83 @@
+.skeleton {
+  position: relative;
+  align-items: initial;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  gap: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8pt;
+  width: 100%;
+}
+
+.preview {
+  top: calc(16pt + 47px);
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  gap: 16pt;
+  padding: 16pt;
+  height: fit-content;
+  background: var(--fill);
+  border: 1px solid var(--stroke-weak);
+  border-radius: 8pt;
+  max-height: calc(100vh - (47px + 32pt));
+  overflow-y: auto;
+}
+
+.preview span {
+  color: var(--text-weak);
+  font-size: 14px;
+}
+
+.preview p {
+  color: var(--text-strong);
+  font-size: 14px;
+}
+
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: 4pt;
+  stroke: var(--brand-strong);
+}
+
+.sec {
+  display: flex;
+  flex-direction: column;
+  gap: 4pt;
+  width: 100%;
+}
+
+.high, .mid, .low {
+  padding: 2pt 8pt;
+  border-radius: 8pt;
+}
+
+.confidence-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.confidence-info > span {
+  color: var(--text-strong);
+}
+
+.confidence-info > span.high {
+  color: var(--success-strong);
+  background: var(--success-fill);
+}
+
+.confidence-info > span.mid {
+  color: var(--warning-strong);
+  background: var(--warning-fill);
+}
+
+.confidence-info > span.low {
+  color: var(--error-strong);
+  background: var(--error-fill);
+}
