@@ -13,7 +13,6 @@ import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
