@@ -1,4 +1,4 @@
-package unical_support.unicalsupport2.data.dto;
+package unical_support.unicalsupport2.data.dto.email;
 
 import lombok.Data;
 import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidIdFormat;
