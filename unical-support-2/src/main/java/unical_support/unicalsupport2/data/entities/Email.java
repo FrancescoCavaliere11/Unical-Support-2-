@@ -20,10 +20,10 @@ public class Email {
     // Questo è l'id che otteniamo dagli header
     // dell'oggetto Message che otteniamo dal Receiver.
     // Potremmo ragionare se usarlo anche come ID dell'entità o meno
-    @Column(name = "emailId", nullable = false)
+    @Column(name = "email_id", nullable = false)
     private String emailId;
 
-    @Column(name = "to", nullable = false)
+    @Column(name = "recipients", nullable = false)
     private List<String> to;
 
     @Column(name = "subject", nullable = false)

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "email_to_classify")
+@DiscriminatorValue("to_classify")
 @EqualsAndHashCode(callSuper = true)
 public class EmailToClassify extends Email {
 
