@@ -64,6 +64,7 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL: gemini-2.5-flash
       GEMINI_BASE_URL: https://generativelanguage.googleapis.com
+      GEMINI_EMBEDDING_MODEL: gemini-embedding-001
 
       # Groq config
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
