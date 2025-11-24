@@ -8,13 +8,15 @@ import { AnswersPage } from './pages/answers-page/answers-page';
 import {HugeiconsIconComponent} from '@hugeicons/angular';
 import { EmailToClassifyItem } from './components/email-to-classify-item/email-to-classify-item';
 import {ReactiveFormsModule} from "@angular/forms";
+import { EmailToAnswerItem } from './components/email-to-answer-item/email-to-answer-item';
 
 @NgModule({
   declarations: [
     App,
     ClassificationPage,
     AnswersPage,
-    EmailToClassifyItem
+    EmailToClassifyItem,
+    EmailToAnswerItem
   ],
     imports: [
         BrowserModule,

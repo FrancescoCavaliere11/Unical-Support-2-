@@ -7,7 +7,7 @@
     }
     @else if (emails.length === 0) {
       <div class="skeleton-item">
-        Nessuna email da classificare.
+        <p>Nessuna email da classificare.</p>
       </div>
     }
     @else {
@@ -41,7 +41,7 @@
         <p>{{ selectedEmail.content }}</p>
       </div>
       <div class="confidence-info">
-        <span>Confidence: {{ selectedEmail.confidence }}%</span>
+        <span>Confidence: {{ selectedEmail.classifierResult.confidence }}%</span>
         <span [ngClass]="selectedEmail.confidenceLabel">
           {{ selectedEmail.confidenceLabel === 'high' ? 'Alta'
             : selectedEmail.confidenceLabel === 'mid' ? 'Media'
