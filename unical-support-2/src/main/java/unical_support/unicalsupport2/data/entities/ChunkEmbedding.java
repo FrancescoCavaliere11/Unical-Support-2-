@@ -1,10 +1,9 @@
 package unical_support.unicalsupport2.data.entities;
 
+import com.pgvector.PGvector;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "chunk_embeddings")
@@ -18,7 +17,6 @@ public class ChunkEmbedding {
     @JoinColumn(name = "chunk_id", nullable = false)
     private DocumentChunk chunk;
 
-    @Column(name = "embedding", columnDefinition = "vector(1536)", nullable = false)
-    @JdbcTypeCode(SqlTypes.VECTOR)
-    private float[] embedding;
+    @Column(name = "embedding", nullable = false)
+    private PGvector embedding;
 }
