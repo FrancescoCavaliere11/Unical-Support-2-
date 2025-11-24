@@ -122,16 +122,6 @@ public class GmailReceiverImpl implements EmailReceiver {
                 }
                 emailMessage.setTo(Collections.singletonList(senderAddress));
 
-//                String subject = m.getSubject();
-//                if (subject != null) {
-//                    if (!subject.toLowerCase().startsWith("re:")) {
-//                        subject = "Re: " + subject;
-//                    }
-//                    emailMessage.setSubject(subject);
-//                } else {
-//                    emailMessage.setSubject("Re: (No Subject)");
-//                }
-
                 emailMessage.setBody(getTextFromMessage(m));
 
                 result.add(emailMessage);

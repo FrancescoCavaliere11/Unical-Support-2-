@@ -61,6 +61,17 @@ public class GmailSenderImpl implements EmailSender {
 
             helper.setFrom(fromEmail);
             helper.setTo(emailMessage.getTo().toArray(new String[0]));
+
+            String subject = emailMessage.getSubject();
+            if (subject != null) {
+                if (!subject.toLowerCase().startsWith("re:")) {
+                    subject = "Re: " + subject;
+                }
+                emailMessage.setSubject(subject);
+            } else {
+                emailMessage.setSubject("Re: (No Subject)");
+            }
+
             helper.setSubject(emailMessage.getSubject());
             helper.setText(emailMessage.getBody(), false);
 
