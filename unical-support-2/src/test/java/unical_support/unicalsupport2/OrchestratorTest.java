@@ -1,13 +1,15 @@
 package unical_support.unicalsupport2;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import unical_support.unicalsupport2.commands.EmailCommand;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
+import unical_support.unicalsupport2.service.implementation.OrchestratorServiceImpl;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailResponder;
@@ -21,7 +23,7 @@ import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
-class EmailCommandIntegrationTest {
+class OrchestratorTest {
 
     @MockitoBean
     private EmailReceiver emailReceiver;
@@ -38,6 +40,9 @@ class EmailCommandIntegrationTest {
     @MockitoBean
     private JudgerService  judgerService;
 
+    @Mock
+    ModelMapper modelMapper;
+
 
     @Test
     void emailNotRecognizedShouldBeForwarded() {
@@ -52,8 +57,8 @@ class EmailCommandIntegrationTest {
                 new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata", 0);
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(fakeResult));
 
-        EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender, emailResponder, judgerService);
-        emailCommand.fetchEmailAndClassify();
+        OrchestratorServiceImpl orchestrator = new OrchestratorServiceImpl(emailReceiver, emailClassifier, emailSender, emailResponder, judgerService, modelMapper);
+        orchestrator.start();
 
         var captor = org.mockito.ArgumentCaptor.forClass(EmailMessage.class);
         verify(emailSender, times(1)).sendEmail(captor.capture());
@@ -77,8 +82,8 @@ class EmailCommandIntegrationTest {
                 new ClassificationResultDto(List.of(new SingleCategoryDto("ISCRIZIONE", 0.95, "parte relativa all’iscrizione")), "Corrisponde alla categoria Iscrizione", 0);
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(recognized));
 
-        EmailCommand emailCommand = new EmailCommand(emailReceiver, emailClassifier, emailSender, emailResponder, judgerService);
-        emailCommand.fetchEmailAndClassify();
+        OrchestratorServiceImpl orchestrator = new OrchestratorServiceImpl(emailReceiver, emailClassifier, emailSender, emailResponder, judgerService, modelMapper);
+        orchestrator.start();
 
         verify(emailSender, never()).sendEmail(any());
     }
