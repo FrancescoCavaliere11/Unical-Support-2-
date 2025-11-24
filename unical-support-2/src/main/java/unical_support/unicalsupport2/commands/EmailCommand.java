@@ -8,6 +8,12 @@ import unical_support.unicalsupport2.service.interfaces.*;
  * Spring Shell command class to fetch, classify and forward emails.
  *
  * <p>Provides a CLI entry point to start the application flow
+ *
+ * <p>Usage:</p>
+ * <pre>
+ * start fetch
+ * s f
+ * </pre>
  */
 
 @Command(command = "start" , alias = "s", description = "Commands for start email fetching and classification")
