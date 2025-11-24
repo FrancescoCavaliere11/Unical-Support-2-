@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 import unical_support.unicalsupport2.configurations.LlmClientFactory;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.JudgementResultDto;
+import unical_support.unicalsupport2.data.dto.judger.CategoryEvaluationDto;
+import unical_support.unicalsupport2.data.dto.judger.JudgementResultDto;
 import unical_support.unicalsupport2.prompting.PromptService;
 import unical_support.unicalsupport2.runtime.ActiveJudgerLlmRegistry;
 import unical_support.unicalsupport2.service.interfaces.JudgerService;
@@ -130,7 +131,7 @@ public class JudgerServiceImpl implements JudgerService {
         dto.setId(id);
 
         // categoriesEvaluation
-        List<JudgementResultDto.CategoryEvaluation> evals = new ArrayList<>();
+        List<CategoryEvaluationDto> evals = new ArrayList<>();
         JsonNode arr = n.path("categoriesEvaluation");
         if (arr.isArray()) {
             for (JsonNode e : arr) {
@@ -141,7 +142,7 @@ public class JudgerServiceImpl implements JudgerService {
                 String explanation = safe(e.path("explanation").asText());
                 String verdict = safe(e.path("verdict").asText());   // <-- nuovo campo
 
-                JudgementResultDto.CategoryEvaluation ce = new JudgementResultDto.CategoryEvaluation();
+                CategoryEvaluationDto ce = new CategoryEvaluationDto();
                 ce.setCategory(category);
                 ce.setConfidence(conf);
                 ce.setExplanation(explanation);
