@@ -64,6 +64,14 @@ public class GmailSenderImpl implements EmailSender {
             helper.setSubject(emailMessage.getSubject());
             helper.setText(emailMessage.getBody(), false);
 
+            if (emailMessage.getInReplyToHeader() != null && !emailMessage.getInReplyToHeader().isEmpty()) {
+                message.setHeader("In-Reply-To", emailMessage.getInReplyToHeader());
+            }
+
+            if (emailMessage.getReferencesHeader() != null && !emailMessage.getReferencesHeader().isEmpty()) {
+                message.setHeader("References", emailMessage.getReferencesHeader());
+            }
+
             javaMailSender.send(message);
             log.info("Email inviata a {}", emailMessage.getTo());
         } catch (Exception e) {

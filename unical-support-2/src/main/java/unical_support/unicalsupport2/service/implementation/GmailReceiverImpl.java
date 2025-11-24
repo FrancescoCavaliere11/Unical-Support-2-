@@ -12,10 +12,7 @@ import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 
 /**
@@ -98,19 +95,45 @@ public class GmailReceiverImpl implements EmailReceiver {
             Message[] messages = inbox.getMessages();
 
             for (Message m : messages) {
-                Address[] from = m.getFrom();
                 EmailMessage emailMessage = new EmailMessage();
-                if (from != null && from.length > 0) {
-                    String sender;
-                    if (from[0] instanceof InternetAddress) {
-                        sender = ((InternetAddress) from[0]).getAddress();
-                    } else {
-                        sender = from[0].toString();
-                    }
-                    emailMessage.setTo(Collections.singletonList(sender));
+
+                String originalMessageId = m.getHeader("Message-ID")[0];
+                if (originalMessageId != null) {
+                    emailMessage.setInReplyToHeader(originalMessageId);
+
+                    String[] refs = m.getHeader("References");
+                    String existingReferences = (refs != null && refs.length > 0) ? refs[0] : null;
+
+                    String newReferences = (existingReferences != null ? existingReferences + " " : "") + originalMessageId;
+                    emailMessage.setReferencesHeader(newReferences);
                 }
-                emailMessage.setSubject(m.getSubject());
+
+                Address[] replyTo = m.getReplyTo();
+                String senderAddress;
+                if (replyTo != null && replyTo.length > 0) {
+                    senderAddress = (replyTo[0] instanceof InternetAddress)
+                            ? ((InternetAddress) replyTo[0]).getAddress()
+                            : replyTo[0].toString();
+                } else {
+                    Address[] from = m.getFrom();
+                    senderAddress = (from != null && from.length > 0)
+                            ? ((from[0] instanceof InternetAddress) ? ((InternetAddress) from[0]).getAddress() : from[0].toString())
+                            : "sconosciuto@domain.com";
+                }
+                emailMessage.setTo(Collections.singletonList(senderAddress));
+
+//                String subject = m.getSubject();
+//                if (subject != null) {
+//                    if (!subject.toLowerCase().startsWith("re:")) {
+//                        subject = "Re: " + subject;
+//                    }
+//                    emailMessage.setSubject(subject);
+//                } else {
+//                    emailMessage.setSubject("Re: (No Subject)");
+//                }
+
                 emailMessage.setBody(getTextFromMessage(m));
+
                 result.add(emailMessage);
 
                 // Quando ci sposteremo in una situazione reale con solo il fetch delle email non lette
