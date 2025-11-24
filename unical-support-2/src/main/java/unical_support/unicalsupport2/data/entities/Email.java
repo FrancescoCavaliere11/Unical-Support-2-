@@ -2,39 +2,33 @@ package unical_support.unicalsupport2.data.entities;
 
 import java.util.List;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
 import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "emails")
-@Data
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "email_type", discriminatorType = DiscriminatorType.STRING)
 public class Email {
-    
     @Id
     @UuidGenerator
-    @Column(name = "email_id")
     private String id;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "email_destinatari", joinColumns = @JoinColumn(name="email_id"))
-    @Column(name = "destinatari")
+    // Questo è l'id che otteniamo dagli header
+    // dell'oggetto Message che otteniamo dal Receiver.
+    // Potremmo ragionare se usarlo anche come ID dell'entità o meno
+    @Column(name = "emailId", nullable = false)
+    private String emailId;
+
+    @Column(name = "to", nullable = false)
     private List<String> to;
 
-    @Column(name = "classificata", nullable = false)
-    private boolean classified;
-
-    @Column(name = "oggetto", nullable = false)
+    @Column(name = "subject", nullable = false)
     private String subject;
 
-    @Column(name = "testo")
+    @Column(name = "body", nullable = false)
     private String body;
 }
