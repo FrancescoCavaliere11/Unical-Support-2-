@@ -40,11 +40,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
      *       <li>Invokes {@code judgerService.judge(List, List)} to obtain judgements and prints them to stdout.</li>
      * </ul>
      *
-     * <p>Usage:</p>
-     * <pre>
-     * start fetch
-     * s f
-     * </pre>
      */
     @Override
     public void start() {
