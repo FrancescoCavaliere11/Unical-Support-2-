@@ -11,7 +11,8 @@ import unical_support.unicalsupport2.commands.*;
         ModelCommand.class,
         TemplateCommand.class,
         PromptCommand.class,
-        JudgerCommand.class
+        JudgerCommand.class,
+        DocumentCommand.class
 })
 public class SpringShellConfig {
 }
