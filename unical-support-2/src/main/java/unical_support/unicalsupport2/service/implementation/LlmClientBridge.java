@@ -18,4 +18,10 @@ public class LlmClientBridge implements LlmClient {
         LlmClient dynamic = factory.current();
         return dynamic.chat(prompt);
     }
+
+    @Override
+    public float[] embed(String text) {
+        LlmClient dynamic = factory.current();
+        return dynamic.embed(text);
+    }
 }

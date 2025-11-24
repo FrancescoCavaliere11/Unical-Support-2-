@@ -21,6 +21,7 @@ import java.time.Duration;
 public class GeminiApiClientImpl implements LlmClient {
     private final WebClient geminiWebClient;
     private final GeminiLlmConfig.GeminiProperties geminiProperties;
+    private final WebClient geminiEmbeddingWebClient;
 
     @Override
     public String chat(String prompt) throws Exception {
@@ -63,5 +64,36 @@ public class GeminiApiClientImpl implements LlmClient {
             throw new RuntimeException("Risposta vuota/non valida: " + body);
         }
         return textNode.asText();
+    }
+
+
+    @Override
+    public float[] embed(String text) {
+        String payload = """
+        {
+          "content": {
+            "parts": [{ "text": "%s" }]
+          }
+        }
+        """.formatted(text.replace("\"", "\\\""));
+
+        String uri = "/v1beta/models/" + geminiProperties.embeddingModel() + ":embedContent";
+
+        return geminiEmbeddingWebClient.post()
+                .uri(uri)
+                .bodyValue(payload)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .map(this::parseEmbedding)
+                .block(Duration.ofSeconds(geminiProperties.timeoutSeconds()));
+    }
+
+    private float[] parseEmbedding(JsonNode json){
+        JsonNode values = json.path("embedding").path("values");
+        float[] arr = new float[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            arr[i] = (float) values.get(i).asDouble();
+        }
+        return arr;
     }
 }
