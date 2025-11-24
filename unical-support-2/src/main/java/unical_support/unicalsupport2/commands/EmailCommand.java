@@ -2,7 +2,7 @@ package unical_support.unicalsupport2.commands;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.command.annotation.Command;
-import unical_support.unicalsupport2.data.dto.JudgementResultDto;
+import unical_support.unicalsupport2.data.dto.judger.JudgementResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.EmailMessage;

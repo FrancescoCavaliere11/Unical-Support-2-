@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import unical_support.unicalsupport2.data.dto.EmailDto;
-import unical_support.unicalsupport2.data.dto.UpdateEmailCategoryDto;
+import unical_support.unicalsupport2.data.dto.email.EmailDto;
+import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
 
 import java.util.List;
 
