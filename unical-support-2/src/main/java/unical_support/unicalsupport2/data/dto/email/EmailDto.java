@@ -7,7 +7,8 @@ import java.util.List;
 @Data
 public abstract class EmailDto {
     private String id;
-    private List<String> from;
+    private String emailId;
+    private List<String> to;
     private String subject;
-    private String content;
+    private String body;
 }

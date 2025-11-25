@@ -1,5 +1,7 @@
 package unical_support.unicalsupport2.data.dto.email;
 
+import java.util.List;
+
 import lombok.Data;
 import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidIdFormat;
 
@@ -7,6 +9,6 @@ import unical_support.unicalsupport2.security.customAnnotations.annotation.Valid
 public class UpdateEmailCategoryDto {
     @ValidIdFormat
     private String id;
-    @ValidIdFormat
-    private String categoryId;
+    
+    private List<@ValidIdFormat String> categoryIds;
 }
