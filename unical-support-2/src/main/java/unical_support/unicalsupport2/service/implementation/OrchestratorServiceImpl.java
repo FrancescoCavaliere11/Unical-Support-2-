@@ -89,8 +89,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             ResponderResultDto r = responderResult.get(i);
             EmailMessage reviewEmail = getEmailMessageForResponder(originalEmails.get(i), r);
             emailSender.sendEmail(reviewEmail);
-            System.out.println(reviewEmail.getBody());
-
         }
     }
 
@@ -146,15 +144,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
         reviewEmail.setSubject(originalEmail.getSubject());
 
         StringBuilder body = new StringBuilder();
-        body.append("=== EMAIL ORIGINALE ===\n\n")
-                .append("Mittente originale: ").append(
-                        originalEmail.getTo() != null && !originalEmail.getTo().isEmpty()
-                                ? originalEmail.getTo().getFirst()
-                                : "(mittente sconosciuto)"
-                ).append("\n\n")
-                .append(originalEmail.getBody())
-                .append("\n\n")
-                .append("=== RISPOSTE GENERATE ===\n");
 
         for (var singleResponse : responderResult.getResponses()) {
             body.append("\nCategoria: ").append(singleResponse.getCategory());
@@ -176,8 +165,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             if (singleResponse.getContent() != null) {
                 body.append("\n\nContenuto generato:\n").append(singleResponse.getContent());
             }
-
-            body.append("\n----------------------------------------\n");
         }
 
         reviewEmail.setBody(body.toString());

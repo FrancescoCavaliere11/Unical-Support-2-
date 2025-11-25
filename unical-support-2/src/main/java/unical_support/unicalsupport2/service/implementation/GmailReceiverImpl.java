@@ -85,10 +85,6 @@ public class GmailReceiverImpl implements EmailReceiver {
             Folder inbox = store.getFolder("INBOX");
             inbox.open(Folder.READ_WRITE);
 
-            for (Message message: inbox.getMessages()){
-                System.out.println(message.getSubject());
-            }
-
             // Qui prendo solo le emajl che hanno il flag SEEN impostato su false, per il momento le prendiamo tutte
             // Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
 
@@ -121,7 +117,7 @@ public class GmailReceiverImpl implements EmailReceiver {
                             : "sconosciuto@domain.com";
                 }
                 emailMessage.setTo(Collections.singletonList(senderAddress));
-
+                emailMessage.setSubject(m.getSubject());
                 emailMessage.setBody(getTextFromMessage(m));
 
                 result.add(emailMessage);
