@@ -1,0 +1,19 @@
+prompt:
+  modules:
+    classifier:
+      default: "fewShot"
+      strategies:
+        fewShot: "src/main/resources/prompts/classifier_few_shot.txt"
+        zeroShot: "src/main/resources/prompts/classifier_zero_shot_chain_of_tought.txt"
+
+    judger:
+      default: "fewShot"
+      strategies:
+        fewShot: "src/main/resources/prompts/judger_few_shot.txt"
+        zeroShot: "src/main/resources/prompts/judger_zero_shot_chain_of_tought.txt"
+
+    responder:
+      default: "fewShot"
+      strategies:
+        fewShot: "src/main/resources/prompts/responder_few_shot.txt"
+        zeroShot: "src/main/resources/prompts/responder_zero_shot_chain_of_tought.txt"
