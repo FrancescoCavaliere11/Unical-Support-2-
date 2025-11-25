@@ -4,10 +4,7 @@ import lombok.Data;
 
 @Data
 public class SingleClassificationDto {
-    
     private String category;
-
     private double confidence;
-
     private String text;
 }

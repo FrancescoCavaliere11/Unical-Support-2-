@@ -1,7 +1,6 @@
 package unical_support.unicalsupport2.service.implementation;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -9,10 +8,10 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import unical_support.unicalsupport2.data.dto.email.EmailToClassifyDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
+import unical_support.unicalsupport2.data.embeddables.SingleClassification;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.EmailToClassify;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
-import unical_support.unicalsupport2.data.repositories.EmailRepository;
 import unical_support.unicalsupport2.data.repositories.EmailToClassifyRepository;
 import unical_support.unicalsupport2.service.interfaces.EmailService;
 
@@ -35,14 +34,29 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto) {
+        EmailToClassify emailToClassify = emailRepository.findById(updateEmailCategoryDto.getId())
+                //Todo Aggiungere eccezione personalizzata
+                .orElseThrow(() -> new RuntimeException("EmailToClassify not found: " + updateEmailCategoryDto.getId()));
 
-        /*EmailToClassify emailToClassify = emailRepository.findById(updateEmailCategoryDto.getId())
-        .orElseThrow(RuntimeException::new); //Todo Aggiungere eccezione personalizzata
 
-        emailToClassify.sin categoryRepository.findAllById(updateEmailCategoryDto.getCategoryIds());
-        
-        emailToClassify*/
+
+        List<SingleClassification> newClassifications =updateEmailCategoryDto.getUpdateSingleClassificationDtos().
+                stream()
+                .map(dto -> {
+                    SingleClassification classification = modelMapper.map(dto, SingleClassification.class);
+
+                    Category category = categoryRepository.findById(dto.getCategoryId())
+                            .orElseThrow(() -> new RuntimeException("Category not found: " + dto.getCategoryId()));
+
+                    classification.setCategory(category);
+
+                    return classification;
+                })
+                .toList();
+
+        emailToClassify.setSingleClassifications(newClassifications);
+        emailToClassify.setClassified(true);
+
+        emailRepository.save(emailToClassify);
     }
-    
-    
 }

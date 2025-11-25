@@ -1,18 +1,21 @@
 package unical_support.unicalsupport2.data.embeddables;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
+import unical_support.unicalsupport2.data.entities.Category;
 
 @Data
 @Embeddable
 public class SingleClassification {
-    @Column(name = "category", nullable = false)
-    private String category;
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Column(name = "confidence", nullable = false)
     private double confidence;
 
-    @Column(name = "text", nullable = false)
+    @Column(name = "text", nullable = false, columnDefinition = "TEXT")
     private String text;
 }

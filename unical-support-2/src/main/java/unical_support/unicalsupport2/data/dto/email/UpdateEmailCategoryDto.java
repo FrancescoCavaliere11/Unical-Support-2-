@@ -9,6 +9,6 @@ import unical_support.unicalsupport2.security.customAnnotations.annotation.Valid
 public class UpdateEmailCategoryDto {
     @ValidIdFormat
     private String id;
-    
-    private List<@ValidIdFormat String> categoryIds;
+
+    private List<UpdateSingleClassificationDto> updateSingleClassificationDtos;
 }
