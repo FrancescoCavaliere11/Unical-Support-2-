@@ -8,9 +8,6 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class EmailToClassifyDto extends EmailDto {
-    private boolean isClassified;
-    
     private String explanation;
-
     private List<SingleClassificationDto> singleClassifications;
 }
