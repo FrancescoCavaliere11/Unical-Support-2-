@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Environment} from '../utils/environment';
 import {HttpClient} from '@angular/common/http';
-import {EmailDto} from '../model/email-dto';
 import {EmailToClassifyDto} from '../model/email-to-classify-dto';
 
 @Injectable({
@@ -17,7 +16,7 @@ export class Email {
   }
 
   updateCategoryForEmail(
-    updateDto :{ id: string, categoryId: string }
+    updateDto: { id: string, updateSingleClassificationDtos: { categoryId: string, text: string } }
   ) {
     return this.http.patch(this._apiUrl, updateDto)
   }

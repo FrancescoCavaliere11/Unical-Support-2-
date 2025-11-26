@@ -4,7 +4,7 @@ export abstract class EmailDto {
   subject: string;
   content: string;
 
-  constructor(data: any) {
+  protected constructor(data: any) {
     this.id = data.id;
     this.from = data.from;
     this.subject = data.subject;

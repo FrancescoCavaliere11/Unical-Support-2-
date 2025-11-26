@@ -1,21 +1,20 @@
 import {CategoryDto} from './category-dto';
 
-export class ClassifierResultDto {
+export class SingleClassificationDto {
+  text: string;
   confidence: number;
-  explanation: string;
-  categories: CategoryDto[];
+  category: CategoryDto;
 
   constructor(data: any) {
+    this.text = data.text;
     this.confidence = data.confidence;
-    this.explanation = data.explanation;
-    this.categories = data.category;
+    this.category = data.category;
   }
 
-  get categoriesToString(): string {
-    if (this.categories.length === 0) return 'No category found.'
-
-    let firstCategory: string = this.categories[0].name;
-    if (this.categories.length === 1) return firstCategory;
-    else return firstCategory + " +" + (this.categories.length - 1);
+  get confidenceLabel() {
+    const c = this.confidence ?? 0;
+    if (c >= 60) return 'high';
+    if (c >= 30) return 'mid';
+    return 'low';
   }
 }
