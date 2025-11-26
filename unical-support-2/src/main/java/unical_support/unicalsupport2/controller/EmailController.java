@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/email")
 @RequiredArgsConstructor
 public class EmailController {
-    private EmailService emailService;
+    private final EmailService emailService;
 
     @GetMapping
     public ResponseEntity<List<EmailToClassifyDto>> getEmails() {

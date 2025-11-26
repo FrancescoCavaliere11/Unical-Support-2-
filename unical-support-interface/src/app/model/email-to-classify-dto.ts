@@ -1,18 +1,21 @@
 import {EmailDto} from './email-dto';
-import {ClassifierResultDto} from './classifier-result-dto';
+import {SingleClassificationDto} from './classifier-result-dto';
 
 export class EmailToClassifyDto extends EmailDto{
-  classifierResult: ClassifierResultDto;
+  explanation: String;
+  singleClassifications: SingleClassificationDto[];
 
   constructor(data: any) {
     super(data);
-    this.classifierResult = data.classeifierResult;
+    this.explanation = data.explanation;
+    this.singleClassifications = data.singleClassifications;
   }
 
-  get confidenceLabel() {
-    const c = this.classifierResult.confidence ?? 0;
-    if (c >= 60) return 'high';
-    if (c >= 30) return 'mid';
-    return 'low';
+  get categoriesToString(): string {
+    if (this.singleClassifications.length === 0) return 'No category found.'
+
+    let firstCategory: string = this.singleClassifications[0].category.name;
+    if (this.singleClassifications.length === 1) return firstCategory;
+    else return firstCategory + " +" + (this.singleClassifications.length - 1);
   }
 }

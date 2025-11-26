@@ -1,8 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {LabelIcon} from '@hugeicons/core-free-icons';
-import {EmailDto} from '../../model/email-dto';
+import {Add01Icon, Delete02Icon, LabelIcon} from '@hugeicons/core-free-icons';
 import {Email} from '../../services/email';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../services/category';
 import {CategoryDto} from '../../model/category-dto';
 import {EmailToClassifyDto} from '../../model/email-to-classify-dto';
@@ -19,6 +18,8 @@ import {EmailToClassifyDto} from '../../model/email-to-classify-dto';
 })
 export class ClassificationPage implements OnInit {
   protected readonly LabelIcon = LabelIcon;
+  protected readonly Delete02Icon = Delete02Icon;
+  protected readonly Add01Icon = Add01Icon;
 
   protected emails: EmailToClassifyDto[] = []
   protected categories: CategoryDto[] = []
@@ -41,8 +42,9 @@ export class ClassificationPage implements OnInit {
 
     this.form = this.formBuilder.group({
       id: [''],
+      classifications: this.formBuilder.array([]),
       categoryId: ['', Validators.required],
-      description: ['', Validators.required]
+      text: ['', Validators.required]
     })
   }
 
@@ -66,31 +68,69 @@ export class ClassificationPage implements OnInit {
       });
   }
 
+  get classifications(): FormArray {
+    return this.form.get('classifications') as FormArray;
+  }
+
+  private createClassificationGroup(data?: any): FormGroup {
+    return this.formBuilder.group({
+      categoryId: [data?.category?.id || '', Validators.required],
+      text: [data?.text || '', Validators.required],
+      confidence: [data?.confidence || 100]
+    });
+  }
+
+  addClassification() {
+    this.classifications.push(this.createClassificationGroup());
+  }
+
+  removeClassification(index: number) {
+    this.classifications.removeAt(index);
+  }
+
   selectEmail(email: EmailToClassifyDto) {
     this.selectedEmail = email;
-    this.form.patchValue({
-      id: this.selectedEmail.id,
-      //categoryId: this.selectedEmail.classifierResult?.id ?? '', TODO gestire il multiselect
-      explanation: this.selectedEmail.classifierResult?.explanation ?? ''
-    })
+
+    this.form.patchValue({ id: this.selectedEmail.id });
+
+    this.classifications.clear();
+
+    if (this.selectedEmail.singleClassifications) {
+      this.selectedEmail.singleClassifications.forEach(classification => {
+        this.classifications.push(this.createClassificationGroup(classification));
+      });
+    }
   }
 
   submit() {
     if (this.form.invalid || this.isLoading) return;
 
     this.isLoading = true;
-    let updateDto = this.form.value;
 
-    this.emailService.updateCategoryForEmail(updateDto)
+    const formValue = this.form.value;
+
+    const payload = {
+      id: formValue.id,
+      updateSingleClassificationDtos: formValue.classifications.map((item: any) => ({
+        categoryId: item.categoryId,
+        text: item.text
+      }))
+    };
+
+    this.emailService.updateCategoryForEmail(payload)
       .subscribe({
-        next: ()=> {
+        next: () => {
           this.emails = this.emails.filter(email => email.id !== this.selectedEmail!.id);
+
+          this.selectedEmail = null;
+          this.classifications.clear();
           this.isLoading = false;
         },
-        error: (error)=> {
-          alert(error);
+        error: (error: any) => {
+          console.error(error);
+          alert("Errore durante il salvataggio");
           this.isLoading = false;
         }
-      })
+      });
   }
 }
