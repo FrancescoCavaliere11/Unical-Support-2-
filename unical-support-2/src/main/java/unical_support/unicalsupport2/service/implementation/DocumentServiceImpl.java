@@ -12,7 +12,6 @@ import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.data.repositories.DocumentChunkRepository;
 import unical_support.unicalsupport2.data.repositories.DocumentRepository;
-import unical_support.unicalsupport2.service.interfaces.DocumentContentService;
 import unical_support.unicalsupport2.service.interfaces.DocumentService;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
 
@@ -27,7 +26,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
     private final DocumentChunkRepository chunkRepository;
-    private final DocumentContentService documentContentService;
+    private final TextExtractorService textExtractorService;
     private final LlmClient geminiApiClient;
     private final CategoryRepository categoryRepository;
 
@@ -61,7 +60,7 @@ public class DocumentServiceImpl implements DocumentService {
         doc.setCategory(category);
         doc = documentRepository.save(doc);
 
-        String text = documentContentService.extractText(file);
+        String text = textExtractorService.extractText(file);
 
         if (text == null || text.isBlank()) {
             throw new IllegalStateException("Extracted text is empty for file: " + file.getName());
@@ -70,12 +69,8 @@ public class DocumentServiceImpl implements DocumentService {
         List<String> chunks = splitIntoChunksByWords(text, 300, 50);
 
         int index = 0;
-        int chunksCount = 0;
 
         for (String ch : chunks) {
-            if (ch == null || ch.isBlank()) {
-                continue;
-            }
 
             DocumentChunk chunk = new DocumentChunk();
             chunk.setChunkIndex(index++);
@@ -92,8 +87,6 @@ public class DocumentServiceImpl implements DocumentService {
 
             chunk.setEmbedding(embedding);
             chunkRepository.save(chunk);
-
-            chunksCount++;
         }
 
         documentRepository.save(doc);
@@ -103,7 +96,7 @@ public class DocumentServiceImpl implements DocumentService {
                 doc.getOriginalFilename(),
                 doc.getFileType(),
                 category.getName(),
-                chunksCount
+                chunks.size()
         );
     }
 

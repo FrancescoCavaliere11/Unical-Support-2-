@@ -5,15 +5,13 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.stereotype.Service;
-import unical_support.unicalsupport2.service.interfaces.DocumentContentService;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
 
 @Service
-public class TextExtractorService implements DocumentContentService {
-    @Override
+public class TextExtractorService {
     public String extractText(File file) {
         try {
             if (file == null || !file.exists() || !file.isFile() || !file.canRead()) {
@@ -42,19 +40,6 @@ public class TextExtractorService implements DocumentContentService {
         } catch (Exception e) {
             throw new RuntimeException("Error extracting text", e);
         }
-    }
-
-    // ho aggiunto questo readFromPath per distinguere le responsabilità:
-// chi ha già un File usa l’estrazione diretta, mentre chi parte da una stringa delega la validazione del path.
-
-
-    @Override
-    public String readFromPath(String path) {
-        if (path == null || path.isBlank()) {
-            throw new IllegalArgumentException("Path non valido");
-        }
-        File file = new File(path);
-        return extractText(file);
     }
 }
 

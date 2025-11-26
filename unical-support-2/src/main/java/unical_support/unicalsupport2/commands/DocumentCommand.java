@@ -1,10 +1,12 @@
 package unical_support.unicalsupport2.commands;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.command.annotation.Command;
 import org.springframework.shell.command.annotation.Option;
 import org.springframework.validation.annotation.Validated;
 import unical_support.unicalsupport2.data.dto.Document.DocumentProcessingResult;
+import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidCategoryName;
 import unical_support.unicalsupport2.service.interfaces.DocumentService;
 
 @Command(command = "document", alias = "d", description = "Commands for document processing")
@@ -16,22 +18,19 @@ public class DocumentCommand {
     @Command(command = "save", alias = "s", description = "Save a document")
     public String saveDocument(
             @Option(longNames = "path", shortNames = 'p', description = "Path to the document")
+            @NotBlank(message = "Path cannot be null")
             String path,
 
             @Option(longNames = "category", shortNames = 'c', description = "Category of the document")
+            @NotBlank(message = "Category cannot be null")
+            @ValidCategoryName
             String category
     ) {
-        try {
-            DocumentProcessingResult result = documentService.processAndSaveDocumentFromPath(path, category);
-            return "Document saved: id=" + result.getDocumentId()
-                    + ", file=" + result.getOriginalFilename()
-                    + ", type=" + result.getFileType()
-                    + ", category=" + result.getCategoryName()
-                    + ", chunks=" + result.getChunksCount();
-        } catch (IllegalArgumentException | UnsupportedOperationException e) {
-            return "Error: " + e.getMessage();
-        } catch (Exception e) {
-            return "Error while processing document: " + e.getMessage();
-        }
+        DocumentProcessingResult result = documentService.processAndSaveDocumentFromPath(path, category);
+        return "Document saved: id=" + result.getDocumentId()
+                + ", file=" + result.getOriginalFilename()
+                + ", type=" + result.getFileType()
+                + ", category=" + result.getCategoryName()
+                + ", chunks=" + result.getChunksCount();
     }
 }
