@@ -4,6 +4,7 @@ import com.pgvector.PGvector;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import unical_support.unicalsupport2.data.dto.Document.DocumentProcessingResult;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.ChunkEmbedding;
 import unical_support.unicalsupport2.data.entities.Document;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class    DocumentServiceImpl implements DocumentService {
+public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
     private final DocumentChunkRepository chunkRepository;
@@ -32,21 +33,28 @@ public class    DocumentServiceImpl implements DocumentService {
 
     @Transactional
     @Override
-    public void processAndSaveDocumentFromPath(String filePath, String categoryName) {
+    public DocumentProcessingResult processAndSaveDocumentFromPath(String filePath, String categoryName) {
+        if (filePath == null || filePath.isBlank()) {
+            throw new IllegalArgumentException("File path is required");
+        }
+        if (categoryName == null || categoryName.isBlank()) {
+            throw new IllegalArgumentException("Category name is required");
+        }
+
         File file = new File(filePath);
         Category category = categoryRepository.findByNameIgnoreCase(categoryName)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found: " + categoryName));
-        processAndSaveDocument(file, category);
+
+        return processAndSaveDocument(file, category);
     }
 
     @Transactional
     @Override
-    public void processAndSaveDocumentFromMultipart(File file, Category category) {
-        // todo implementare se serve
+    public DocumentProcessingResult processAndSaveDocumentFromMultipart(File file, Category category) {
+        throw new UnsupportedOperationException("Multipart document processing not implemented yet");
     }
 
-
-    private void processAndSaveDocument(File file, Category category) {
+    private DocumentProcessingResult processAndSaveDocument(File file, Category category) {
         Document doc = new Document();
         doc.setOriginalFilename(file.getName());
         doc.setFileType(getExtension(file.getName()));
@@ -55,11 +63,19 @@ public class    DocumentServiceImpl implements DocumentService {
 
         String text = documentContentService.extractText(file);
 
+        if (text == null || text.isBlank()) {
+            throw new IllegalStateException("Extracted text is empty for file: " + file.getName());
+        }
+
         List<String> chunks = splitIntoChunksByWords(text, 300, 50);
 
         int index = 0;
+        int chunksCount = 0;
 
         for (String ch : chunks) {
+            if (ch == null || ch.isBlank()) {
+                continue;
+            }
 
             DocumentChunk chunk = new DocumentChunk();
             chunk.setChunkIndex(index++);
@@ -76,23 +92,29 @@ public class    DocumentServiceImpl implements DocumentService {
 
             chunk.setEmbedding(embedding);
             chunkRepository.save(chunk);
+
+            chunksCount++;
         }
 
         documentRepository.save(doc);
+
+        return new DocumentProcessingResult(
+                doc.getId(),
+                doc.getOriginalFilename(),
+                doc.getFileType(),
+                category.getName(),
+                chunksCount
+        );
     }
 
     private String getExtension(String filename) {
-        return filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+        int idx = filename.lastIndexOf('.');
+        if (idx == -1 || idx == filename.length() - 1) {
+            return "";
+        }
+        return filename.substring(idx + 1).toLowerCase();
     }
 
-
-    /**     * Splits the input text into chunks based on word count with overlap.
-     *
-     * @param text         The input text to be split.
-     * @param maxWords     The maximum number of words per chunk.
-     * @param overlapWords The number of overlapping words between consecutive chunks.
-     * @return A list of text chunks.
-     */
     private List<String> splitIntoChunksByWords(String text, int maxWords, int overlapWords) {
         String[] words = text.split("\\s+");
         List<String> chunks = new ArrayList<>();
@@ -106,6 +128,9 @@ public class    DocumentServiceImpl implements DocumentService {
             chunks.add(chunk);
 
             start += (maxWords - overlapWords);
+            if (maxWords <= overlapWords) {
+                break;
+            }
         }
 
         return chunks;
