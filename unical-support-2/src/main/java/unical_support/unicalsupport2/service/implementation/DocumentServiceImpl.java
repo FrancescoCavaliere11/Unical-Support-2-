@@ -11,6 +11,7 @@ import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.data.repositories.DocumentChunkRepository;
 import unical_support.unicalsupport2.data.repositories.DocumentRepository;
+import unical_support.unicalsupport2.service.interfaces.DocumentContentService;
 import unical_support.unicalsupport2.service.interfaces.DocumentService;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
 
@@ -21,11 +22,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DocumentServiceImpl implements DocumentService {
+public class    DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
     private final DocumentChunkRepository chunkRepository;
-    private final TextExtractorService textExtractionService;
+    private final DocumentContentService documentContentService;
     private final LlmClient geminiApiClient;
     private final CategoryRepository categoryRepository;
 
@@ -52,7 +53,7 @@ public class DocumentServiceImpl implements DocumentService {
         doc.setCategory(category);
         doc = documentRepository.save(doc);
 
-        String text = textExtractionService.extractText(file);
+        String text = documentContentService.extractText(file);
 
         List<String> chunks = splitIntoChunksByWords(text, 300, 50);
 
