@@ -25,8 +25,8 @@ public class EmailServiceImpl implements EmailService {
     private final ModelMapper modelMapper;
 
     @Override
-    public List<EmailToClassifyDto> getLowConfidenceEmail() {
-         return emailRepository.findAllByIsClassified(false)
+    public List<EmailToClassifyDto> getStoredEmail(Boolean isClassified) {
+         return emailRepository.findAllByIsClassified(isClassified)
          .stream()
          .map(email -> modelMapper.map(email, EmailToClassifyDto.class))
          .toList();

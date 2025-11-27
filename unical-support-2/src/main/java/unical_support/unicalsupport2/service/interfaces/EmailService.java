@@ -7,7 +7,7 @@ import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
 
 public interface EmailService {
  
-    List<EmailToClassifyDto> getLowConfidenceEmail();
+    List<EmailToClassifyDto> getStoredEmail(Boolean isClassified);
 
     void updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto);
 }
