@@ -7,7 +7,7 @@ prompt:
         zeroShot: "src/main/resources/prompts/classifier_zero_shot_chain_of_tought.txt"
 
     judger:
-      default: "fewShot"
+      default: "zeroShot"
       strategies:
         fewShot: "src/main/resources/prompts/judger_few_shot.txt"
         zeroShot: "src/main/resources/prompts/judger_zero_shot_chain_of_tought.txt"
