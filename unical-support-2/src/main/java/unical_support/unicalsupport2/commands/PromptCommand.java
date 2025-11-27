@@ -22,21 +22,4 @@ public class PromptCommand {
         System.out.println();
     }
 
-    /*
-    @Command(command = "set", alias = "s", description = "Cambia la strategia di prompting.")
-    public String setPromptStrategy(
-            @ValidStrategyName
-            @Option(longNames = "strategy", shortNames = 's')
-            String strategyType
-    ) {
-        promptService.setCurrentStrategy(strategyType);
-        return "Strategia di prompting impostata su: " + strategyType;
-    }
-
-    @Command(command = "current", alias = "c", description = "Mostra la strategia di prompting attuale.")
-    public String getPromptStrategy() {
-        return "Strategia corrente: " + promptService.getCurrentStrategy();
-    }
-     */
-
 }
