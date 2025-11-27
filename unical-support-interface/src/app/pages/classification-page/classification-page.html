@@ -24,7 +24,7 @@
   <form [formGroup]="form" (submit)="submit()" class="preview">
     @if (selectedEmail !== null) {
       <div class="sec-header">
-        <hugeicons-icon [icon]="LabelIcon"></hugeicons-icon>
+        <hugeicons-icon [icon]="LabelIcon" size="32"></hugeicons-icon>
         <h2>Classifica Email</h2>
       </div>
 
@@ -34,30 +34,41 @@
       </div>
       <div class="sec">
         <span>Oggetto:</span>
-        <p>{{ selectedEmail?.subject }}</p>
+        <p>{{ selectedEmail.subject }}</p>
       </div>
       <div class="sec">
         <span>Messaggio:</span>
         <p>{{ selectedEmail.content }}</p>
       </div>
-      <div class="confidence-info">
-        <span>Confidence: {{ selectedEmail.classifierResult.confidence }}%</span>
-        <span [ngClass]="selectedEmail.confidenceLabel">
-          {{ selectedEmail.confidenceLabel === 'high' ? 'Alta'
-            : selectedEmail.confidenceLabel === 'mid' ? 'Media'
-            : 'Bassa'
-          }}
-      </span>
-      </div>
 
-      <select formControlName="categoryId">
-        <option [value]="" selected disabled>Seleziona una categoria</option>
-        @for (category of categories; track category.id) {
-          <option [value]="category.id">{{ category.name }}</option>
+      <div formArrayName="classifications">
+        @for (control of classifications.controls; track control; let i = $index) {
+          <div class="confidence-info">
+            @if (control.get('confidence')?.value) {
+              <span [ngClass]="control.get('confidenceLabel')?.value">
+                  Confidence: {{ control.get('confidence')?.value }}%
+                </span>
+            } @else {
+              <span class="neutral-badge">Nuova Classificazione</span>
+            }
+            <span (click)="removeClassification(i)">
+              <hugeicons-icon [icon]="Delete02Icon" size="16"></hugeicons-icon>
+            </span>
+          </div>
+          <select formControlName="categoryId">
+            <option value="" disabled selected>Seleziona una categoria</option>
+            @for (category of categories; track category.id) {
+              <option [value]="category.id">{{ category.name }}</option>
+            }
+          </select>
+
+          <textarea formControlName="text" placeholder="Scrivi il motivo della categoria scelta."></textarea>
         }
-      </select>
 
-      <textarea formControlName="description" placeholder="Scrivi il motivo della categoria scelta."></textarea>
+        <button type="button" (click)="addClassification()" class="secondary-btn">
+          <hugeicons-icon [icon]="Add01Icon"></hugeicons-icon>
+        </button>
+      </div>
 
       <button type="submit" [disabled]="form.invalid || isLoading">
         Conferma Classificazione

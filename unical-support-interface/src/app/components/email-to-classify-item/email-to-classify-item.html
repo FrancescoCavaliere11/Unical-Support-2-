@@ -6,18 +6,9 @@
     </p>
     <p>
       <hugeicons-icon [icon]="LabelIcon"></hugeicons-icon>
-      {{ emailDto.classifierResult.categoriesToString }}
+      {{ emailDto.categoriesToString }}
     </p>
   </div>
   <h3>{{ emailDto.subject }}</h3>
   <p>{{ emailDto.content }}</p>
-  <div class="confidence-info">
-    <span>Confidence: {{ emailDto.classifierResult.confidence }}%</span>
-    <span [ngClass]="emailDto.confidenceLabel">
-        {{ emailDto.confidenceLabel === 'high' ? 'Alta'
-      : emailDto.confidenceLabel === 'mid' ? 'Media'
-        : 'Bassa'
-      }}
-      </span>
-  </div>
 </div>

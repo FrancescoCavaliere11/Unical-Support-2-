@@ -12,9 +12,12 @@ import java.nio.file.Files;
 
 @Service
 public class TextExtractorService {
-
     public String extractText(File file) {
         try {
+            if (file == null || !file.exists() || !file.isFile() || !file.canRead()) {
+                throw new IllegalArgumentException("File non valido o non leggibile: " + (file != null ? file.getPath() : "null"));
+            }
+
             if (file.getName().endsWith(".pdf")) {
                 try (PDDocument doc = PDDocument.load(file)) {
                     PDFTextStripper stripper = new PDFTextStripper();
@@ -33,8 +36,7 @@ public class TextExtractorService {
                 }
             }
 
-            throw new IllegalArgumentException("Unsupported file type");
-
+            throw new IllegalArgumentException("Unsupported file type: " + file.getName());
         } catch (Exception e) {
             throw new RuntimeException("Error extracting text", e);
         }

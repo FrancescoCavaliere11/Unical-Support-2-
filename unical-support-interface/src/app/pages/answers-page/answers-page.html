@@ -24,7 +24,7 @@
   <form [formGroup]="form" (submit)="submit()" class="preview">
     @if (selectedEmail !== null) {
       <div class="sec-header">
-        <hugeicons-icon [icon]="Mail01Icon"></hugeicons-icon>
+        <hugeicons-icon [icon]="Mail01Icon" size="32"></hugeicons-icon>
         <h2>Rispondi Email</h2>
       </div>
 
@@ -34,7 +34,7 @@
       </div>
       <div class="sec">
         <span>Oggetto:</span>
-        <p>{{ selectedEmail?.subject }}</p>
+        <p>{{ selectedEmail.subject }}</p>
       </div>
       <div class="sec">
         <span>Messaggio:</span>
