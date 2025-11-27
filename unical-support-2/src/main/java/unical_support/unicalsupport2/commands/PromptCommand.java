@@ -2,11 +2,9 @@ package unical_support.unicalsupport2.commands;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.command.annotation.Command;
-import org.springframework.shell.command.annotation.Option;
 import org.springframework.validation.annotation.Validated;
 import unical_support.unicalsupport2.data.enumerators.PromptStrategyName;
 import unical_support.unicalsupport2.prompting.PromptService;
-import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidStrategyName;
 
 import java.util.Arrays;
 
@@ -24,6 +22,7 @@ public class PromptCommand {
         System.out.println();
     }
 
+    /*
     @Command(command = "set", alias = "s", description = "Cambia la strategia di prompting.")
     public String setPromptStrategy(
             @ValidStrategyName
@@ -38,4 +37,6 @@ public class PromptCommand {
     public String getPromptStrategy() {
         return "Strategia corrente: " + promptService.getCurrentStrategy();
     }
+     */
+
 }
