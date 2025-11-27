@@ -19,6 +19,7 @@ public class OrchestratorServiceImpl implements OrchestratorService {
     private final EmailReceiver emailReceiver;
     private final EmailClassifier emailClassifier;
     private final EmailSender emailSender;
+    private final EmailService emailService;
     private final EmailResponder emailResponder;
     private final JudgerService judgerService;
 
@@ -74,6 +75,10 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             if (nonRiconosciuta) {
                 EmailMessage toForward = getEmailMessage(originalEmails, i);
                 emailSender.sendEmail(toForward);
+                emailService.saveEmailWithLoweConfidence(
+                    originalEmails.get(i),
+                    classificationResult.get(i));
+                
             }
         }
 
@@ -81,6 +86,11 @@ public class OrchestratorServiceImpl implements OrchestratorService {
 
         for (JudgementResultDto j : judgements) {
             System.out.println(j);
+            if (j.getOverallConfidence() < 0.8) {
+                emailService.saveEmailWithLoweConfidence(
+                    originalEmails.get(j.getId()),
+                    classificationResult.get(j.getId()));
+            }
         }
 
         System.out.println("\n\n--- RISPOSTE GENERATE AUTOMATICAMENTE ---\n\n");

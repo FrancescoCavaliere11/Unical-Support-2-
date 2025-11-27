@@ -14,6 +14,7 @@ import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
 import unical_support.unicalsupport2.service.interfaces.EmailResponder;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
+import unical_support.unicalsupport2.service.interfaces.EmailService;
 import unical_support.unicalsupport2.service.interfaces.JudgerService;
 
 import java.util.List;
@@ -33,6 +34,9 @@ class OrchestratorTest {
 
     @MockitoBean
     private EmailSender emailSender;
+
+    @MockitoBean
+    private EmailService emailService;
 
     @MockitoBean
     private EmailResponder emailResponder;
@@ -57,7 +61,7 @@ class OrchestratorTest {
                 new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata", 0);
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(fakeResult));
 
-        OrchestratorServiceImpl orchestrator = new OrchestratorServiceImpl(emailReceiver, emailClassifier, emailSender, emailResponder, judgerService, modelMapper);
+        OrchestratorServiceImpl orchestrator = new OrchestratorServiceImpl(emailReceiver, emailClassifier, emailSender, emailService, emailResponder, judgerService, modelMapper);
         orchestrator.start();
 
         var captor = org.mockito.ArgumentCaptor.forClass(EmailMessage.class);
@@ -82,7 +86,7 @@ class OrchestratorTest {
                 new ClassificationResultDto(List.of(new SingleCategoryDto("ISCRIZIONE", 0.95, "parte relativa all’iscrizione")), "Corrisponde alla categoria Iscrizione", 0);
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(recognized));
 
-        OrchestratorServiceImpl orchestrator = new OrchestratorServiceImpl(emailReceiver, emailClassifier, emailSender, emailResponder, judgerService, modelMapper);
+        OrchestratorServiceImpl orchestrator = new OrchestratorServiceImpl(emailReceiver, emailClassifier, emailSender, emailService, emailResponder, judgerService, modelMapper);
         orchestrator.start();
 
         verify(emailSender, never()).sendEmail(any());
