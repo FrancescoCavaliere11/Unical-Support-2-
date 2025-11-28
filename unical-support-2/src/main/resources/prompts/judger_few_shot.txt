@@ -149,4 +149,4 @@ $$END\_JSON\_SCHEMA$$
 [EMAIL\_INPUT]
 Valuta i seguenti input rigorosamente in base alle istruzioni fornite.
 
-{{EMAIL\_LIST}}
+{{EMAIL_LIST}}
