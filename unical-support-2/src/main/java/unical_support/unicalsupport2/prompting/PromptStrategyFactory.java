@@ -30,7 +30,8 @@ public class PromptStrategyFactory {
     }
 
     private String getDefaultForModule(String module) {
-        Map<String, Object> modules = (Map<String, Object>) config.get("modules");
+        Map<String, Object> prompt = (Map<String, Object>) config.get("prompt");
+        Map<String, Object> modules = (Map<String, Object>) prompt.get("modules");
         Map<String, Object> mod = (Map<String, Object>) modules.get(module);
         return (String) mod.get("default");
     }
