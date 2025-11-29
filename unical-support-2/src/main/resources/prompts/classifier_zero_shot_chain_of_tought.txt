@@ -33,4 +33,4 @@ $$END\_JSON\_SCHEMA$$
 [EMAIL\_INPUT]
 Analizza e classifica le seguenti email applicando rigorosamente i passaggi di ragionamento definiti.
 
-{{EMAIL\_LIST}}
+{{EMAIL_LIST}}

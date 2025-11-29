@@ -45,4 +45,4 @@ $$END\_JSON\_SCHEMA$$
 [INPUT\_VALUTAZIONE]
 Ora analizza e valuta rigorosamente le seguenti classificazioni proposte, seguendo la procedura interna CoT.
 
-{{INPUT\_LIST\_OF\_CLASSIFICATIONS}}
+{{INPUT_LIST_OF_CLASSIFICATIONS}}
