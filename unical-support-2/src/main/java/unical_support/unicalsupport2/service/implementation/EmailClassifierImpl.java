@@ -51,7 +51,7 @@ public class EmailClassifierImpl implements EmailClassifier {
             for (int i = 0; i < classificationEmailDtos.size(); i++) {
                 out.add(
                         new ClassificationResultDto(
-                                List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")),
+                                List.of(new SingleCategoryDto("NON RICONOSCIUTA", 0.0, "")),
                                 "No result",
                                 i // ID = posizione nella lista
                         )
@@ -75,7 +75,7 @@ public class EmailClassifierImpl implements EmailClassifier {
             for (int i = 0; i < classificationEmailDtos.size(); i++) {
                 classificationResultDtos.add(
                         new ClassificationResultDto(
-                                List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.0, "")),
+                                List.of(new SingleCategoryDto("NON RICONOSCIUTA", 0.0, "")),
                                 "Errore batch/API: " + x.getMessage(),
                                 i // ID = posizione nella lista
                         )
@@ -132,7 +132,7 @@ public class EmailClassifierImpl implements EmailClassifier {
         String cat = validCategories.stream()
                 .filter(c -> c.equalsIgnoreCase(category))
                 .findFirst()
-                .orElse("NON_RICONOSCIUTA");
+                .orElse("NON RICONOSCIUTA");
 
         // Clamping della confidence nell'intervallo [0,1]
         if (confidence < 0) confidence = 0;

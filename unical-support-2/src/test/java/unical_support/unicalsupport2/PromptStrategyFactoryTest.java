@@ -3,6 +3,7 @@ package unical_support.unicalsupport2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.test.util.ReflectionTestUtils;
 import unical_support.unicalsupport2.prompting.PromptStrategy;
 import unical_support.unicalsupport2.prompting.PromptStrategyFactory;
 
@@ -43,6 +44,17 @@ public class PromptStrategyFactoryTest {
 
     @Test
     void getStrategy_returnsCorrectImplementation() {
+        Map<String, Object> mockConfig = Map.of(
+                "prompt", Map.of(
+                        "modules", Map.of(
+                                "classifier", Map.of("default", "fewShot"),
+                                "responder", Map.of("default", "zeroShotCoT")
+                        )
+                )
+        );
+
+        ReflectionTestUtils.setField(factory, "config", mockConfig);
+
         assertThat(factory.getStrategy("classifier", "fewShot"))
                 .isEqualTo(fewShot);
 
