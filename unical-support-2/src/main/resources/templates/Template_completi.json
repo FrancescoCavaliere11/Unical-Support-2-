@@ -1,0 +1,106 @@
+[
+    {
+        "name": "RispostaInfoGeneriche",
+        "category": "Informazioni generiche",
+        "content": "Gentile utente,\n\nGrazie per aver contattato il supporto studenti.\n\nIn merito alla tua richiesta di informazioni generali: \"{{domanda_utente}}\".\n\nConsultando le guide e i regolamenti di Ateneo, ecco quanto emerso:\n{{dettagli_da_documenti}}\n\nPer ulteriori dettagli, ti invitiamo a consultare il portale d'Ateneo o a rispondere a questa email se necessiti di chiarimenti specifici.\n\nCordiali saluti,\nSegreteria Studenti",
+        "parameters": [
+            {
+                "name": "domanda_utente",
+                "required": true
+            },
+            {
+                "name": "dettagli_da_documenti",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "RispostaReclamo",
+        "category": "Reclamo",
+        "content": "Gentile studente,\n\nAbbiamo preso in carico la tua segnalazione riguardante: {{oggetto_reclamo}}.\n\nCi dispiace per il disagio riscontrato. La tua segnalazione è stata inoltrata all'ufficio competente per le verifiche del caso.\n\nIn base alla normativa interna vigente:\n{{riferimento_normativo_pertinente}}\n\nTi aggiorneremo non appena avremo riscontro dalle verifiche interne.\n\nCordiali saluti,\nUfficio Reclami e Supporto",
+        "parameters": [
+            {
+                "name": "oggetto_reclamo",
+                "required": true
+            },
+            {
+                "name": "riferimento_normativo_pertinente",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "RispostaErasmus",
+        "category": "Erasmus e mobilità internazionale",
+        "content": "Gentile studente,\n\nIn riferimento alla tua richiesta sulla mobilità internazionale e il programma Erasmus.\n\nRelativamente al quesito posto: \"{{domanda_erasmus}}\".\n\nLe attuali disposizioni e i bandi prevedono che:\n{{info_da_bandi_e_regolamenti}}\n\nTi ricordiamo di controllare sempre le scadenze specifiche sul sito dell'Ufficio Relazioni Internazionali.\n\nSaluti,\nUfficio Mobilità Internazionale",
+        "parameters": [
+            {
+                "name": "domanda_erasmus",
+                "required": true
+            },
+            {
+                "name": "info_da_bandi_e_regolamenti",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "RispostaRiconoscimentoCFU",
+        "category": "Riconoscimento esami e CFU",
+        "content": "Gentile studente,\n\nAbbiamo ricevuto la tua richiesta in merito al riconoscimento crediti/esami.\n\nPer la procedura di riconoscimento relativa a {{tipo_riconoscimento}} (es. carriera pregressa, esami esteri), il regolamento didattico prevede:\n{{regole_riconoscimento_da_documenti}}\n\nTi invitiamo a presentare l'apposita modulistica presso la segreteria del tuo Dipartimento.\n\nCordiali saluti,\nSegreteria Didattica",
+        "parameters": [
+            {
+                "name": "tipo_riconoscimento",
+                "required": true
+            },
+            {
+                "name": "regole_riconoscimento_da_documenti",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "RispostaEsamiAppelli",
+        "category": "Esami e appelli",
+        "content": "Gentile studente,\n\nRiguardo alla tua richiesta su esami e appelli (iscrizioni, verbalizzazioni o scadenze).\n\nIn base al calendario accademico e al regolamento didattico:\n{{info_esami_da_documenti}}\n\nSe hai riscontrato problemi tecnici su ESSE3, ti preghiamo di riprovare o contattare l'helpdesk tecnico allegando uno screenshot dell'errore.\n\nSaluti,\nSupporto Didattica",
+        "parameters": [
+            {
+                "name": "info_esami_da_documenti",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "RispostaLaureaTesi",
+        "category": "Laurea e tesi",
+        "content": "Gentile laureando,\n\nCongratulazioni per essere giunto a questo traguardo.\n\nIn merito alla tua domanda sulla procedura di laurea (domanda, scadenze, caricamento tesi):\n{{procedure_laurea_da_documenti}}\n\nAssicurati di aver regolarizzato tutte le tasse pendenti prima della seduta di laurea, consultando il regolamento tasse vigente.\n\nIn bocca al lupo,\nSegreteria Lauree",
+        "parameters": [
+            {
+                "name": "procedure_laurea_da_documenti",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "RispostaServiziCampus",
+        "category": "Servizi campus",
+        "content": "Gentile utente,\n\nIn risposta alla tua richiesta sui servizi del Campus (alloggi, mensa, trasporti, strutture).\n\nLe informazioni attuali riguardanti il servizio richiesto sono le seguenti:\n{{info_servizi_da_documenti}}\n\nPer l'accesso ai servizi residenziali, ti ricordiamo di verificare i requisiti nel bando specifico del Centro Residenziale.\n\nSaluti,\nCentro Residenziale e Servizi",
+        "parameters": [
+            {
+                "name": "info_servizi_da_documenti",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "RispostaTasseStandard",
+        "category": "Tasse ed esoneri",
+        "content": "Gentile studente,\n\nAbbiamo ricevuto la tua richiesta di informazioni riguardo tasse, contributi o esoneri.\n\nSulla base della tua richiesta specifica e del Regolamento Tasse e Contributi vigente:\n{{calcolo_o_regola_da_documenti}}\n\nRestiamo a disposizione per ulteriori chiarimenti.\n\nCordiali saluti,\nUfficio Tasse",
+        "parameters": [
+            {
+                "name": "calcolo_o_regola_da_documenti",
+                "required": true
+            }
+        ]
+    }
+]

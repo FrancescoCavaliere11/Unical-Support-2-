@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Informazioni generiche",
+    "description": "Richieste di chiarimento o informazioni generali riguardanti l’università, i corsi di studio, il calendario accademico o altre procedure non specifiche."
+  },
+  {
+    "name": "Reclamo",
+    "description": "Segnalazioni di disservizi, comportamenti inappropriati o problematiche relative a docenti, personale amministrativo o infrastrutture universitarie."
+  },
+    {
+        "name": "NON_RICONOSCIUTA",
+        "description": "Messaggi che non rientrano in nessuna categoria predefinita o che risultano troppo generici per essere classificati in modo preciso."
+    },
+  {
+    "name": "Erasmus e mobilità internazionale",
+    "description": "Comunicazioni riguardanti programmi di scambio, bandi Erasmus, accordi di mobilità internazionale, partenze, rientri e riconoscimenti di attività svolte all’estero."
+  },
+  {
+    "name": "Riconoscimento esami e CFU",
+    "description": "Richieste relative al riconoscimento di esami o crediti formativi universitari sostenuti presso altri corsi di laurea, università italiane o straniere."
+  },
+  {
+    "name": "Esami e appelli",
+    "description": "Domande o segnalazioni riguardanti appelli, iscrizioni agli esami, risultati, verbalizzazioni, o problemi tecnici durante lo svolgimento delle prove."
+  },
+  {
+    "name": "Laurea e tesi",
+    "description": "Richieste relative alla preparazione, consegna e discussione della tesi di laurea, nonché alla procedura di iscrizione alla sessione di laurea e alla proclamazione."
+  },
+  {
+    "name": "Servizi campus",
+    "description": "Segnalazioni o domande relative ai servizi offerti dal campus, come mensa, rete Wi-Fi, biblioteca, alloggi, trasporti e strutture universitarie."
+  }
+
+]

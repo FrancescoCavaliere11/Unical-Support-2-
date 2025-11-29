@@ -9,8 +9,8 @@ import org.hibernate.annotations.UuidGenerator;
 @Table(name = "chunks")
 @Data
 public class DocumentChunk {
-    @UuidGenerator
     @Id
+    @UuidGenerator
     private String id;
 
     @ToString.Exclude
@@ -24,6 +24,5 @@ public class DocumentChunk {
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @OneToOne(mappedBy = "chunk", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
-    private ChunkEmbedding embedding;
+
 }

@@ -1,6 +1,7 @@
 package unical_support.unicalsupport2.service.implementation;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import unical_support.unicalsupport2.data.EmailMessage;
@@ -9,175 +10,194 @@ import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.dto.judger.JudgementResultDto;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
+import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
 import unical_support.unicalsupport2.service.interfaces.*;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrchestratorServiceImpl implements OrchestratorService {
+
     private final EmailReceiver emailReceiver;
     private final EmailClassifier emailClassifier;
     private final EmailSender emailSender;
-    private final EmailService emailService;
     private final EmailResponder emailResponder;
     private final JudgerService judgerService;
-
     private final ModelMapper modelMapper;
 
-    /**
-     * Fetches emails, classifies them and forwards those labeled {@code NON_RICONOSCIUTA}.
-     *
-     * <p>Behavior:</p>
-     * <ul>
-     *   <li>Calls {@code emailReceiver.receiveEmails()} to obtain messages.</li>
-     *   <li>Maps each {@code EmailMessage} to {@code ClassificationEmailDto} (subject and body).</li>
-     *   <li>If no emails are present, returns immediately.</li>
-     *   <li>Invokes {@code emailClassifier.classifyEmail(List)} and prints each result to stdout.</li>
-     *   <li>For any result containing category {@code NON_RICONOSCIUTA} (case-insensitive),
-     *       forwards the original email using {@code emailSender.sendEmail}.</li>
-     *       <li>Generates email responses using {@code emailResponder.generateEmailResponse(List)}
-     *       and prints them to stdout.</li>
-     *       <li>Invokes {@code judgerService.judge(List, List)} to obtain judgements and prints them to stdout.</li>
-     * </ul>
-     *
-     */
+
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_CYAN = "\u001B[36m";
+    private static final String BOLD = "\u001B[1m";
+
     @Override
     public void start() {
+        log.info("Avvio procedura di fetch e processamento email...");
+
         List<EmailMessage> originalEmails = emailReceiver.receiveEmails();
+        if (originalEmails.isEmpty()) {
+            log.info("Nessuna nuova email trovata.");
+            return;
+        }
 
         List<ClassificationEmailDto> emailsToClassify = originalEmails.stream()
-                .map(emailMessage -> modelMapper.map(emailMessage, ClassificationEmailDto.class))
+                .map(email -> modelMapper.map(email, ClassificationEmailDto.class))
                 .toList();
 
-        if (emailsToClassify.isEmpty()) return;
-
+        // 1. CLASSIFICAZIONE
         List<ClassificationResultDto> classificationResult = emailClassifier.classifyEmail(emailsToClassify);
-        List<ResponderResultDto> responderResult = emailResponder.generateEmailResponse(classificationResult);
+        printClassificationResults(classificationResult);
+
+        // 2. GIUDIZIO
         List<JudgementResultDto> judgements = judgerService.judge(emailsToClassify, classificationResult);
+        printJudgementResults(judgements);
 
-        System.out.println("\n=== RISULTATI CLASSIFICATORE ===");
+        // 3. GENERAZIONE RISPOSTE (RAG)
+        List<ResponderResultDto> responderResult = emailResponder.generateEmailResponse(classificationResult);
 
-        for (int i = 0; i < classificationResult.size(); i++) {
-            ClassificationResultDto r = classificationResult.get(i);
-            System.out.println(r);
+        // 4. INVIO & REPORTING
+        processAndSendResponses(originalEmails, responderResult, classificationResult);
+    }
 
-            List<SingleCategoryDto> categories = r.getCategories();
+    private void printClassificationResults(List<ClassificationResultDto> results) {
+        System.out.println("\n" + ANSI_BLUE + BOLD + "===  RISULTATI CLASSIFICATORE ===" + ANSI_RESET);
+        for (ClassificationResultDto r : results) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("ID: " + r.getId());
+            r.getCategories().forEach(c ->
+                    System.out.printf("  • %-30s (Conf: %.2f) -> %s%n",
+                            c.getCategory(), c.getConfidence(), c.getText())
+            );
+            System.out.println("   Spiegazione: " + r.getExplanation());
+        }
+        System.out.println("--------------------------------------------------\n");
+    }
 
-            boolean nonRiconosciuta = false;
-            for (SingleCategoryDto c : categories) {
-                if ("NON RICONOSCIUTA".equalsIgnoreCase(c.getCategory())) {
-                    nonRiconosciuta = true;
-                    break;
+    private void printJudgementResults(List<JudgementResultDto> judgements) {
+        System.out.println(ANSI_YELLOW + BOLD + "===  RISULTATI JUDGER ===" + ANSI_RESET);
+        for (JudgementResultDto j : judgements) {
+            System.out.println("--------------------------------------------------");
+            System.out.printf("ID: %d | Overall Confidence: %.2f%n", j.getId(), j.getOverallConfidence());
+            j.getCategoriesEvaluation().forEach(e ->
+                    System.out.printf("  • %-25s [%s] -> %s%n",
+                            e.getCategory(), e.getVerdict(), e.getExplanation())
+            );
+            System.out.println("   Summary: " + j.getSummary());
+        }
+        System.out.println("--------------------------------------------------\n");
+    }
+
+    private void processAndSendResponses(List<EmailMessage> originalEmails,
+                                         List<ResponderResultDto> responderResults,
+                                         List<ClassificationResultDto> classifications) {
+
+        System.out.println(ANSI_GREEN + BOLD + "===  RISPOSTE GENERATE & INVIATE ===" + ANSI_RESET);
+
+        for (int i = 0; i < responderResults.size(); i++) {
+            ResponderResultDto r = responderResults.get(i);
+            EmailMessage original = originalEmails.get(i);
+            ClassificationResultDto classification = classifications.get(i);
+
+            System.out.println("--------------------------------------------------");
+            System.out.printf("Email ID: %d | Destinatario: %s%n", r.getEmailId(), original.getTo());
+
+            // Gestione Email Non Riconosciuta (Forward)
+            boolean isNonRiconosciuta = classification.getCategories().stream()
+                    .anyMatch(c -> "NON_RICONOSCIUTA".equalsIgnoreCase(c.getCategory()));
+
+            if (isNonRiconosciuta) {
+                System.out.println(ANSI_YELLOW + "  EMAIL NON RICONOSCIUTA -> INOLTRO ALL'OPERATORE" + ANSI_RESET);
+                forwardEmailToOperator(original);
+                continue; // Passa alla prossima email
+            }
+
+            // Stampa Risposte Generate
+            if (r.getResponses() != null) {
+                for (SingleResponseDto response : r.getResponses()) {
+                    System.out.println("\n   Categoria: " + ANSI_CYAN + response.getCategory() + ANSI_RESET);
+
+                    if ("NO_TEMPLATE_MATCH".equals(response.getReason()) || response.getContent() == null) {
+                        System.out.println(ANSI_YELLOW + "      Nessuna risposta generata (No Template/RAG)" + ANSI_RESET);
+                    } else {
+                        System.out.println("      Template: " + response.getTemplate());
+                        System.out.println("      Contenuto Generato:");
+                        System.out.println(ANSI_GREEN + response.getContent() + ANSI_RESET);
+                    }
                 }
             }
 
-            if (nonRiconosciuta) {
-                EmailMessage toForward = getEmailMessage(originalEmails, i);
-                emailSender.sendEmail(toForward);
-                emailService.saveEmailWithLowConfidence(
-                    originalEmails.get(i),
-                    classificationResult.get(i));
-                
-            }
+            // Invio Effettivo al Mittente
+            EmailMessage replyEmail = buildReplyEmail(original, r);
+            emailSender.sendEmail(replyEmail);
+            System.out.println("   Email inviata con successo.");
         }
-
-        System.out.println("\n=== RISULTATI JUDGER ===");
-
-        for (JudgementResultDto j : judgements) {
-            System.out.println(j);
-            if (j.getOverallConfidence() < 0.8) {
-                emailService.saveEmailWithLowConfidence(
-                    originalEmails.get(j.getId()),
-                    classificationResult.get(j.getId()));
-            }
-        }
-
-        System.out.println("\n\n--- RISPOSTE GENERATE AUTOMATICAMENTE ---\n\n");
-
-        for(int i = 0; i < responderResult.size(); i++) {
-            ResponderResultDto r = responderResult.get(i);
-            EmailMessage reviewEmail = getEmailMessageForResponder(originalEmails.get(i), r);
-            emailSender.sendEmail(reviewEmail);
-        }
+        System.out.println("--------------------------------------------------\n");
     }
 
-    /**
-     * Builds an email to forward the original message at the given index.
-     *
-     * <p>The returned {@code EmailMessage} contains:
-     * - a recipient,
-     * - a subject prefixed with {@code "Email non riconosciuta: "},
-     * - the original sender and body appended in the message body.</p>
-     *
-     * @param originalEmails list of received emails
-     * @param i index of the email to forward
-     * @return an {@code EmailMessage} ready to be sent
-     */
-    private static EmailMessage getEmailMessage(List<EmailMessage> originalEmails, int i) {
-        EmailMessage original = originalEmails.get(i);
+    private EmailMessage buildReplyEmail(EmailMessage original, ResponderResultDto responderResult) {
+        EmailMessage reply = new EmailMessage();
 
-        EmailMessage toForward = new EmailMessage();
-        toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
-        toForward.setSubject("Email non riconosciuta: " + original.getSubject());
+        // Setup Header per Threading corretto
+        reply.setInReplyToHeader(original.getInReplyToHeader());
+        reply.setReferencesHeader(original.getReferencesHeader());
 
-        String sender = (original.getTo() != null && !original.getTo().isEmpty())
-                ? original.getTo().getFirst()
-                : "(mittente sconosciuto)";
+        // Destinatario = Mittente originale
+        reply.setTo(original.getTo());
 
-        toForward.setBody("Mittente originale: " + sender + "\n\n" + original.getBody());
-        return toForward;
-    }
+        // Oggetto con "Re:"
+        String subject = original.getSubject();
+        if (subject != null && !subject.toLowerCase().startsWith("re:")) {
+            subject = "Re: " + subject;
+        }
+        reply.setSubject(subject);
 
-    /**
-     * Builds an email summarizing the generated responses for review.
-     *
-     * <p>The returned {@code EmailMessage} contains:
-     * - a recipient (hardcoded),
-     * - a subject prefixed with {@code "Verifica automatica risposta per: "},
-     * - the original email details and generated responses in the message body.</p>
-     *
-     * @param originalEmail the original email message
-     * @param responderResult the generated responses to summarize
-     * @return an {@code EmailMessage} ready to be sent for review
-     */
-    private static EmailMessage getEmailMessageForResponder(
-            EmailMessage originalEmail,
-            ResponderResultDto responderResult
-    ) {
-        EmailMessage reviewEmail = new EmailMessage();
-        // Forse in questa fase potremmo semplicemente evirtare questi due campi
-        reviewEmail.setInReplyToHeader(originalEmail.getInReplyToHeader());
-        reviewEmail.setReferencesHeader(originalEmail.getReferencesHeader());
-
-        reviewEmail.setTo(List.of("lorenzo.test.04112025@gmail.com"));
-        reviewEmail.setSubject(originalEmail.getSubject());
-
+        // Costruzione Corpo Email
         StringBuilder body = new StringBuilder();
+        boolean hasContent = false;
 
-        for (var singleResponse : responderResult.getResponses()) {
-            body.append("\nCategoria: ").append(singleResponse.getCategory());
-            body.append("\nTemplate: ").append(
-                    singleResponse.getTemplate() != null
-                            ? singleResponse.getTemplate()
-                            : "(nessun template disponibile)"
-            );
-            body.append("\nMotivo: ").append(singleResponse.getReason());
-
-
-            if (singleResponse.getParameter() != null && !singleResponse.getParameter().isEmpty()) {
-                body.append("\nParametri estratti:");
-                singleResponse.getParameter().forEach((k, v) ->
-                        body.append("\n - ").append(k).append(": ").append(v != null ? v : "(mancante)")
-                );
-            }
-
-            if (singleResponse.getContent() != null) {
-                body.append("\n\nContenuto generato:\n").append(singleResponse.getContent());
+        if (responderResult.getResponses() != null) {
+            for (SingleResponseDto response : responderResult.getResponses()) {
+                if (response.getContent() != null && !response.getContent().isBlank()) {
+                    body.append(response.getContent()).append("\n\n");
+                    hasContent = true;
+                }
             }
         }
 
-        reviewEmail.setBody(body.toString());
-        return reviewEmail;
+        // Messaggio se non c'è contenuto valido
+        if (!hasContent) {
+            body.append("Gentile utente,\n\n")
+                    .append("Abbiamo ricevuto la tua richiesta ma non siamo riusciti a elaborare una risposta automatica specifica.\n")
+                    .append("La tua pratica è stata inoltrata a un operatore che ti risponderà al più presto.\n\n")
+                    .append("Cordiali saluti,\nSegreteria Studenti");
+        }
+
+        reply.setBody(body.toString());
+        return reply;
+    }
+
+    private void forwardEmailToOperator(EmailMessage original) {
+        EmailMessage toForward = new EmailMessage();
+        // al momento la mia poi si dovrebbe mettere quella giusta
+        toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
+        toForward.setSubject(" [NON RICONOSCIUTA] Fwd: " + original.getSubject());
+
+        String originalSender = (original.getTo() != null && !original.getTo().isEmpty())
+                ? original.getTo().getFirst()
+                : "(sconosciuto)";
+
+        toForward.setBody(
+                "Attenzione: Il sistema non ha saputo classificare questa email.\n\n" +
+                        "--- Messaggio Originale ---\n" +
+                        "Mittente: " + originalSender + "\n" +
+                        "Testo:\n" + original.getBody()
+        );
+
+        emailSender.sendEmail(toForward);
     }
 }

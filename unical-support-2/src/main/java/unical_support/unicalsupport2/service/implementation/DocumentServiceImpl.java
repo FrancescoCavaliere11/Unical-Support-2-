@@ -1,12 +1,12 @@
 package unical_support.unicalsupport2.service.implementation;
 
-import com.pgvector.PGvector;
+import com.google.gson.Gson; // Usa Gson per trasformare float[] in stringa JSON
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import unical_support.unicalsupport2.data.dto.Document.DocumentProcessingResult;
 import unical_support.unicalsupport2.data.entities.Category;
-import unical_support.unicalsupport2.data.entities.ChunkEmbedding;
 import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,102 +31,67 @@ public class DocumentServiceImpl implements DocumentService {
     private final LlmClient geminiApiClient;
     private final CategoryRepository categoryRepository;
 
+
+    private final JdbcTemplate jdbcTemplate;
+    private final Gson gson = new Gson();
+
     @Transactional
     @Override
     public DocumentProcessingResult processAndSaveDocumentFromPath(String filePath, String categoryName) {
-        if (filePath == null || filePath.isBlank()) {
-            throw new IllegalArgumentException("File path is required");
-        }
-        if (categoryName == null || categoryName.isBlank()) {
-            throw new IllegalArgumentException("Category name is required");
-        }
-
         File file = new File(filePath);
+        if(!file.exists()) throw new IllegalArgumentException("File non trovato");
+
         Category category = categoryRepository.findByNameIgnoreCase(categoryName)
-                .orElseThrow(() -> new IllegalArgumentException("Category not found: " + categoryName));
+                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
 
-        return processAndSaveDocument(file, category);
-    }
-
-    @Transactional
-    @Override
-    public DocumentProcessingResult processAndSaveDocumentFromMultipart(File file, Category category) {
-        throw new UnsupportedOperationException("Multipart document processing not implemented yet");
-    }
-
-    private DocumentProcessingResult processAndSaveDocument(File file, Category category) {
         Document doc = new Document();
         doc.setOriginalFilename(file.getName());
-        doc.setFileType(getExtension(file.getName()));
+        doc.setFileType("pdf");
         doc.setCategory(category);
         doc = documentRepository.save(doc);
 
         String text = textExtractorService.extractText(file);
-
-        if (text == null || text.isBlank()) {
-            throw new IllegalStateException("Extracted text is empty for file: " + file.getName());
-        }
-
-        List<String> chunks = splitIntoChunksByWords(text, 300, 50);
+        List<String> chunksText = splitIntoChunksByWords(text, 300, 50);
 
         int index = 0;
-
-        for (String ch : chunks) {
-
+        for (String chText : chunksText) {
+            // 1. Salva il Chunk (Testo) con Hibernate
             DocumentChunk chunk = new DocumentChunk();
             chunk.setChunkIndex(index++);
-            chunk.setContent(ch);
+            chunk.setContent(chText);
             chunk.setDocument(doc);
 
-            chunk = chunkRepository.save(chunk);
 
-            float[] emb = geminiApiClient.embed(ch);
+            chunk = chunkRepository.saveAndFlush(chunk);
 
-            ChunkEmbedding embedding = new ChunkEmbedding();
-            embedding.setChunk(chunk);
-            embedding.setEmbedding(new PGvector(emb));
 
-            chunk.setEmbedding(embedding);
-            chunkRepository.save(chunk);
+            // 2. Genera Embedding
+            float[] emb = geminiApiClient.embed(chText);
+
+            // 3. Salva Embedding con SQL PURO
+            String embeddingJson = gson.toJson(emb);
+            String sql = "INSERT INTO chunk_embeddings (id, chunk_id, embedding) VALUES (?, ?, ?::vector)";
+
+            jdbcTemplate.update(sql, UUID.randomUUID().toString(), chunk.getId(), embeddingJson);
         }
 
-        documentRepository.save(doc);
-
-        return new DocumentProcessingResult(
-                doc.getId(),
-                doc.getOriginalFilename(),
-                doc.getFileType(),
-                category.getName(),
-                chunks.size()
-        );
+        return new DocumentProcessingResult(doc.getId(), doc.getOriginalFilename(), doc.getFileType(), category.getName(), chunksText.size());
     }
 
-    private String getExtension(String filename) {
-        int idx = filename.lastIndexOf('.');
-        if (idx == -1 || idx == filename.length() - 1) {
-            return "";
-        }
-        return filename.substring(idx + 1).toLowerCase();
-    }
 
     private List<String> splitIntoChunksByWords(String text, int maxWords, int overlapWords) {
         String[] words = text.split("\\s+");
         List<String> chunks = new ArrayList<>();
-
         int start = 0;
-
         while (start < words.length) {
             int end = Math.min(start + maxWords, words.length);
-
-            String chunk = String.join(" ", Arrays.copyOfRange(words, start, end));
-            chunks.add(chunk);
-
+            chunks.add(String.join(" ", Arrays.copyOfRange(words, start, end)));
             start += (maxWords - overlapWords);
-            if (maxWords <= overlapWords) {
-                break;
-            }
+            if (maxWords <= overlapWords) break;
         }
-
         return chunks;
     }
+
+    @Override
+    public DocumentProcessingResult processAndSaveDocumentFromMultipart(File file, Category category) { return null; }
 }
