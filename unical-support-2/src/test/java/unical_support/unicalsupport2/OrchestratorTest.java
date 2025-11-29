@@ -58,7 +58,7 @@ class OrchestratorTest {
         when(emailReceiver.receiveEmails()).thenReturn(List.of(fakeEmail));
 
         ClassificationResultDto fakeResult =
-                new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata", 0);
+                new ClassificationResultDto(List.of(new SingleCategoryDto("NON RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata", 0);
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(fakeResult));
 
         OrchestratorServiceImpl orchestrator = new OrchestratorServiceImpl(emailReceiver, emailClassifier, emailSender, emailService, emailResponder, judgerService, modelMapper);
