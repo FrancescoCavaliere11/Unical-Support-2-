@@ -1,5 +1,6 @@
 package unical_support.unicalsupport2.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -30,7 +31,13 @@ public class EmailServiceImpl implements EmailService {
      public List<EmailToClassifyDto> getStoredEmail(Boolean isClassified) {
          return emailRepository.findAllByIsClassified(isClassified)
          .stream()
-         .map(email -> modelMapper.map(email, EmailToClassifyDto.class))
+         .map(email -> {
+             EmailToClassifyDto dto = modelMapper.map(email, EmailToClassifyDto.class);
+             dto.getSingleClassifications()
+                     .forEach(singleClassificationDto ->
+                             singleClassificationDto.setConfidence(singleClassificationDto.getConfidence() * 100));
+             return dto;
+         })
          .toList();
     }
 
@@ -56,14 +63,14 @@ public class EmailServiceImpl implements EmailService {
                 })
                 .toList();
 
-        emailToClassify.setSingleClassifications(newClassifications);
+        emailToClassify.setSingleClassifications(new ArrayList<>(newClassifications));
         emailToClassify.setClassified(true);
 
         emailRepository.save(emailToClassify);
     }
 
     @Override
-    public void saveEmailWithLoweConfidence(EmailMessage emailToSave, ClassificationResultDto classificationResultDto) {
+    public void saveEmailWithLowConfidence(EmailMessage emailToSave, ClassificationResultDto classificationResultDto) {
 
         EmailToClassify emailToClassify = modelMapper.map(emailToSave, EmailToClassify.class);
         emailToClassify.setClassified(false);
@@ -72,8 +79,14 @@ public class EmailServiceImpl implements EmailService {
         emailToClassify.setSingleClassifications(
             classificationResultDto.getCategories()
                 .stream()
-                .map(sc -> modelMapper.map(sc, SingleClassification.class))
-                .toList()
+                .map(sc -> {
+                    SingleClassification singleClassification = modelMapper.map(sc, SingleClassification.class);
+                    Category category = categoryRepository.findByNameIgnoreCase(sc.getCategory())
+                            .orElseThrow(() -> new RuntimeException("Category not found: " + sc.getCategory()));
+                    singleClassification.setCategory(category);
+
+                    return singleClassification;
+                }).toList()
         );
         emailRepository.save(emailToClassify);
     }

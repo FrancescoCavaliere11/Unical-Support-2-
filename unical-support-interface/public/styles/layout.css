@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(1, 1fr);
-  gap: 16px;
+  gap: 16pt;
 }
 
 .list {
@@ -53,6 +53,20 @@
   width: 100%;
 }
 
+.classifications {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16pt;
+}
+
+.classification {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4pt;
+}
+
 .confidence-info {
   display: flex;
   justify-content: space-between;
@@ -65,35 +79,22 @@
 span.delete {
   display: flex;
   gap: 2pt;
-  color: var(--text-weak);
   stroke: var(--text-weak);
+  cursor: pointer;
 }
 
 span.delete:hover {
-  color: var(--error-strong);
   stroke: var(--error-strong);
 }
 
-span.delete:disabled {
-  cursor: not-allowed;
-}
-
-.high, .mid, .low {
-  padding: 2pt 8pt;
-  border-radius: 8pt;
-}
-
-.confidence-info > span.high {
+.confidence-info > span > span.high {
   color: var(--success-strong);
-  background: var(--success-fill);
 }
 
-.confidence-info > span.mid {
+.confidence-info > span > span.mid {
   color: var(--warning-strong);
-  background: var(--warning-fill);
 }
 
-.confidence-info > span.low {
+.confidence-info > span > span.low {
   color: var(--error-strong);
-  background: var(--error-fill);
 }

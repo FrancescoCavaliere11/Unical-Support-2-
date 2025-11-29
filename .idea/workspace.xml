@@ -4,16 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="Fatto il metodo updateEmailCategory nel EmailServiceImpl. Aggiunti mapping custom nel modelMapper. Aggiornati i dto UpdateEmailCategoryDto e SingleClassificationDto.java e aggiunto il UpdateSingleClassificationDto. Fix nell'embeddable SingleClassification cambiando tipo del campo category da String a Category.">
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/UpdateSingleClassificationDto.java" afterDir="false" />
+    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="Cambiato la definizione del metodo getLowConfidenceEmail() in getStoredEmail(Boolean isClassified), così da poter filtrare ed ottenere solo le email che devono essere classificate manualmente">
+      <change afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/pipes/AddressesFormatPipe.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/pipes/CategoriesFormatPipe.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/pipes/ConfidenceFormatPipe.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdff9745-58e9-411c-a5f3-688e0de1126e/storage_v2/_src_/database/unical_support.br2srQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cdff9745-58e9-411c-a5f3-688e0de1126e/storage_v2/_src_/database/unical_support.br2srQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/ModelMapperConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/ModelMapperConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/EmailDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/EmailDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/SingleClassificationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/SingleClassificationDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/UpdateEmailCategoryDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/UpdateEmailCategoryDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/embeddables/SingleClassification.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/embeddables/SingleClassification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Email.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/EmailToClassify.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/EmailToClassify.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/OrchestratorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/OrchestratorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/public/styles/email-item.css" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/public/styles/email-item.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/public/styles/input.css" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/public/styles/input.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/public/styles/layout.css" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/public/styles/layout.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/app-module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/app-module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/components/email-to-answer-item/email-to-answer-item.html" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/components/email-to-answer-item/email-to-answer-item.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/components/email-to-classify-item/email-to-classify-item.html" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/components/email-to-classify-item/email-to-classify-item.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/category-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/category-dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/classifier-result-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/classifier-result-dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/email-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/email-dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/email-to-classify-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/email-to-classify-dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/responder-result-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/responder-result-dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/pages/answers-page/answers-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/pages/answers-page/answers-page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/pages/classification-page/classification-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/pages/classification-page/classification-page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/pages/classification-page/classification-page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/pages/classification-page/classification-page.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/services/email.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/services/email.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,52 +94,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;Application.run.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CategoryCommandTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmailClassifierTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmailCommandIntegrationTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmailSenderTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GmailReceiverImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GmailReceiverImplTest.shouldReceiveRealEmails.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GmailSenderImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.GmailSenderImplTest.shouldSendRealEmail.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.OrchestratorTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TemplateServiceImplTest (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TemplateServiceImplTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UnicalSupport2ApplicationTests.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.UnicalSupport2Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;emailEntity&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/aldogioia/Master Degree/Research&amp;Development/Unical-Support-2-&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Unnamed.executor": "Run",
+    "Application.run.executor": "Run",
+    "JUnit.CategoryCommandTest.executor": "Run",
+    "JUnit.EmailClassifierTest.executor": "Run",
+    "JUnit.EmailCommandIntegrationTest.executor": "Run",
+    "JUnit.EmailSenderTest.executor": "Run",
+    "JUnit.GmailReceiverImplTest.executor": "Run",
+    "JUnit.GmailReceiverImplTest.shouldReceiveRealEmails.executor": "Run",
+    "JUnit.GmailSenderImplTest.executor": "Run",
+    "JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully.executor": "Run",
+    "JUnit.GmailSenderImplTest.shouldSendRealEmail.executor": "Run",
+    "JUnit.OrchestratorTest.executor": "Run",
+    "JUnit.TemplateServiceImplTest (1).executor": "Run",
+    "JUnit.TemplateServiceImplTest.executor": "Run",
+    "JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly.executor": "Run",
+    "JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam.executor": "Run",
+    "JUnit.UnicalSupport2ApplicationTests.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.UnicalSupport2Application.executor": "Run",
+    "git-widget-placeholder": "emailEntity",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/aldogioia/Master Degree/Research&Development/Unical-Support-2-",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -136,7 +157,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.UnicalSupport2Application">
-    <configuration name="CategoryCommandTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GmailReceiverImplTest.shouldReceiveRealEmails" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support-2" />
       <extension name="coverage">
         <pattern>
@@ -145,7 +166,23 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.CategoryCommandTest" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailReceiverImplTest" />
+      <option name="METHOD_NAME" value="shouldReceiveRealEmails" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GmailSenderImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailSenderImplTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -161,21 +198,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
       <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.TemplateServiceImplTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TemplateServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="unical-support-2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="unical_support.unicalsupport2.service.implementation.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2.service.implementation" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.service.implementation.TemplateServiceImplTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -221,8 +243,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CategoryCommandTest" />
-      <item itemvalue="JUnit.TemplateServiceImplTest" />
+      <item itemvalue="JUnit.GmailReceiverImplTest.shouldReceiveRealEmails" />
+      <item itemvalue="JUnit.GmailSenderImplTest" />
       <item itemvalue="JUnit.TemplateServiceImplTest (1)" />
       <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" />
       <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" />
@@ -233,8 +255,8 @@
         <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" />
         <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" />
         <item itemvalue="JUnit.TemplateServiceImplTest (1)" />
-        <item itemvalue="JUnit.TemplateServiceImplTest" />
-        <item itemvalue="JUnit.CategoryCommandTest" />
+        <item itemvalue="JUnit.GmailSenderImplTest" />
+        <item itemvalue="JUnit.GmailReceiverImplTest.shouldReceiveRealEmails" />
       </list>
     </recent_temporary>
   </component>
@@ -263,6 +285,10 @@
       <workItem from="1764006017123" duration="1710000" />
       <workItem from="1764066353598" duration="2759000" />
       <workItem from="1764096202217" duration="4723000" />
+      <workItem from="1764156894073" duration="12000" />
+      <workItem from="1764168289254" duration="7095000" />
+      <workItem from="1764231864725" duration="1085000" />
+      <workItem from="1764380830724" duration="7603000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor del codice">
       <option name="closed" value="true" />
@@ -336,7 +362,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764069846054</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Cambiato la definizione del metodo getLowConfidenceEmail() in getStoredEmail(Boolean isClassified), così da poter filtrare ed ottenere solo le email che devono essere classificate manualmente">
+      <option name="closed" value="true" />
+      <created>1764233723740</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1764233723740</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -363,7 +397,8 @@
     <MESSAGE value="fix update documentation" />
     <MESSAGE value="Fix missing subject" />
     <MESSAGE value="Fatto il metodo updateEmailCategory nel EmailServiceImpl. Aggiunti mapping custom nel modelMapper. Aggiornati i dto UpdateEmailCategoryDto e SingleClassificationDto.java e aggiunto il UpdateSingleClassificationDto. Fix nell'embeddable SingleClassification cambiando tipo del campo category da String a Category." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fatto il metodo updateEmailCategory nel EmailServiceImpl. Aggiunti mapping custom nel modelMapper. Aggiornati i dto UpdateEmailCategoryDto e SingleClassificationDto.java e aggiunto il UpdateSingleClassificationDto. Fix nell'embeddable SingleClassification cambiando tipo del campo category da String a Category." />
+    <MESSAGE value="Cambiato la definizione del metodo getLowConfidenceEmail() in getStoredEmail(Boolean isClassified), così da poter filtrare ed ottenere solo le email che devono essere classificate manualmente" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cambiato la definizione del metodo getLowConfidenceEmail() in getStoredEmail(Boolean isClassified), così da poter filtrare ed ottenere solo le email che devono essere classificate manualmente" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

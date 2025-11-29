@@ -7,7 +7,7 @@ export class ResponderResultDto {
     this.categories = data.categories;
   }
 
-  get categoriesToString(): string {
+  categoriesToString(): string {
     if (this.categories.length === 0) return 'No category found.'
 
     let firstCategory: string = this.categories[0].name;

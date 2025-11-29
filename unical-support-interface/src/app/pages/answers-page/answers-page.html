@@ -30,7 +30,7 @@
 
       <div class="sec">
         <span>Da:</span>
-        <p>{{ selectedEmail.fromString }}</p>
+        <p>{{ selectedEmail | addressesFormat }}</p>
       </div>
       <div class="sec">
         <span>Oggetto:</span>
@@ -38,7 +38,7 @@
       </div>
       <div class="sec">
         <span>Messaggio:</span>
-        <p>{{ selectedEmail.content }}</p>
+        <p>{{ selectedEmail.body }}</p>
       </div>
 
       <textarea formControlName="response" placeholder="Rispondi alla mail"></textarea>

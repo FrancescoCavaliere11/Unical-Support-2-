@@ -66,7 +66,7 @@ public class OrchestratorServiceImpl implements OrchestratorService {
 
             boolean nonRiconosciuta = false;
             for (SingleCategoryDto c : categories) {
-                if ("NON_RICONOSCIUTA".equalsIgnoreCase(c.getCategory())) {
+                if ("NON RICONOSCIUTA".equalsIgnoreCase(c.getCategory())) {
                     nonRiconosciuta = true;
                     break;
                 }
@@ -75,7 +75,7 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             if (nonRiconosciuta) {
                 EmailMessage toForward = getEmailMessage(originalEmails, i);
                 emailSender.sendEmail(toForward);
-                emailService.saveEmailWithLoweConfidence(
+                emailService.saveEmailWithLowConfidence(
                     originalEmails.get(i),
                     classificationResult.get(i));
                 
@@ -87,7 +87,7 @@ public class OrchestratorServiceImpl implements OrchestratorService {
         for (JudgementResultDto j : judgements) {
             System.out.println(j);
             if (j.getOverallConfidence() < 0.8) {
-                emailService.saveEmailWithLoweConfidence(
+                emailService.saveEmailWithLowConfidence(
                     originalEmails.get(j.getId()),
                     classificationResult.get(j.getId()));
             }

@@ -11,7 +11,7 @@ export class SingleClassificationDto {
     this.category = data.category;
   }
 
-  get confidenceLabel() {
+  confidenceLabel() {
     const c = this.confidence ?? 0;
     if (c >= 60) return 'high';
     if (c >= 30) return 'mid';

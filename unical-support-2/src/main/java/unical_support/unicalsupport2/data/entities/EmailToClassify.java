@@ -16,7 +16,7 @@ public class EmailToClassify extends Email {
     @Column(name = "is_classified", nullable = false)
     private boolean isClassified;
 
-    @Column(name = "explanation")
+    @Column(name = "explanation", columnDefinition = "TEXT")
     private String explanation;
 
     @ElementCollection(fetch = FetchType.EAGER)

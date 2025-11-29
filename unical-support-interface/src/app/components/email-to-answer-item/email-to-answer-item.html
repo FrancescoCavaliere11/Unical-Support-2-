@@ -2,13 +2,13 @@
   <div class="item-header">
     <p>
       <hugeicons-icon [icon]="Mail01Icon"></hugeicons-icon>
-      {{ emailDto.fromString }}
+      {{ emailDto | addressesFormat }}
     </p>
     <p>
       <hugeicons-icon [icon]="LabelIcon"></hugeicons-icon>
-      {{ emailDto.responderResult.categoriesToString }}
+      {{ emailDto.responderResult.categoriesToString() }}
     </p>
   </div>
   <h3>{{ emailDto.subject }}</h3>
-  <p>{{ emailDto.content }}</p>
+  <p>{{ emailDto.body }}</p>
 </div>

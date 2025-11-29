@@ -16,7 +16,7 @@ export class Email {
   }
 
   updateCategoryForEmail(
-    updateDto: { id: string, updateSingleClassificationDtos: { categoryId: string, text: string } }
+    updateDto: { id: string, updateSingleClassificationDtos: Array<{ categoryId: string, text: string }> }
   ) {
     return this.http.patch(this._apiUrl, updateDto)
   }

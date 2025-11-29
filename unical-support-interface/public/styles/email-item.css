@@ -21,15 +21,14 @@ item.selected {
 .item-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  stroke: var(--brand-stroke-strong);
 }
 
 .item-header > p {
   display: flex;
+  align-items: center;
   gap: 2pt;
-}
-
-p:first-of-type {
-  padding: 4pt 0;
 }
 
 p:last-of-type {
