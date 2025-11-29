@@ -9,6 +9,9 @@ import {HugeiconsIconComponent} from '@hugeicons/angular';
 import { EmailToClassifyItem } from './components/email-to-classify-item/email-to-classify-item';
 import {ReactiveFormsModule} from "@angular/forms";
 import { EmailToAnswerItem } from './components/email-to-answer-item/email-to-answer-item';
+import {AddressesFormatPipe} from "./model/pipes/AddressesFormatPipe";
+import {CategoriesFormatPipe} from './model/pipes/CategoriesFormatPipe';
+import {ConfidenceFormatPipe} from './model/pipes/ConfidenceFormatPipe';
 
 @NgModule({
   declarations: [
@@ -18,12 +21,15 @@ import { EmailToAnswerItem } from './components/email-to-answer-item/email-to-an
     EmailToClassifyItem,
     EmailToAnswerItem
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HugeiconsIconComponent,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HugeiconsIconComponent,
+    ReactiveFormsModule,
+    AddressesFormatPipe,
+    CategoriesFormatPipe,
+    ConfidenceFormatPipe
+  ],
   providers: [
     provideBrowserGlobalErrorListeners()
   ],

@@ -17,11 +17,11 @@ public class Email {
     @UuidGenerator
     private String id;
 
-    // Questo è l'id che otteniamo dagli header
-    // dell'oggetto Message che otteniamo dal Receiver.
-    // Potremmo ragionare se usarlo anche come ID dell'entità o meno
-    @Column(name = "email_id", nullable = false)
-    private String emailId;
+    @Column(name = "in_reply_to_header")
+    private String inReplyToHeader;
+
+    @Column(name = "references_header")
+    private String referencesHeader;
 
     @Column(name = "recipients", nullable = false)
     private List<String> to;
@@ -29,6 +29,6 @@ public class Email {
     @Column(name = "subject", nullable = false)
     private String subject;
 
-    @Column(name = "body", nullable = false)
+    @Column(name = "body", nullable = false, columnDefinition = "TEXT")
     private String body;
 }

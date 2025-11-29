@@ -45,3 +45,17 @@ button:disabled {
   color: var(--text-weak);
   cursor: not-allowed;
 }
+
+.secondary-btn {
+  padding: 4pt;
+  border-radius: 50%;
+  width: fit-content;
+  background: transparent;
+  border: 1px solid var(--brand-stroke-weak);
+  stroke: var(--text-strong);
+}
+
+.secondary-btn:hover {
+  background: var(--fill);
+  border: 1px solid var(--brand-stroke-strong);
+}

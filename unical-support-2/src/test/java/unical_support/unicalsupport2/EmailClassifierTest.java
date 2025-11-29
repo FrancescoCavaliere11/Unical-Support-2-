@@ -69,7 +69,7 @@ public class EmailClassifierTest {
                     .hasSize(1)
                     .first()
                     .extracting(SingleCategoryDto::getCategory)
-                    .isEqualTo("NON_RICONOSCIUTA");
+                    .isEqualTo("NON RICONOSCIUTA");
 
             System.out.println("Fallback corretto: " + r);
         });

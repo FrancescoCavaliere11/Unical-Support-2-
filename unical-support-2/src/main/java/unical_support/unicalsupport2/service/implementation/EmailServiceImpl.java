@@ -1,11 +1,14 @@
 package unical_support.unicalsupport2.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import unical_support.unicalsupport2.data.EmailMessage;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.email.EmailToClassifyDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
 import unical_support.unicalsupport2.data.embeddables.SingleClassification;
@@ -25,10 +28,16 @@ public class EmailServiceImpl implements EmailService {
     private final ModelMapper modelMapper;
 
     @Override
-    public List<EmailToClassifyDto> getStoredEmail(Boolean isClassified) {
+     public List<EmailToClassifyDto> getStoredEmail(Boolean isClassified) {
          return emailRepository.findAllByIsClassified(isClassified)
          .stream()
-         .map(email -> modelMapper.map(email, EmailToClassifyDto.class))
+         .map(email -> {
+             EmailToClassifyDto dto = modelMapper.map(email, EmailToClassifyDto.class);
+             dto.getSingleClassifications()
+                     .forEach(singleClassificationDto ->
+                             singleClassificationDto.setConfidence(singleClassificationDto.getConfidence() * 100));
+             return dto;
+         })
          .toList();
     }
 
@@ -40,7 +49,7 @@ public class EmailServiceImpl implements EmailService {
 
 
 
-        List<SingleClassification> newClassifications =updateEmailCategoryDto.getUpdateSingleClassificationDtos().
+        List<SingleClassification> newClassifications = updateEmailCategoryDto.getUpdateSingleClassificationDtos().
                 stream()
                 .map(dto -> {
                     SingleClassification classification = modelMapper.map(dto, SingleClassification.class);
@@ -54,9 +63,31 @@ public class EmailServiceImpl implements EmailService {
                 })
                 .toList();
 
-        emailToClassify.setSingleClassifications(newClassifications);
+        emailToClassify.setSingleClassifications(new ArrayList<>(newClassifications));
         emailToClassify.setClassified(true);
 
+        emailRepository.save(emailToClassify);
+    }
+
+    @Override
+    public void saveEmailWithLowConfidence(EmailMessage emailToSave, ClassificationResultDto classificationResultDto) {
+
+        EmailToClassify emailToClassify = modelMapper.map(emailToSave, EmailToClassify.class);
+        emailToClassify.setClassified(false);
+        emailToClassify.setExplanation(classificationResultDto.getExplanation());
+        
+        emailToClassify.setSingleClassifications(
+            classificationResultDto.getCategories()
+                .stream()
+                .map(sc -> {
+                    SingleClassification singleClassification = modelMapper.map(sc, SingleClassification.class);
+                    Category category = categoryRepository.findByNameIgnoreCase(sc.getCategory())
+                            .orElseThrow(() -> new RuntimeException("Category not found: " + sc.getCategory()));
+                    singleClassification.setCategory(category);
+
+                    return singleClassification;
+                }).toList()
+        );
         emailRepository.save(emailToClassify);
     }
 }

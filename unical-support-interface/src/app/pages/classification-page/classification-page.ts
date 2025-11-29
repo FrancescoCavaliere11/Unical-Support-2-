@@ -42,9 +42,7 @@ export class ClassificationPage implements OnInit {
 
     this.form = this.formBuilder.group({
       id: [''],
-      classifications: this.formBuilder.array([]),
-      categoryId: ['', Validators.required],
-      text: ['', Validators.required]
+      classifications: this.formBuilder.array([])
     })
   }
 
@@ -85,7 +83,9 @@ export class ClassificationPage implements OnInit {
   }
 
   removeClassification(index: number) {
-    this.classifications.removeAt(index);
+    if (this.classifications.length > 1) {
+      this.classifications.removeAt(index);
+    }
   }
 
   selectEmail(email: EmailToClassifyDto) {
@@ -95,18 +95,23 @@ export class ClassificationPage implements OnInit {
 
     this.classifications.clear();
 
-    if (this.selectedEmail.singleClassifications) {
+    if (this.selectedEmail.singleClassifications && this.selectedEmail.singleClassifications.length > 0) {
       this.selectedEmail.singleClassifications.forEach(classification => {
         this.classifications.push(this.createClassificationGroup(classification));
       });
     }
+
+    if (this.classifications.length === 0) {
+      this.addClassification();
+    }
   }
 
   submit() {
-    if (this.form.invalid || this.isLoading) return;
+    if (this.form.invalid || this.isLoading || !this.selectedEmail) return;
 
     this.isLoading = true;
 
+    const idToRemove = this.selectedEmail.id;
     const formValue = this.form.value;
 
     const payload = {
@@ -117,20 +122,23 @@ export class ClassificationPage implements OnInit {
       }))
     };
 
-    this.emailService.updateCategoryForEmail(payload)
-      .subscribe({
-        next: () => {
-          this.emails = this.emails.filter(email => email.id !== this.selectedEmail!.id);
+    this.emailService.updateCategoryForEmail(payload).subscribe({
+      next: () => {
+        this.emails = this.emails.filter(email => email.id !== idToRemove);
 
-          this.selectedEmail = null;
-          this.classifications.clear();
-          this.isLoading = false;
-        },
-        error: (error: any) => {
-          console.error(error);
-          alert("Errore durante il salvataggio");
-          this.isLoading = false;
-        }
-      });
+        this.selectedEmail = null;
+        this.classifications.clear();
+        this.isLoading = false;
+
+        this.changeDetectorRef.detectChanges();
+      },
+      error: (error: any) => {
+        console.error(error);
+        alert("Errore durante il salvataggio");
+        this.isLoading = false;
+
+        this.changeDetectorRef.detectChanges();
+      }
+    });
   }
 }
