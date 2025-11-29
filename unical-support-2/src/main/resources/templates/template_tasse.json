@@ -1,0 +1,17 @@
+[
+    {
+        "name": "RispostaCalcoloTasse",
+        "category": "Tasse ed esoneri",
+        "content": "Gentile studente,\n\nAbbiamo ricevuto la tua richiesta di informazioni riguardo l'importo delle tasse universitarie.\n\nHai indicato un valore ISEE pari a {{valore_isee}} euro.\n\nIn base al Regolamento Tasse ed Esoneri e alla documentazione ufficiale:\n{{spiegazione_calcolata_da_documenti}}\n\nRestiamo a disposizione per ulteriori chiarimenti.\n\nCordiali saluti,\nSegreteria Studenti",
+        "parameters": [
+            {
+                "name": "valore_isee",
+                "required": true
+            },
+            {
+                "name": "spiegazione_calcolata_da_documenti",
+                "required": true
+            }
+        ]
+    }
+]

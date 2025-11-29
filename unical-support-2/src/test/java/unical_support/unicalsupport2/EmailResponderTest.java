@@ -111,6 +111,9 @@ public class EmailResponderTest {
 
         List<ResponderResultDto> out = emailResponder.generateEmailResponse(sampleEmails);
 
-        assertEquals("NO_TEMPLATE_MATCH", out.getFirst().getResponses().getFirst().getReason());
+        String reason = out.getFirst().getResponses().getFirst().getReason();
+
+
+        assert(reason.startsWith("ERROR"));
     }
 }

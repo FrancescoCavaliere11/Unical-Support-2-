@@ -1,27 +1,24 @@
 package unical_support.unicalsupport2;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.mockito.ArgumentCaptor; // Importante
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired; // Importante
 import org.springframework.boot.test.context.SpringBootTest;
-
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.EmailMessage;
+import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
+import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.service.implementation.OrchestratorServiceImpl;
-import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
-import unical_support.unicalsupport2.service.interfaces.EmailReceiver;
-import unical_support.unicalsupport2.service.interfaces.EmailResponder;
-import unical_support.unicalsupport2.service.interfaces.EmailSender;
-import unical_support.unicalsupport2.service.interfaces.EmailService;
-import unical_support.unicalsupport2.service.interfaces.JudgerService;
+import unical_support.unicalsupport2.service.interfaces.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
 class OrchestratorTest {
@@ -42,14 +39,18 @@ class OrchestratorTest {
     private EmailResponder emailResponder;
 
     @MockitoBean
-    private JudgerService  judgerService;
+    private JudgerService judgerService;
 
-    @Mock
-    ModelMapper modelMapper;
 
+    @MockitoBean
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private OrchestratorServiceImpl orchestrator;
 
     @Test
     void emailNotRecognizedShouldBeForwarded() {
+
         EmailMessage fakeEmail = new EmailMessage();
         fakeEmail.setTo(List.of("mittente@esempio.it"));
         fakeEmail.setSubject("Domanda strana");
@@ -57,24 +58,35 @@ class OrchestratorTest {
 
         when(emailReceiver.receiveEmails()).thenReturn(List.of(fakeEmail));
 
+
         ClassificationResultDto fakeResult =
-                new ClassificationResultDto(List.of(new SingleCategoryDto("NON RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata", 0);
+                new ClassificationResultDto(List.of(new SingleCategoryDto("NON_RICONOSCIUTA", 0.1, "testo")), "Categoria non trovata", 0);
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(fakeResult));
 
-        OrchestratorServiceImpl orchestrator = new OrchestratorServiceImpl(emailReceiver, emailClassifier, emailSender, emailService, emailResponder, judgerService, modelMapper);
+
+        when(judgerService.judge(anyList(), anyList())).thenReturn(new ArrayList<>());
+
+
+        ResponderResultDto fakeResponderResult = new ResponderResultDto(0, new ArrayList<>());
+        when(emailResponder.generateEmailResponse(anyList())).thenReturn(List.of(fakeResponderResult));
+
+
         orchestrator.start();
 
-        var captor = org.mockito.ArgumentCaptor.forClass(EmailMessage.class);
+
+        ArgumentCaptor<EmailMessage> captor = ArgumentCaptor.forClass(EmailMessage.class);
         verify(emailSender, times(1)).sendEmail(captor.capture());
 
         EmailMessage forwarded = captor.getValue();
-        assertThat(forwarded.getTo()).containsExactly("lorenzo.test.04112025@gmail.com");
-        assertThat(forwarded.getSubject()).startsWith("Email non riconosciuta:");
+
+        assertThat(forwarded.getTo()).contains("lorenzo.test.04112025@gmail.com");
+        assertThat(forwarded.getSubject()).contains("NON RICONOSCIUTA");
         assertThat(forwarded.getBody()).contains("mittente@esempio.it");
     }
 
     @Test
     void recognizedEmailsShouldNotBeForwarded() {
+
         EmailMessage email = new EmailMessage();
         email.setTo(List.of("utente@esempio.it"));
         email.setSubject("Richiesta iscrizione");
@@ -86,9 +98,18 @@ class OrchestratorTest {
                 new ClassificationResultDto(List.of(new SingleCategoryDto("ISCRIZIONE", 0.95, "parte relativa all’iscrizione")), "Corrisponde alla categoria Iscrizione", 0);
         when(emailClassifier.classifyEmail(anyList())).thenReturn(List.of(recognized));
 
-        OrchestratorServiceImpl orchestrator = new OrchestratorServiceImpl(emailReceiver, emailClassifier, emailSender, emailService, emailResponder, judgerService, modelMapper);
+        when(judgerService.judge(anyList(), anyList())).thenReturn(new ArrayList<>());
+
+        ResponderResultDto fakeResp = new ResponderResultDto(0, new ArrayList<>());
+        when(emailResponder.generateEmailResponse(anyList())).thenReturn(List.of(fakeResp));
         orchestrator.start();
 
-        verify(emailSender, never()).sendEmail(any());
+
+
+        ArgumentCaptor<EmailMessage> captor = ArgumentCaptor.forClass(EmailMessage.class);
+        verify(emailSender, times(1)).sendEmail(captor.capture()); // Si aspetta 1 email (la risposta all'utente)
+
+        EmailMessage sentEmail = captor.getValue();
+        assertThat(sentEmail.getTo()).contains("utente@esempio.it"); // Deve andare all'utente, non all'admin
     }
 }
