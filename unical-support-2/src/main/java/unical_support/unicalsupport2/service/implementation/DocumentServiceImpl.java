@@ -94,4 +94,62 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public DocumentProcessingResult processAndSaveDocumentFromMultipart(File file, Category category) { return null; }
+
+    @Override
+    @Transactional
+    public String removeDocument(String id) {
+        // 1. Trova il documento per ID
+        Document doc = documentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Documento non trovato con ID: " + id));
+
+        int chunksCount = doc.getChunks() != null ? doc.getChunks().size() : 0;
+        String filename = doc.getOriginalFilename();
+
+
+        String sqlDeleteEmbeddings = "DELETE FROM chunk_embeddings WHERE chunk_id IN (SELECT id FROM chunks WHERE document_id = ?)";
+        int vectorsDeleted = jdbcTemplate.update(sqlDeleteEmbeddings, id);
+
+
+        documentRepository.delete(doc);
+
+        return String.format("Documento '%s' (ID: %s) eliminato. Rimossi %d chunk e %d vettori.",
+                filename, id, chunksCount, vectorsDeleted);
+    }
+    @Override
+    @Transactional(readOnly = true) // Necessario per leggere la size() dei chunk lazy
+    public String listDocuments() {
+        List<Document> documents = documentRepository.findAll();
+
+        if (documents.isEmpty()) {
+            return "Nessun documento presente nel database.";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String header = String.format("| %-36s | %-40s | %-25s | %-6s |%n",
+                "ID", "Nome File", "Categoria", "Chunk");
+        String separator = "+--------------------------------------+------------------------------------------+---------------------------+--------+%n";
+
+        sb.append("\nElenco Documenti Vettorializzati:\n");
+        sb.append(separator);
+        sb.append(header);
+        sb.append(separator);
+
+        for (Document doc : documents) {
+            String catName = (doc.getCategory() != null) ? doc.getCategory().getName() : "N/A";
+            int chunkCount = (doc.getChunks() != null) ? doc.getChunks().size() : 0;
+
+            // Tronca il nome file se troppo lungo per la tabella
+            String filename = doc.getOriginalFilename();
+            if (filename.length() > 37) {
+                filename = filename.substring(0, 34) + "...";
+            }
+
+            sb.append(String.format("| %-36s | %-40s | %-25s | %-6d |%n",
+                    doc.getId(), filename, catName, chunkCount));
+        }
+        sb.append(separator);
+        sb.append("Totale documenti: ").append(documents.size()).append("\n");
+
+        return sb.toString();
+    }
 }

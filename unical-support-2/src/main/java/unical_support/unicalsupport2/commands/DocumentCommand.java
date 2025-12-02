@@ -33,4 +33,20 @@ public class DocumentCommand {
                 + ", category=" + result.getCategoryName()
                 + ", chunks=" + result.getChunksCount();
     }
+    @Command(command = "delete", alias = "del", description = "Delete a document and its vectors by filename")
+    public String deleteDocument(
+            @Option(longNames = "name", shortNames = 'n', description = "Exact filename (e.g. Regolamento.pdf)")
+            @NotBlank
+            String filename
+    ) {
+        try {
+            return documentService.removeDocument(filename);
+        } catch (Exception e) {
+            return "Errore durante la cancellazione: " + e.getMessage();
+        }
+    }
+    @Command(command = "list", alias = "ls", description = "List all vectorized documents")
+    public String listDocuments() {
+        return documentService.listDocuments();
+    }
 }

@@ -69,4 +69,9 @@ public class GroqLlmClient implements LlmClient {
     public float[] embed(String text) {
         return new float[0];    // TODO implementare embedding con Groq
     }
+    @Override
+    public String getProviderName() {
+        return "groq";
+    }
 }
+
