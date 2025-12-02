@@ -96,4 +96,8 @@ public class GeminiApiClientImpl implements LlmClient {
         }
         return arr;
     }
+    @Override
+    public String getProviderName() {
+        return "gemini";
+    }
 }

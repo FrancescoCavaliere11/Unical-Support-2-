@@ -5,4 +5,6 @@ public interface LlmClient {
     String chat(String prompt) throws Exception;
 
     float[] embed(String text) ;
+
+    String getProviderName();
 }

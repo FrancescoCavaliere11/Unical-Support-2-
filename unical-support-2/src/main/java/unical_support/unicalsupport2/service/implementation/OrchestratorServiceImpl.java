@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
+import unical_support.unicalsupport2.data.dto.email.SingleEmailRequestDto;
+import unical_support.unicalsupport2.data.dto.email.SingleEmailResponseDto;
 import unical_support.unicalsupport2.data.dto.judger.JudgementResultDto;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
@@ -27,7 +28,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
     private final JudgerService judgerService;
     private final ModelMapper modelMapper;
 
-
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_BLUE = "\u001B[34m";
@@ -36,32 +36,58 @@ public class OrchestratorServiceImpl implements OrchestratorService {
     private static final String BOLD = "\u001B[1m";
 
     @Override
-    public void start() {
-        log.info("Avvio procedura di fetch e processamento email...");
-
+    public void start(boolean sequentialMode) {
+        log.info("Avvio procedura di fetch...");
         List<EmailMessage> originalEmails = emailReceiver.receiveEmails();
+
         if (originalEmails.isEmpty()) {
             log.info("Nessuna nuova email trovata.");
             return;
         }
 
+        if (sequentialMode) {
+            log.info("Modalità: SEQUENZIALE");
+            processSequentialMode(originalEmails);
+        } else {
+            log.info("Modalità: BATCH");
+            processBatchMode(originalEmails);
+        }
+    }
+
+    private void processBatchMode(List<EmailMessage> originalEmails) {
         List<ClassificationEmailDto> emailsToClassify = originalEmails.stream()
                 .map(email -> modelMapper.map(email, ClassificationEmailDto.class))
                 .toList();
 
-        // 1. CLASSIFICAZIONE
         List<ClassificationResultDto> classificationResult = emailClassifier.classifyEmail(emailsToClassify);
         printClassificationResults(classificationResult);
 
-        // 2. GIUDIZIO
         List<JudgementResultDto> judgements = judgerService.judge(emailsToClassify, classificationResult);
         printJudgementResults(judgements);
 
-        // 3. GENERAZIONE RISPOSTE (RAG)
         List<ResponderResultDto> responderResult = emailResponder.generateEmailResponse(classificationResult);
 
-        // 4. INVIO & REPORTING
         processAndSendResponses(originalEmails, responderResult, classificationResult);
+    }
+
+    private void processSequentialMode(List<EmailMessage> originalEmails) {
+        for (int i = 0; i < originalEmails.size(); i++) {
+            EmailMessage currentEmail = originalEmails.get(i);
+            System.out.println("\n" + BOLD + "--- ELABORAZIONE EMAIL " + (i + 1) + "/" + originalEmails.size() + " ---" + ANSI_RESET);
+
+            ClassificationEmailDto emailDto = modelMapper.map(currentEmail, ClassificationEmailDto.class);
+            List<ClassificationEmailDto> singleList = List.of(emailDto);
+
+            List<ClassificationResultDto> classResults = emailClassifier.classifyEmail(singleList);
+            printClassificationResults(classResults);
+
+            List<JudgementResultDto> judgeResults = judgerService.judge(singleList, classResults);
+            printJudgementResults(judgeResults);
+
+            List<ResponderResultDto> respResults = emailResponder.generateEmailResponse(classResults);
+
+            processAndSendResponses(List.of(currentEmail), respResults, classResults);
+        }
     }
 
     private void printClassificationResults(List<ClassificationResultDto> results) {
@@ -106,17 +132,15 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             System.out.println("--------------------------------------------------");
             System.out.printf("Email ID: %d | Destinatario: %s%n", r.getEmailId(), original.getTo());
 
-            // Gestione Email Non Riconosciuta (Forward)
             boolean isNonRiconosciuta = classification.getCategories().stream()
                     .anyMatch(c -> "NON_RICONOSCIUTA".equalsIgnoreCase(c.getCategory()));
 
             if (isNonRiconosciuta) {
                 System.out.println(ANSI_YELLOW + "  EMAIL NON RICONOSCIUTA -> INOLTRO ALL'OPERATORE" + ANSI_RESET);
                 forwardEmailToOperator(original);
-                continue; // Passa alla prossima email
+                continue;
             }
 
-            // Stampa Risposte Generate
             if (r.getResponses() != null) {
                 for (SingleResponseDto response : r.getResponses()) {
                     System.out.println("\n   Categoria: " + ANSI_CYAN + response.getCategory() + ANSI_RESET);
@@ -131,7 +155,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
                 }
             }
 
-            // Invio Effettivo al Mittente
             EmailMessage replyEmail = buildReplyEmail(original, r);
             emailSender.sendEmail(replyEmail);
             System.out.println("   Email inviata con successo.");
@@ -142,21 +165,16 @@ public class OrchestratorServiceImpl implements OrchestratorService {
     private EmailMessage buildReplyEmail(EmailMessage original, ResponderResultDto responderResult) {
         EmailMessage reply = new EmailMessage();
 
-        // Setup Header per Threading corretto
         reply.setInReplyToHeader(original.getInReplyToHeader());
         reply.setReferencesHeader(original.getReferencesHeader());
-
-        // Destinatario = Mittente originale
         reply.setTo(original.getTo());
 
-        // Oggetto con "Re:"
         String subject = original.getSubject();
         if (subject != null && !subject.toLowerCase().startsWith("re:")) {
             subject = "Re: " + subject;
         }
         reply.setSubject(subject);
 
-        // Costruzione Corpo Email
         StringBuilder body = new StringBuilder();
         boolean hasContent = false;
 
@@ -169,7 +187,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             }
         }
 
-        // Messaggio se non c'è contenuto valido
         if (!hasContent) {
             body.append("Gentile utente,\n\n")
                     .append("Abbiamo ricevuto la tua richiesta ma non siamo riusciti a elaborare una risposta automatica specifica.\n")
@@ -183,7 +200,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
 
     private void forwardEmailToOperator(EmailMessage original) {
         EmailMessage toForward = new EmailMessage();
-        // al momento la mia poi si dovrebbe mettere quella giusta
         toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
         toForward.setSubject(" [NON RICONOSCIUTA] Fwd: " + original.getSubject());
 
@@ -199,5 +215,29 @@ public class OrchestratorServiceImpl implements OrchestratorService {
         );
 
         emailSender.sendEmail(toForward);
+    }
+
+
+
+    @Override
+    public SingleEmailResponseDto processSingleEmail(SingleEmailRequestDto request) {
+        ClassificationEmailDto emailDto = new ClassificationEmailDto();
+        emailDto.setSubject(request.getSubject());
+        emailDto.setBody(request.getBody());
+        List<ClassificationEmailDto> batch = List.of(emailDto);
+
+        var classificationResults = emailClassifier.classifyEmail(batch);
+        var singleClassification = classificationResults.get(0);
+        var judgementResults = judgerService.judge(batch, classificationResults);
+        var singleJudgement = judgementResults.get(0);
+        var responderResults = emailResponder.generateEmailResponse(classificationResults);
+        var singleResponse = responderResults.get(0);
+
+        return SingleEmailResponseDto.builder()
+                .classification(singleClassification.getCategories())
+                .judgerConfidence(singleJudgement.getOverallConfidence())
+                .judgerVerdict(singleJudgement.getSummary())
+                .generatedResponses(singleResponse.getResponses())
+                .build();
     }
 }
