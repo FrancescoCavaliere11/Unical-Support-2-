@@ -12,5 +12,5 @@ public interface EmailService {
 
     void updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto);
     
-    void saveEmailWithLowConfidence(EmailMessage emailToSave, ClassificationResultDto classificationResultDto);
+    void saveEmail(EmailMessage emailToSave, ClassificationResultDto classificationResultDto);
 }
