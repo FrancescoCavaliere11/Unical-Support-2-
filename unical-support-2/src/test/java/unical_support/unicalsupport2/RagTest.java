@@ -80,7 +80,7 @@ class RagTest {
         List<DocumentChunk> results = ragService.findRelevantChunks(input, 5);
 
         // ASSERT
-        assertFalse(results.isEmpty(), "Dovrebbe trovare almeno un chunk");
+        assertFalse(results.isEmpty(), "Dovrebbe trovare almeno un chunk.");
         assertEquals(1, results.size());
         assertEquals(mockChunkId, results.getFirst().getId());
         assertEquals("Regolamento.pdf", results.getFirst().getDocument().getOriginalFilename());
@@ -109,5 +109,4 @@ class RagTest {
         verify(llmClient, never()).embed(anyString());
         verifyNoInteractions(jdbcTemplate);
     }
-
 }

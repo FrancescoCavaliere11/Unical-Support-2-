@@ -1,0 +1,107 @@
+GuidaAmministrazioneEsse3:
+
+  Accesso:
+    URL: "https://unical.esse3.cineca.it"
+    [cite_start]Titolo: "GUIDA ALLA REGISTRAZIONE E COMPILAZIONE DELLA DOMANDA DI AMMISSIONE SU ESSE3" [cite: 2, 3]
+    Passi:
+      - [cite_start]"Vai sul sito indicato." [cite: 4]
+      - [cite_start]"Area di riferimento: Area Servizi Didattici Università Della Calabria." [cite: 5, 22, 43]
+
+---
+
+  Registrazione:
+    [cite_start]NotaIniziale: "Se sei già registrato, salta direttamente alla compilazione della domanda (Pag. 8)." [cite: 11]
+    PassiSequenza:
+      - Passo1:
+          [cite_start]Azione: "Clicca sul Menu." [cite: 25]
+      - Passo2:
+          [cite_start]Azione: "Clicca su 'Registrazione'." [cite: 29]
+      - Passo3:
+          [cite_start]Azione: "Clicca su 'Registrazione Web'." [cite: 52]
+      - Passo4_DatiPersonali:
+          [cite_start]Azione: "Compila tutti i campi obbligatori (quelli con *)." [cite: 71, 72]
+          [cite_start]IstruzioneSpecifica: "Inserisci il luogo di **nascita** (**NON** di residenza)." [cite: 78, 79, 80]
+      - Passo5_Recapito:
+          [cite_start]Azione: "Compila i campi obbligatori per l'indirizzo di Residenza e Recapito." [cite: 124]
+          [cite_start]IstruzioneSpecifica: "Inserisci i dati e la data di inizio residenza. Inserisci i dati di recapito (e-mail, cellulare, ecc.)." [cite: 125, 127]
+      - Passo6_Password:
+          [cite_start]Azione: "Scegli la password facendo attenzione ai requisiti richiesti." [cite: 132]
+      - Passo7_Riepilogo:
+          [cite_start]Azione: "Controlla i dati inseriti e clicca su 'Conferma'." [cite: 138]
+      - Passo8_Conclusione:
+          [cite_start]Azione: "Il processo di registrazione ad Esse3 è terminato." [cite: 145, 146]
+          [cite_start]DettagliCredenziali: "Accedi al tuo account da 'Procedi con l'autenticazione'." [cite: 147]
+
+---
+
+  CompilazioneDomanda_Accesso_e_Menu:
+    [cite_start]NotaIniziale: "Adesso devi procedere con la compilazione della domanda." [cite: 153]
+    PassiSequenza:
+      - Passo1_Accesso:
+          [cite_start]Azione: "Inserisci le credenziali e clicca 'Accedi'." [cite: 161, 162]
+          [cite_start]DettagliCredenziali: "Il Nome Utente è il tuo codice fiscale." [cite: 163]
+      - Passo2_Menu:
+          [cite_start]Azione: "Clicca sul Menu." [cite: 173]
+      - Passo3_Segreteria:
+          [cite_start]Azione: "Clicca su 'Segreteria'." [cite: 188]
+      - Passo4_Bandi:
+          [cite_start]Azione: "Clicca su 'Bandi di ammissione'." [cite: 195, 196]
+      - Passo5_Iscrizione:
+          [cite_start]Azione: "Clicca su 'Iscrizione Concorsi'." [cite: 215]
+
+---
+
+  CompilazioneDomanda_SceltaCorso_e_Ausili:
+    PassiSequenza:
+      - Passo6_SceltaTipologia:
+          [cite_start]Azione: "Selezionare la tipologia di corso a cui si intende accedere." [cite: 218]
+          Opzioni:
+            - [cite_start]"Corso di Laurea": "Per i corsi di studio triennali." [cite: 222, 225]
+            - [cite_start]"Corso di laurea Magistrale Ciclo Unico 5 anni": "Per Farmacia, Giurisprudenza, Scienze della Formazione Primaria, Chimica e tecnologie farmaceutiche, Conservazione e restauro dei beni culturali, Ingegneria edile-architettura." [cite: 223, 225]
+          [cite_start]AzioneSuccessiva: "Clicca su 'Avanti'." [cite: 226]
+      - Passo7_SceltaConcorso:
+          [cite_start]Azione: "Seleziona il corso di studio (il concorso) al quale si intende iscriversi." [cite: 238, 246]
+          [cite_start]AzioneSuccessiva: "Clicca su 'Avanti'." [cite: 249]
+      - Passo8_Ausili:
+          [cite_start]Azione: "Scegliere la propria categoria amministrativa e indicare se si ha qualche forma di disabilità o DSA e necessità di ausilio nei test di ammissione." [cite: 265, 272, 273, 267]
+          [cite_start]Attenzione: "La scelta non vale come richiesta di esonero delle tasse." [cite: 275]
+
+---
+
+  CompilazioneDomanda_TitoloStudio_e_Conferma:
+    PassiSequenza:
+      - Passo9_Conferma:
+          [cite_start]Azione: "Verificare le informazioni relative alle scelte effettuate e controllare se i dati del concorso sono corretti." [cite: 285, 304]
+          [cite_start]AzioneSuccessiva: "Clicca su 'Conferma e prosegui'." [cite: 293, 305]
+      - Passo10_TitoloStudio_Inserimento:
+          [cite_start]Azione: "Clicca su 'Inserisci' per selezionare il tuo titolo di studio." [cite: 307, 308]
+      - Passo11_TitoloStudio_Dettagli:
+          [cite_start]Azione: "Indicare Nazione Ordinamento e di Conseguimento Titolo (es. Italiano)." [cite: 315]
+          [cite_start]AzioneSuccessiva: "Seleziona le voci e clicca su 'Procedi'." [cite: 322]
+      - Passo12_RicercaIstituto:
+          [cite_start]Azione: "Inserisci le due voci indicate e clicca su 'Cerca Istituto'." [cite: 331]
+          [cite_start]AzioneSuccessiva: "Seleziona l'istituto dalla tabella con l'elenco degli istituti." [cite: 332, 358]
+      - Passo13_DatiTitolo:
+          [cite_start]Azione: "Compila i campi obbligatori per i 'Dati del Titolo di scuola superiore'." [cite: 368]
+          [cite_start]AzioneSuccessiva: "Clicca su 'Procedi'." [cite: 368]
+      - Passo14_VerificaFinale:
+          [cite_start]Azione: "Verifica che il titolo di studio selezionato sia corretto (puoi Modificare, Eliminare o Visualizzare)." [cite: 380, 381, 382, 383, 384, 385]
+          [cite_start]AzioneSuccessiva: "Dopo clicca su 'Procedi'." [cite: 385]
+      - Passo15_Completamento:
+          [cite_start]Azione: "Controlla la correttezza dei dati." [cite: 398]
+          [cite_start]IstruzioneSpecifica: "Potrai allegare eventuali documenti richiesti nella pagina successiva." [cite: 399]
+          [cite_start]AzioneSuccessiva: "Clicca su 'Completa ammissione al concorso'." [cite: 394, 398]
+
+---
+
+  RiepilogoConclusione:
+    [cite_start]Stato: "Il processo di iscrizione al concorso è stato completato con successo." [cite: 408]
+    AzioniDisponibili:
+      - [cite_start]"Home concorsi" [cite: 415]
+      - [cite_start]"Stampa domanda di ammissione" [cite: 415]
+      - [cite_start]"Rinuncia alla candidatura" [cite: 415]
+    AvvisoRinuncia:
+      - [cite_start]"Se clicchi su 'Rinuncia alla candidatura' non potrai nuovamente inoltrare la domanda di ammissione al corso di laurea a cui rinunci." [cite: 416]
+      - [cite_start]"Se devi fare delle modifiche alla domanda che hai inoltrato o se hai per sbaglio cliccato su 'Rinuncia alla candidatura' contatta ammissione@unical.it." [cite: 417]
+    VerificaFinale:
+      - [cite_start]"Per essere sicuro che la tua iscrizione al concorso sia stata inoltrata, clicca sul Menu, poi 'Segreteria → Bandi di ammissione' per visualizzare la lista dei concorsi a cui sei iscritto." [cite: 425, 426, 427]

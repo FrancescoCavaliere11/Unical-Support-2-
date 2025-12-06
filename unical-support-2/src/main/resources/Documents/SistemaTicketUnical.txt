@@ -1,0 +1,30 @@
+SistemaAssistenza_TicketUniCal:
+
+  Generale:
+    NomeSistema: "Ticket UniCal"
+    Finalita: "Sistema di helpdesk di ateneo per chiedere assistenza alle varie strutture universitarie, risolvere dubbi e problematiche in tempi celeri e chiedere informazioni sulle procedure legate alla carriera universitaria, senza spostarsi fisicamente."
+    URL: "ticket.unical.it"
+
+  Accesso:
+    Metodi:
+      - "Credenziali UniCal (Codice Fiscale e Password)"
+      - "SPID (Sistema Pubblico di Identità Digitale)"
+    Passi:
+      - "Digitare l'indirizzo ticket.unical.it."
+      - "Accedere con le proprie credenziali UniCal o con SPID."
+
+  CreazioneNuovaRichiesta:
+    Sequenza:
+      - Passo1: "Premere 'Nuova richiesta'."
+      - Passo2: "Selezionare la struttura di interesse dall'elenco (Esempio: per le tasse, scegliere 'Servizi Didattici')."
+      - Passo3: "Selezionare la tipologia di richiesta."
+      - Passo4: "Compilare i campi obbligatori."
+      - Passo5: "Se necessario, allegare un documento."
+      - Passo6: "Inviare la richiesta e confermare cliccando su 'Sì Procedi'."
+
+  MonitoraggioEComunicazione:
+    VisualizzazioneRichieste: "Cliccare su 'Dashboard' per visualizzare le richieste inviate."
+    Risposte: "Cliccare su 'Messaggi' per leggere le risposte ricevute (è possibile rispondere a propria volta)."
+
+  Uscita:
+    Azione: "Per chiudere la sessione, premere 'Esci'."
