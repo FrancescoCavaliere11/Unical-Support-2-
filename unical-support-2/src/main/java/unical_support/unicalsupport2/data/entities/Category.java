@@ -25,9 +25,11 @@ public class Category {
     @ToString.Exclude
     private List<Template> templates;
 
+
     @Override
     public String toString() {
         return "name= " + name  +
                 "\ndescription= " + description + "\n\n";
     }
+
 }

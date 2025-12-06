@@ -1,0 +1,54 @@
+VademecumImmatricolati2025-2026:
+
+  ObblighiFiscaliISEE:
+    Azione: "Richiedere l’attestazione ISEE (ISEE-Università) anno 2025."
+    Scadenze:
+      BandoDSU: "Entro la data di scadenza della domanda per l’assegnazione dei benefici e dei servizi del diritto allo studio."
+      AltriCasi: "Entro il 17 ottobre 2025 (se NON partecipi al Bando DSU)."
+    Note:
+      - "L’ISEE deve riportare la dicitura: 'Si applica alle prestazioni agevolate per il Diritto allo studio Universitario in favore di <tuocodicefiscale>'."
+      - "L’Università acquisirà direttamente i dati dalla banca dati INPS; l'attestazione cartacea non va consegnata allo sportello."
+      - "Se non richiedi l'attestazione ISEE, paghi il massimo delle tasse."
+    Riferimento: "Tasse ed esoneri"
+
+  PostaElettronicaIstituzionale:
+    Azione: "Attivare l’indirizzo di posta elettronica istituzionale."
+    FormatoEmail: "codicefiscale@studenti.unical.it"
+    Note:
+      - "Questo indirizzo mail verrà utilizzato per le comunicazioni ufficiali da parte dell’Ateneo."
+      - "Gli immatricolati a corsi di laurea magistrale (che hanno conseguito la triennale in Unical) possono accedere alla mail istituzionale con le credenziali già in possesso."
+    Link: "unical.it/mailstudenti"
+
+  RiconoscimentoETesseraStudenti:
+    Azione: "Procedere con il riconoscimento e attivare la Tessera Studenti."
+    AttenzioneAccessoServizi: "Puoi usufruire del servizio mensa e seguire i corsi anche se ancora non hai validato la foto (potrai farlo successivamente)."
+    NoteMagistrale: "Gli immatricolati a corsi di laurea magistrale (che hanno conseguito la triennale in Unical) e che hanno già validato la foto e il documento d'identità non devono ripetere l'operazione."
+    Passaggi:
+      Passo1_CaricamentoFoto:
+        Istruzioni: "Carica la foto su Esse3 (Esse3 -> menu -> home -> foto), solo se non lo hai fatto in fase di immatricolazione. Si consiglia formato pdf."
+        AttenzioneFormato: "La foto deve essere formato tessera."
+      Passo2_ValidazioneFoto:
+        Istruzioni: "Procedi con la validazione della foto. Può essere fatta in due modi: presentarsi presso lo sportello fisico dei Servizi Didattici oppure accedere allo sportello virtuale."
+        DocumentiAportata: "Tieni a portata di mano il numero di matricola e il documento di identità caricato su Esse3 in fase di immatricolazione."
+        AttenzioneDocumento: "Su Esse3 deve essere caricato sia il FRONTE che il RETRO del documento di identità (Esse3 -> menu -> segreteria -> documenti di identità). Se carichi solo il FRONTE o solo il RETRO, la validazione non potrà essere effettuata."
+      Passo3_App: "Scarica l'App Unical Life e genera la Tessera Studenti."
+    Riferimento: "Servizi Didattici UNICAL - Università della Calabria"
+
+  BorsaDiStudioEServiziDSU:
+    Azione: "Se hai i requisiti, presenta domanda per la Borsa di Studio e i Servizi (alloggi e mensa) nei tempi stabiliti dal bando."
+    Note: "Entro il mese di luglio di ogni anno viene pubblicato il bando contenente le norme per la partecipazione al concorso."
+    Riferimento: "Vademecum Diritto allo studio"
+
+  VerificaEsoneri:
+    Azione: "Verificare se puoi godere di esoneri delle tasse e dei contributi."
+    Note: "Sono previsti esoneri che permettono di non pagare o pagare in misura ridotta le tasse e i contributi. Ne hanno diritto gli studenti con precisi requisiti di reddito, di merito o disabilità. Alcuni esoneri sono calcolati in automatico sulla base dell’ISEE 2025, per altri lo studente deve compilare apposita richiesta."
+    Riferimento: "Tasse ed esoneri (Esoneri)"
+
+  ProgrammaDUnicALCareer:
+    Azione: "Se sei un atleta, verifica se hai requisiti per partecipare al programma DUnicAL Career Studente-Atleta."
+    Note: "Il programma valorizza i talenti sportivi e aiuta gli atleti a conciliare i due percorsi (didattico e sportivo) in maniera parallela e agevole."
+    Riferimento: "Programma DUnicAL Career"
+
+  GuideVideo:
+    GuidaEsse3: "Video guida che illustra brevemente le principali funzioni di Esse3 lato studente, la piattaforma per gestire la propria carriera universitaria."
+    GuidaTicketUnical: "Video guida sintetica sull’utilizzo del sistema di helpdesk di Ateneo che consente di aprire procedure legate alla carriera universitaria e chiedere assistenza alle diverse strutture di Ateneo in modo veloce e senza spostarsi fisicamente."

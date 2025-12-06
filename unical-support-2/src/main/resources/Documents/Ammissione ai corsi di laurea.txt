@@ -1,0 +1,109 @@
+RegoleGenerali:
+  NotePunteggio: "Il punteggio ottenuto nella sezione di lingua inglese non rientra nel conteggio. Ciascuna graduatoria sarà stilata sulla base del punteggio ottenuto al TOLC."
+  DateTOLC: "Il TOLC-B, il TOLC-S e il TOLC-F si svolgeranno presso l’Università della Calabria nelle date indicate all’art. 4 del bando. Il TOLC-E e il TOLC-I si svolgeranno presso l’Università della Calabria nelle date indicate all’art. 4 del bando."
+  LinkCISIA:
+    StrutturaModalitàSillabo: "Struttura del test, modalità di attribuzione dei punteggi e sillabo sono pubblicati sul sito CISIA al link:"
+    TOLC-B: "cisiaonline.it/tolc/tolc-b"
+    TOLC-S: "cisiaonline.it/tolc/tolc-s"
+    TOLC-F: "cisiaonline.it/tolc/tolc-f"
+    TOLC-SU: "cisiaonline.it/tolc/tolc-su"
+    TOLC-PSI: "cisiaonline.it/tolc/tolc-psi"
+    TOLC-E: "cisiaonline.it/tolc/tolc-e"
+    TOLC-I: "cisiaonline.it/tolc/tolc-i"
+
+DipartimentiECorsi:
+  DIBEST:
+    NomeCompleto: "Dipartimento di Biologia, Ecologia e Scienze della Terra"
+    Corsi:
+      LT-BIOLOGIA: {TOLC: "TOLC-B", PunteggioMinimo: "8/50"}
+      LT-SCIENZE-E-TECNOLOGIE-BIOLOGICHE: {TOLC: "TOLC-B", PunteggioMinimo: "8/50"}
+      LT-SCIENZE-NATURALI-E-AMBIENTALI: {TOLC: "TOLC-S", PunteggioMinimo: "No"}
+      LT-SCIENZE-GEOLOGICHE: {TOLC: "TOLC-S", PunteggioMinimo: "No"}
+      LT-SCIENZE-E-TECNOLOGIE-PER-LE-ATTIVITA-MOTORIE-E-SPORTIVE: {TOLC: "TOLC-F", PunteggioMinimo: "8/50"}
+    NoteSpecifiche: "Dopo l’immatricolazione, solo per il corso di laurea in Scienze e tecnologie per le attività motorie e sportive, è obbligatorio allegare su Esse3 un certificato di idoneità sportiva per attività agonistica, o non agonistica, in corso di validità."
+
+  CTC:
+    NomeCompleto: "Dipartimento di Chimica e Tecnologie Chimiche"
+    Corsi:
+      LT-CHIMICA: {TOLC: "TOLC-S", PunteggioMinimo: "No"}
+
+  DiCES:
+    NomeCompleto: "Dipartimento di CULTURE, EDUCAZIONE E SOCIETÀ"
+    Corsi:
+      LT-SCIENZE-DELL-EDUCAZIONE: {TOLC: "TOLC-SU", PunteggioMinimo: "No"}
+      LT-MEDIAZIONE-LINGUISTICA: {TOLC: "TOLC-SU", PunteggioMinimo: "No"}
+      LT-SCIENZE-E-TECNICHE-PSICOLOGICHE: {TOLC: "TOLC-PSI", PunteggioMinimo: "No"}
+
+  DESF:
+    NomeCompleto: "Dipartimento di Economia, Statistica e Finanza “Giovanni Anania”"
+    Corsi:
+      LT-ECONOMIA: {TOLC: "TOLC-E", PunteggioMinimo: "No"}
+      LT-STATISTICA-PER-DATA-SCIENCE: {TOLC: "TOLC-E", PunteggioMinimo: "No"}
+
+  DFSSN:
+    NomeCompleto: "Dipartimento di Farmacia e Scienze della Salute e della Nutrizione"
+    Corsi:
+      LT-SCIENZA-DELLA-NUTRIZIONE: {TOLC: "TOLC-F", PunteggioMinimo: "No"}
+      LT-INFORMAZIONE-SCIENTIFICA-DEL-FARMACO-E-DELLE-TECNOLOGIE-PER-LA-SALUTE: {TOLC: "TOLC-F", PunteggioMinimo: "No"}
+      LMCU-FARMACIA: {TOLC: "TOLC-F", PunteggioMinimo: "No"}
+      LMCU-CHIMICA-E-TECNOLOGIA-FARMACEUTICHE: {TOLC: "TOLC-F", PunteggioMinimo: "No"}
+
+  FISICA:
+    NomeCompleto: "Dipartimento di FISICA"
+    Corsi:
+      LT-FISICA: {TOLC: "TOLC-I", PunteggioMinimo: "11/50"}
+
+  DINCI:
+    NomeCompleto: "Dipartimento di Ingegneria Civile"
+    Corsi:
+      LT-INGEGNERIA-CIVILE: {TOLC: "TOLC-I", PunteggioMinimo: "9/50"}
+
+  DIAm:
+    NomeCompleto: "Dipartimento di Ingegneria dell’Ambiente"
+    Corsi:
+      LT-INGEGNERIA-DELL-AMBIENTE-E-DELLA-SICUREZZA-DEL-TERRITORIO: {TOLC: "TOLC-I", PunteggioMinimo: "No"}
+      LT-TECNOLOGIE-DEL-MARE-E-DELLA-NAVIGAZIONE: {TOLC: "TOLC-S", PunteggioMinimo: "No"}
+
+  DIMES:
+    NomeCompleto: "Dipartimento di Ingegneria Informatica, Modellistica, Elettronica e Sistemistica"
+    Corsi:
+      LT-INGEGNERIA-INFORMATICA: {TOLC: "TOLC-I", PunteggioMinimo: "No"}
+      LT-INGEGNERIA-ELETTRONICA: {TOLC: "TOLC-I", PunteggioMinimo: "No"}
+      LT-INGEGNERIA-CHIMICA: {TOLC: "TOLC-I", PunteggioMinimo: "No"}
+      LT-INGEGNERIA-BIOMEDICA: {TOLC: "TOLC-I", PunteggioMinimo: "No"}
+
+  DIMEG:
+    NomeCompleto: "Dipartimento di Ingegneria Meccanica, Energetica e Gestionale"
+    Corsi:
+      LT-INGEGNERIA-MECCANICA: {TOLC: "TOLC-I", PunteggioMinimo: "9/50"}
+      LT-INGEGNERIA-GESTIONALE: {TOLC: "TOLC-I", PunteggioMinimo: "9/50"}
+
+  DEMACS:
+    NomeCompleto: "Dipartimento di Matematica e Informatica"
+    Corsi:
+      LT-INFORMATICA: {TOLC: "TOLC-I", PunteggioMinimo: "No"}
+      LT-MATEMATICA: {TOLC: "TOLC-I", PunteggioMinimo: "8/40"}
+
+  DISCAG:
+    NomeCompleto: "Dipartimento di Scienze Aziendali e Giuridiche"
+    Corsi:
+      LT-ECONOMIA-AZIENDALE: {TOLC: "TOLC-E", PunteggioMinimo: "No"}
+      LT-SCIENZE-DEL-TURISMO-E-DEI-SERVIZI-TURISTICI: {TOLC: "TOLC-E", PunteggioMinimo: "No"}
+      LT-SERVIZI-GIURIDICI-PER-L-INNOVAZIONE-DIGITALE: {TOLC: "TOLC-E", PunteggioMinimo: "No"}
+      LMCU-GIURISPRUDENZA: {TOLC: "TOLC-E", PunteggioMinimo: "No"}
+
+  DISPeS:
+    NomeCompleto: "Dipartimento di Scienze Politiche Sociali"
+    Corsi:
+      LT-MEDIA-E-SOCIETA-DIGITALE: {TOLC: "TOLC-E", PunteggioMinimo: "6/36"}
+      LT-SCIENZE-DELL-AMMINISTRAZIONE: {TOLC: "TOLC-E", PunteggioMinimo: "6/36"}
+      LT-SCIENZE-POLITICHE-E-RELAZIONI-INTERNAZIONALI: {TOLC: "TOLC-E", PunteggioMinimo: "6/36"}
+      LT-SERVIZIO-SOCIALE: {TOLC: "TOLC-E", PunteggioMinimo: "6/36"}
+
+  DISU:
+    NomeCompleto: "Dipartimento di Studi Umanistici"
+    Corsi:
+      LT-LETTERE: {TOLC: "TOLC-SU", PunteggioMinimo: "No"}
+      LT-LINGUE-E-CULTURE-MODERNE: {TOLC: "TOLC-SU", PunteggioMinimo: "No"}
+      LT-COMUNICAZIONE-E-DAMS: {TOLC: "TOLC-SU", PunteggioMinimo: "No"}
+      LT-FILOSOFIA-E-STORIA: {TOLC: "TOLC-SU", PunteggioMinimo: "No"}

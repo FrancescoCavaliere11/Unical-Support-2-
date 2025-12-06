@@ -120,4 +120,5 @@ public class CategoryServiceImpl implements CategoryService {
 
         return description != null && !description.isBlank() && description.length() >= 10 && description.length() <= 500;
     }
+
 }
