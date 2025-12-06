@@ -1,0 +1,21 @@
+ModalitaDiContatto:
+
+  SistemaDiTicketing:
+    StatoServizio: "I servizi sono completamente digitalizzati."
+    URL: "ticket.unical.it"
+    IstruzioniAccesso:
+      - "Accedi con le credenziali di ESSE3 o con SPID."
+      - "Scegli come struttura 'Servizi Didattici'."
+      - "Seleziona il modulo di tuo interesse."
+
+  SportelloVirtuale:
+    OrariDiApertura:
+      Mattina: "da lunedì a venerdì dalle 10:00 alle 12:00"
+      Pomeriggio: "Martedì e Mercoledì dalle 15:00 alle 17:00"
+    Note: "Festivi esclusi."
+
+  SportelloFisico:
+    OrariDiApertura:
+      Mattina: "da lunedì a venerdì dalle 10:00 alle 12:00"
+      Pomeriggio: "Martedì e Giovedì dalle 15:00 alle 17:00"
+    Note: "Festivi esclusi."

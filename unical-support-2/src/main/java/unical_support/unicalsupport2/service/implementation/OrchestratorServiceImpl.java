@@ -133,7 +133,7 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             System.out.printf("Email ID: %d | Destinatario: %s%n", r.getEmailId(), original.getTo());
 
             boolean isNonRiconosciuta = classification.getCategories().stream()
-                    .anyMatch(c -> "NON_RICONOSCIUTA".equalsIgnoreCase(c.getCategory()));
+                    .anyMatch(c -> "NON RICONOSCIUTA".equalsIgnoreCase(c.getCategory()));
 
             if (isNonRiconosciuta) {
                 System.out.println(ANSI_YELLOW + "  EMAIL NON RICONOSCIUTA -> INOLTRO ALL'OPERATORE" + ANSI_RESET);
