@@ -12,6 +12,5 @@ public interface EmailService {
 
     void updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto);
     
-    //Sfrutto lo stesso metodo, ma aggiungo un flag per distinguere le due casistiche
-    void saveEmail(EmailMessage emailToSave, boolean classified, ClassificationResultDto classificationResultDto);
+    void saveEmail(EmailMessage emailToSave, ClassificationResultDto classificationResultDto);
 }

@@ -71,10 +71,10 @@ public class EmailServiceImpl implements EmailService {
 
     //Così quando nell' orchestrator usiamo il metodo diamo la possibilità di specificare se è classificata o no
     @Override
-    public void saveEmail(EmailMessage emailToSave, boolean classified, ClassificationResultDto classificationResultDto) {
+    public void saveEmail(EmailMessage emailToSave, ClassificationResultDto classificationResultDto) {
 
         EmailToClassify emailToClassify = modelMapper.map(emailToSave, EmailToClassify.class);
-        emailToClassify.setClassified(classified);
+        emailToClassify.setClassified(false);
         emailToClassify.setExplanation(classificationResultDto.getExplanation());
         
         emailToClassify.setSingleClassifications(
