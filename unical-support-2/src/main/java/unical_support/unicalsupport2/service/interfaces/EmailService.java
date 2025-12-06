@@ -12,5 +12,6 @@ public interface EmailService {
 
     void updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto);
     
-    void saveEmailWithLowConfidence(EmailMessage emailToSave, ClassificationResultDto classificationResultDto);
+    //Sfrutto lo stesso metodo, ma aggiungo un flag per distinguere le due casistiche
+    void saveEmail(EmailMessage emailToSave, boolean classified, ClassificationResultDto classificationResultDto);
 }

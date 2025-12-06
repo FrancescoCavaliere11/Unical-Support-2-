@@ -139,11 +139,15 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             boolean isNonRiconosciuta = classification.getCategories().stream()
                     .anyMatch(c -> "NON RICONOSCIUTA".equalsIgnoreCase(c.getCategory()));
 
+            //Qui se l'email non è classificata viene saltavo con il flag a false
             if (isLowConfidence || isNonRiconosciuta) {
-                    emailService.saveEmailWithLowConfidence(original, classification);
+                    emailService.saveEmail(original, false, classification);
                 if (isNonRiconosciuta) {
                     System.out.println(ANSI_YELLOW + "  EMAIL NON RICONOSCIUTA -> INOLTRO ALL'OPERATORE" + ANSI_RESET);
                 }
+            } else {
+                //In caso contrario la salvo come classificata
+                emailService.saveEmail(original, true, classification);
             }
 
             if (r.getResponses() != null) {
