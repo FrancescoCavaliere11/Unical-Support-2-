@@ -133,20 +133,18 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             System.out.println("--------------------------------------------------");
             System.out.printf("Email ID: %d | Destinatario: %s%n", r.getEmailId(), original.getTo());
 
-            boolean isLowConfidence = classification.getCategories().stream()
-                    .anyMatch(c -> c.getConfidence() <= 0.7);
+//            boolean isLowConfidence = classification.getCategories().stream()
+//                    .anyMatch(c -> c.getConfidence() <= 0.7);
 
             boolean isNonRiconosciuta = classification.getCategories().stream()
                     .anyMatch(c -> "NON RICONOSCIUTA".equalsIgnoreCase(c.getCategory()));
 
-            if (isLowConfidence || isNonRiconosciuta) {
-                emailService.saveEmailWithLowConfidence(original, classification);
-                if (isNonRiconosciuta) {
+            if (isNonRiconosciuta) { // isLowConfidence ||
+                    emailService.saveEmailWithLowConfidence(original, classification);
+                //if (isNonRiconosciuta) {
                     System.out.println(ANSI_YELLOW + "  EMAIL NON RICONOSCIUTA -> INOLTRO ALL'OPERATORE" + ANSI_RESET);
-                }
+                //}
             }
-
-
 
             if (r.getResponses() != null) {
                 for (SingleResponseDto response : r.getResponses()) {
