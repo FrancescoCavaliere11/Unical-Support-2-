@@ -133,22 +133,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             System.out.println("--------------------------------------------------");
             System.out.printf("Email ID: %d | Destinatario: %s%n", r.getEmailId(), original.getTo());
 
-            boolean isLowConfidence = classification.getCategories().stream()
-                    .anyMatch(c -> c.getConfidence() <= 0.7);
-
-            boolean isNonRiconosciuta = classification.getCategories().stream()
-                    .anyMatch(c -> "NON RICONOSCIUTA".equalsIgnoreCase(c.getCategory()));
-
-            /*//Qui se l'email non è classificata viene saltavo con il flag a false
-            if (isLowConfidence || isNonRiconosciuta) {
-                    emailService.saveEmail(original, false, classification);
-                if (isNonRiconosciuta) {
-                    System.out.println(ANSI_YELLOW + "  EMAIL NON RICONOSCIUTA -> INOLTRO ALL'OPERATORE" + ANSI_RESET);
-                }
-            } else {
-                //In caso contrario la salvo come classificata
-                
-            }*/
             emailService.saveEmail(original, classification);
 
             if (r.getResponses() != null) {
