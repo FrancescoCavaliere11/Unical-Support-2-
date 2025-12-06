@@ -63,7 +63,6 @@ class OrchestratorTest {
 //        when(judgerService.judge(anyList(), anyList())).thenReturn(new ArrayList<>());
 //
 //        ResponderResultDto fakeResponderResult = new ResponderResultDto(0, new ArrayList<>());
-//
 //        when(emailResponder.generateEmailResponse(anyList())).thenReturn(List.of(fakeResponderResult));
 //
 //
@@ -74,7 +73,7 @@ class OrchestratorTest {
 //
 //        EmailMessage forwarded = captor.getValue();
 //
-//        assertThat(forwarded.getTo()).contains("mittente@esempio.it");
+//        assertThat(forwarded.getTo()).contains("lorenzo.test.04112025@gmail.com");
 //        assertThat(forwarded.getSubject()).contains("NON RICONOSCIUTA");
 //        assertThat(forwarded.getBody()).contains("mittente@esempio.it");
 //    }
