@@ -123,22 +123,4 @@ export class UploadDocument implements OnInit{
       });
   }
 
-
-  // Validator
-
-  /* todo
-  fileCountValidator(min: number, max: number): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const files: File[] = control.value || [];
-      if (files.length < min) {
-        return {minFiles: {required: min, actual: files.length}};
-      }
-      if (files.length > max) {
-        return {maxFiles: {max: max, actual: files.length}};
-      }
-      return null;
-    };
-  }
-
-   */
 }
