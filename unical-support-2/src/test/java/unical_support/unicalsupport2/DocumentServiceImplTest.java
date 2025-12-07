@@ -70,7 +70,7 @@ class DocumentServiceImplTest {
 
         Mockito.when(categoryRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.of(category));
         Mockito.when(documentRepository.save(any())).thenReturn(savedDoc);
-        Mockito.when(extractor.extractText(any())).thenReturn("uno due tre quattro cinque sei");
+        Mockito.when(extractor.extractText((File) any())).thenReturn("uno due tre quattro cinque sei");
 
 
         Mockito.when(chunkRepository.saveAndFlush(any())).thenAnswer(i -> i.getArgument(0));

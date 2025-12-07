@@ -1,10 +1,11 @@
 package unical_support.unicalsupport2.service.implementation;
 
-import com.google.gson.Gson; // Usa Gson per trasformare float[] in stringa JSON
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import unical_support.unicalsupport2.data.dto.Document.DocumentProcessingResult;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.Document;
@@ -53,11 +54,11 @@ public class DocumentServiceImpl implements DocumentService {
         String text = textExtractorService.extractText(file);
         List<String> chunksText = splitIntoChunksByWords(text, 300, 50);
 
-        int index = 0;
-        for (String chText : chunksText) {
+        for (int i = 0; i < chunksText.size(); i++) {
+            String chText = chunksText.get(i);
             // 1. Salva il Chunk (Testo) con Hibernate
             DocumentChunk chunk = new DocumentChunk();
-            chunk.setChunkIndex(index++);
+            chunk.setChunkIndex(i);
             chunk.setContent(chText);
             chunk.setDocument(doc);
 
@@ -93,7 +94,52 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public DocumentProcessingResult processAndSaveDocumentFromMultipart(File file, Category category) { return null; }
+    public void processAndSaveDocumentFromMultipart(MultipartFile multipart, String categoryId) {
+        if (multipart == null || multipart.isEmpty()) {
+            throw new IllegalArgumentException("Multipart file non valido");
+        }
+
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+
+        Document doc = new Document();
+        doc.setOriginalFilename(multipart.getOriginalFilename());
+        doc.setFileType(extractExtension(multipart.getOriginalFilename()));
+        doc.setCategory(category);
+
+        documentRepository.save(doc);
+
+        String text = textExtractorService.extractText(multipart);
+        List<String> chunksText = splitIntoChunksByWords(text, 300, 50);
+
+        for (int i = 0; i < chunksText.size(); i++) {
+            String chText = chunksText.get(i);
+            // 1. Salva il Chunk (Testo) con Hibernate
+            DocumentChunk chunk = new DocumentChunk();
+            chunk.setChunkIndex(i);
+            chunk.setContent(chText);
+            chunk.setDocument(doc);
+
+
+            chunk = chunkRepository.saveAndFlush(chunk);
+
+
+            // 2. Genera Embedding
+            float[] emb = geminiApiClient.embed(chText);
+
+            // 3. Salva Embedding con SQL PURO
+            String embeddingJson = gson.toJson(emb);
+            String sql = "INSERT INTO chunk_embeddings (id, chunk_id, embedding) VALUES (?, ?, ?::vector)";
+
+            jdbcTemplate.update(sql, UUID.randomUUID().toString(), chunk.getId(), embeddingJson);
+        }
+    }
+
+    private String extractExtension(String filename) {
+        if (filename == null || !filename.contains(".")) return "";
+        return filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+    }
+
 
     @Override
     @Transactional
@@ -115,6 +161,7 @@ public class DocumentServiceImpl implements DocumentService {
         return String.format("Documento '%s' (ID: %s) eliminato. Rimossi %d chunk e %d vettori.",
                 filename, id, chunksCount, vectorsDeleted);
     }
+
     @Override
     @Transactional(readOnly = true) // Necessario per leggere la size() dei chunk lazy
     public String listDocuments() {

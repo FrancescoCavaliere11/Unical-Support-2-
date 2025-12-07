@@ -14,11 +14,29 @@ header, nav {
 }
 
 header {
+  justify-content: space-between;
+}
+
+header > .actions > button {
+  display: flex;
+  align-items: center;
+
+  padding: 8px;
+  gap: 8px;
+}
+
+.btn-icon {
+  stroke: var(--text-strong);
+}
+
+header > .logo{
+  display: flex;
+  align-items: center;
   padding: 16pt;
   gap: 4pt;
 }
 
-header > img {
+header > .logo > img {
   height: 50pt;
 }
 
@@ -66,3 +84,4 @@ main{
   width: 100%;
   padding: 16pt;
 }
+
