@@ -1,6 +1,7 @@
 package unical_support.unicalsupport2.service.implementation;
 
 import com.google.gson.Gson;
+import com.pgvector.PGvector;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -8,9 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import unical_support.unicalsupport2.data.dto.Document.DocumentProcessingResult;
 import unical_support.unicalsupport2.data.entities.Category;
+import unical_support.unicalsupport2.data.entities.ChunkEmbedding;
 import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
+import unical_support.unicalsupport2.data.repositories.ChunkEmbeddingRepository;
 import unical_support.unicalsupport2.data.repositories.DocumentChunkRepository;
 import unical_support.unicalsupport2.data.repositories.DocumentRepository;
 import unical_support.unicalsupport2.service.interfaces.DocumentService;
@@ -20,14 +23,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
-    private final DocumentChunkRepository chunkRepository;
     private final TextExtractorService textExtractorService;
     private final LlmClient geminiApiClient;
     private final CategoryRepository categoryRepository;
@@ -54,27 +55,27 @@ public class DocumentServiceImpl implements DocumentService {
         String text = textExtractorService.extractText(file);
         List<String> chunksText = splitIntoChunksByWords(text, 300, 50);
 
+        List<DocumentChunk> chunks = new ArrayList<>();
         for (int i = 0; i < chunksText.size(); i++) {
             String chText = chunksText.get(i);
-            // 1. Salva il Chunk (Testo) con Hibernate
+
             DocumentChunk chunk = new DocumentChunk();
             chunk.setChunkIndex(i);
             chunk.setContent(chText);
             chunk.setDocument(doc);
 
-
-            chunk = chunkRepository.saveAndFlush(chunk);
-
-
-            // 2. Genera Embedding
             float[] emb = geminiApiClient.embed(chText);
 
-            // 3. Salva Embedding con SQL PURO
-            String embeddingJson = gson.toJson(emb);
-            String sql = "INSERT INTO chunk_embeddings (id, chunk_id, embedding) VALUES (?, ?, ?::vector)";
+            ChunkEmbedding embedding = new ChunkEmbedding();
+            embedding.setEmbedding(new PGvector(emb));
+            embedding.setChunk(chunk);
 
-            jdbcTemplate.update(sql, UUID.randomUUID().toString(), chunk.getId(), embeddingJson);
+            chunk.setEmbedding(embedding);
+            chunks.add(chunk);
         }
+
+        doc.setChunks(chunks);
+        documentRepository.save(doc);
 
         return new DocumentProcessingResult(doc.getId(), doc.getOriginalFilename(), doc.getFileType(), category.getName(), chunksText.size());
     }
@@ -107,32 +108,31 @@ public class DocumentServiceImpl implements DocumentService {
         doc.setFileType(extractExtension(multipart.getOriginalFilename()));
         doc.setCategory(category);
 
-        documentRepository.save(doc);
 
         String text = textExtractorService.extractText(multipart);
         List<String> chunksText = splitIntoChunksByWords(text, 300, 50);
 
+        List<DocumentChunk> chunks = new ArrayList<>();
         for (int i = 0; i < chunksText.size(); i++) {
             String chText = chunksText.get(i);
-            // 1. Salva il Chunk (Testo) con Hibernate
+
             DocumentChunk chunk = new DocumentChunk();
             chunk.setChunkIndex(i);
             chunk.setContent(chText);
             chunk.setDocument(doc);
 
-
-            chunk = chunkRepository.saveAndFlush(chunk);
-
-
-            // 2. Genera Embedding
             float[] emb = geminiApiClient.embed(chText);
 
-            // 3. Salva Embedding con SQL PURO
-            String embeddingJson = gson.toJson(emb);
-            String sql = "INSERT INTO chunk_embeddings (id, chunk_id, embedding) VALUES (?, ?, ?::vector)";
+            ChunkEmbedding embedding = new ChunkEmbedding();
+            embedding.setEmbedding(new PGvector(emb));
+            embedding.setChunk(chunk);
 
-            jdbcTemplate.update(sql, UUID.randomUUID().toString(), chunk.getId(), embeddingJson);
+            chunk.setEmbedding(embedding);
+            chunks.add(chunk);
         }
+
+        doc.setChunks(chunks);
+        documentRepository.save(doc);
     }
 
     private String extractExtension(String filename) {
