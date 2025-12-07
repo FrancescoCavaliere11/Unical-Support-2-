@@ -3,6 +3,7 @@ package unical_support.unicalsupport2.service.implementation;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.search.FlagTerm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -85,10 +86,7 @@ public class GmailReceiverImpl implements EmailReceiver {
             Folder inbox = store.getFolder("INBOX");
             inbox.open(Folder.READ_WRITE);
 
-            // Qui prendo solo le emajl che hanno il flag SEEN impostato su false, per il momento le prendiamo tutte
-            // Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
-
-            Message[] messages = inbox.getMessages();
+            Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
 
             for (Message m : messages) {
                 EmailMessage emailMessage = new EmailMessage();
@@ -122,9 +120,7 @@ public class GmailReceiverImpl implements EmailReceiver {
 
                 result.add(emailMessage);
 
-                // Quando ci sposteremo in una situazione reale con solo il fetch delle email non lette
-                // lì allora potremmo valutare di segnarle come lette, ora è inutile
-                //m.setFlag(Flags.Flag.SEEN, true);
+                m.setFlag(Flags.Flag.SEEN, true);
             }
 
             inbox.close(true);
