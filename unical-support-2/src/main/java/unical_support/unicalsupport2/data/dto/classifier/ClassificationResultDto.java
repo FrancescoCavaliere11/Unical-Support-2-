@@ -6,9 +6,9 @@ import java.util.List;
 
 @Data
 public class ClassificationResultDto {
-    private final List<SingleCategoryDto> categories;
-    private final String explanation;
-    private final int id; // id per mantenere l'ordine della lista
+    private List<SingleCategoryDto> categories;
+    private String explanation;
+    private int id; // id per mantenere l'ordine della lista
 
     @Override
     public String toString() {

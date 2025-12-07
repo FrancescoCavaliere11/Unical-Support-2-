@@ -1,4 +1,4 @@
-package unical_support.unicalsupport2.data.dto.email;
+package unical_support.unicalsupport2.data.dto.responder;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
