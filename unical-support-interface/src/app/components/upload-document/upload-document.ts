@@ -6,7 +6,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import {CategoryDto} from '../../model/category-dto';
 import {Category} from '../../services/category';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Document} from '../../services/document';
 
 @Component({
@@ -34,7 +34,7 @@ export class UploadDocument implements OnInit{
     private documentService: Document,
   ) {
     this.form = this.formBuilder.group({
-      categoryId: [''],
+      categoryId: ['', Validators.required],
       files: [[]]
     })
   }
@@ -132,4 +132,22 @@ export class UploadDocument implements OnInit{
       });
   }
 
+
+  // Validator
+
+  /* todo
+  fileCountValidator(min: number, max: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const files: File[] = control.value || [];
+      if (files.length < min) {
+        return {minFiles: {required: min, actual: files.length}};
+      }
+      if (files.length > max) {
+        return {maxFiles: {max: max, actual: files.length}};
+      }
+      return null;
+    };
+  }
+
+   */
 }
