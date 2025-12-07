@@ -1,0 +1,46 @@
+CertificatiEPergameneDiLaurea:
+
+  RequisitiGenerali:
+    RegolaritaFiscale: "Chi è in regola con il pagamento delle tasse e dei contributi annuali ha diritto a ottenere la certificazione della sua condizione, dei crediti acquisiti, del titolo di studio conseguito e il rilascio del Diploma Supplement."
+    StudentiNonInRegola: "Possono essere rilasciati soltanto certificati relativi agli anni accademici per i quali risulta iscritto (esclusi quelli relativi agli anni con pendenze)."
+
+  RichiesteCertificati:
+    UsoNazionale:
+      Rilascio: "Per certificati da produrre sul **TERRITORIO NAZIONALE** (incluso il Diploma Supplement) è necessario contattare la **SEGRETERIA DEL DIPARTIMENTO**."
+      Contatti: "INFO CONTATTI DIPARTIMENTI: https://www.unical.it/organizzazione/strutture/dipartimenti/"
+      AvvertenzaLegale: "Tutti i certificati riporteranno la dicitura: 'Il presente certificato non può essere prodotto agli organi della pubblica amministrazione o ai privati gestori di pubblici servizi.' (Art. 15, legge n. 183/2011)."
+      Costi: "Bollo virtuale (16,00 € di istanza, più 16,00 € per ogni certificato richiesto)."
+    UsoEstero:
+      UsiConsentiti: ["Permesso di soggiorno", "Assegni Familiari", "Generico uso estero"]
+      Normativa: "La limitazione all'uso (Legge 183/2011) **non si applica** quando il certificato viene presentato a soggetti o enti pubblici esteri."
+      Costi: "Verranno generate in Esse3 le tasse inerenti alle imposte di bollo virtuali necessarie (16,00 € di istanza, più 16,00 € per ogni certificato richiesto)."
+      ModuloDiRichiesta: {Disponibilità: "da lunedì ore 9 a venerdì ore 14", Link: "Clicca qui per effettuare la richiesta"}
+      DelegaPerRitiro:
+        Online: "delega online (risparmia tempo e carta)"
+        Cartacea: "delega cartacea"
+
+  Autocertificazioni:
+    Rilascio: "Possono essere richieste e stampate gratuitamente e in autonomia, sostituendo i certificati nei rapporti con la Pubblica Amministrazione nazionale (Art. 46 e 47 del D.P.R. n. 445 del 2000)."
+    Modalita: "Accedere al sistema **Esse3** e stamparla in lingua italiana (con o senza esami sostenuti)."
+
+  AttestazioniANIS:
+    Portale: "Anagrafe Nazionale dell'istruzione Superiore (ANIS) - https://www.anis.mur.gov.it/"
+    Tipologie:
+      - "Attestazione delle iscrizioni attive presso le università italiane (ultimi 3 anni accademici)."
+      - "Attestazione dei titoli conseguiti (Laurea e Laurea Magistrale dal nuovo ordinamento; titoli post-laurea dal 2017)."
+    Uso: "Utilizzabili nei rapporti con **soggetti privati**. La corrispondenza dei dati è verificabile tramite lettura del QR code presente sull’attestazione."
+    Accesso: "Effettuare l’accesso all’area riservata del portale ANIS con identità digitale italiana (SPID o CIE)."
+
+  RilascioPergameneDiLaurea:
+    Laureati1_1_2010_al_31_7_2025:
+      Modalita: "Ritiro senza appuntamento presso gli sportelli dell'Area Servizi Didattici (unical.it/sd per giorni e orari)."
+      Documenti: "Documento di identità valido."
+      Delega: "Possibile tramite delega online (non è necessaria la stampa della delega compilata online)."
+    LaureatiPrimaDel1_1_2010:
+      Modalita: "È necessaria una verifica amministrativa pre-ritiro. Dopo la verifica, ritiro senza appuntamento presso gli sportelli dell'Area Servizi Didattici (unical.it/sd)."
+      Verifica: {Richiesta: "Clicca qui per richiedere la verifica", Disponibilità: "modulo disponibile da lunedì ore 9 a venerdì ore 14"}
+
+  DiplomaSupplement:
+    Descrizione: "Documento integrativo del titolo di studio ufficiale che fornisce una descrizione della natura, del livello, del contenuto e dello status degli studi completati."
+    Rilascio: "Solo per i titoli di cui all’ordinamento ex D.M. 270/2004."
+    Procedura: "Per richiedere il rilascio contattare la segreteria studenti del dipartimento."

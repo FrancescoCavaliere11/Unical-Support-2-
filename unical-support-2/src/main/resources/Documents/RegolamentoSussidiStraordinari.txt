@@ -1,0 +1,118 @@
+RegolamentoSussidiStraordinari:
+
+  Articolo1_FinalitaDestinatariAmbito:
+    [cite_start]Finalita: "Disciplina la valutazione delle pratiche relative a studenti dell’Università della Calabria che richiedono la concessione di un sussidio straordinario, trovandosi in condizioni di dichiarato stato di bisogno, a causa del verificarsi di gravi eventi personali o riguardanti il proprio nucleo familiare, tali da compromettere la prosecuzione degli studi[cite: 1]."
+    MotiviRichiesta:
+      - [cite_start]"Per risolvere o fronteggiare una situazione molto grave di disagio economico[cite: 2]."
+      - [cite_start]"Per estinguere eventuali proprie posizioni debitorie relative a tasse e contributi non pagati[cite: 2]."
+      - [cite_start]"Per estinguere debiti nei confronti del Centro Residenziale relativi a servizi fruiti, non pagati[cite: 2]."
+      - [cite_start]"Per la restituzione, a seguito di eventuale revoca, della quota in denaro della borsa di studio[cite: 2]."
+    [cite_start]FormeVantaggio: "Vantaggio economico, da far gravare, nei limiti delle risorse finanziare disponibili, su fondi appositamente costituiti (Bilancio d’Ateneo e Budget del Centro Residenziale)[cite: 3]."
+    VantaggiEconomiciPossibili:
+      - [cite_start]"Conferimento di un incarico di collaborazione part-time, il cui compenso sarà utilizzato per l’estinzione, completa o parziale, del debito[cite: 4]."
+      - [cite_start]"Esonero dal pagamento di una parte dei debiti maturati[cite: 4]."
+      - [cite_start]"Rateizzazione di una parte dei debiti maturati[cite: 4]."
+      - [cite_start]"Fruizione temporanea di taluni servizi (alloggio e mensa)[cite: 4]."
+    CauseEsclusione:
+      - [cite_start]"Studenti che hanno già usufruito del sussidio straordinario in anni precedenti[cite: 5]."
+      - [cite_start]"Richieste che motivano facendo riferimento ad eventi verificatisi in anni passati, comunque tali da non giustificare la richiesta di sussidio straordinario[cite: 5]."
+      - "Studenti che non rispettino i parametri economici e di merito indicati nel successivo art. 4, fatto salvo quanto previsto nel comma 4 dello stesso art. [cite_start]4[cite: 5]."
+    [cite_start]CarattereSussidio: "Ha carattere di straordinarietà e di non ricorrenza, concesso solo una volta nell’intera carriera universitaria[cite: 6]."
+
+  Articolo2_ModalitaPresentazione:
+    SussidiUOCServiziDidattici_LetteraAeB:
+      [cite_start]Riferimento: "Lettere a) e b) (disagio economico/debiti tasse)[cite: 1, 2]."
+      [cite_start]Presentazione: "Al protocollo dell’Unità Organizzativa Complessa Servizi Didattici dell’Ateneo[cite: 1]."
+      [cite_start]Fondi: "Gravano sugli appositi Fondi del Bilancio d’Ateneo[cite: 1]."
+      [cite_start]Modulo: "Redatto sull’apposito modulo di autocertificazione, scaricabile su unical.it/servizididattici[cite: 1]."
+    SussidiCentroResidenziale_LetteraCeD:
+      [cite_start]Riferimento: "Lettere c) e d) (debiti CR/restituzione borsa)[cite: 2]."
+      [cite_start]Presentazione: "Al protocollo del Centro Residenziale[cite: 2]."
+      [cite_start]Fondi: "Gravano sul Budget dello stesso Centro[cite: 2]."
+      [cite_start]Modulo: "Redatto sull’apposito modulo di autocertificazione, scaricabile su unical.it/cr[cite: 2]."
+    RequisitiIstanza:
+      [cite_start]Disagio: "Lo studente interessato dovrà dimostrare di ritrovarsi in una situazione di grave documentato disagio, comunque tale da compromettere il regolare prosieguo degli studi[cite: 3]."
+      [cite_start]Dichiarazione: "Nelle domande dovranno essere autocertificate le condizioni economico-finanziarie del proprio nucleo familiare[cite: 4]."
+      [cite_start]Documentazione: "Alla domanda potranno essere allegati i documenti che lo studente ritiene utili[cite: 5]."
+      [cite_start]Tempistica: "Gli studenti potranno presentare l’istanza di sussidio straordinario in ogni momento dell’anno[cite: 6]."
+
+  Articolo3_ControlloAutocertificazioni:
+    [cite_start]Istruttoria: "UOC Servizi Didattici e Centro Residenziale (ciascuno per la propria competenza) controllano documentazione allegata, veridicità delle autocertificazioni, e verificano i criteri di ammissibilità[cite: 1]."
+    [cite_start]VerifichePrecedenti: "Controllo che il richiedente non abbia già beneficiato in precedenza o non abbia già svolto per lo stesso anno accademico il servizio part time[cite: 1]."
+    [cite_start]FattiGiustificativi: "I fatti che giustificano la richiesta del sussidio dovranno essere verificabili alla data di presentazione della richiesta[cite: 1]."
+    [cite_start]RelazioneCommissione: "Le strutture predispongono una relazione dettagliata (anche sui dati finanziari dei Fondi) da sottoporre alla Commissione (Art. 4) entro le date ivi indicate[cite: 2]."
+    DichiarazioniNonVeritiere: "Il dichiarante decadrà dal sussidio concesso, perderà il diritto ad altri benefici per tutta la durata del corso e saranno applicate le sanzioni previste dagli artt. 75 e 76 del D.P.R. n. [cite_start]445/2000, fatta salva l’applicazione di sanzioni disciplinari e penali[cite: 3]."
+
+  Articolo4_CommissioneEParametri:
+    CommissioneUnica:
+      [cite_start]Presidente: "Delegato del Rettore al Diritto allo Studio[cite: 1]."
+      [cite_start]Componenti: ["Rappresentanti degli studenti eletti nel Consiglio di Amministrazione [cite: 1][cite_start]", "Responsabile UOC Servizi Didattici [cite: 1][cite_start]", "Responsabile Settore Diritto allo Studio del Centro Residenziale [cite: 1]"]
+      [cite_start]AttivitàAmministrative: "Seguite da un dipendente UOC Servizi Didattici e da un dipendente CR[cite: 1]."
+    DateRiunioniOrdinaria:
+      - [cite_start]"31 gennaio [cite: 2]"
+      - [cite_start]"30 aprile [cite: 2]"
+      - [cite_start]"31 luglio [cite: 2]"
+      - [cite_start]"31 ottobre [cite: 2]"
+    ParametriDiValutazione:
+      Economici:
+        [cite_start]ISEEDSU: "Non superiore al limite previsto annualmente dal bando del diritto allo studio del CR[cite: 3]."
+        [cite_start]ISPE: "Non superiore al limite previsto annualmente dal bando del diritto allo studio del CR[cite: 3]."
+      DiMerito:
+        PrimoAnno:
+          - [cite_start]"Almeno 6 cfu all’atto della domanda, se presentata entro il 31 luglio[cite: 3]."
+          - [cite_start]"Almeno 9 cfu se presentata entro l’ultima seduta dell’anno solare della Commissione[cite: 3]."
+        [cite_start]AnniSuccessiviAlPrimo: "Iscritto non oltre il secondo anno fuori corso[cite: 3]."
+        CreditiMinimiCumulativi:
+          [cite_start]LaureaTriennale: {II: "15 cfu [cite: 3][cite_start]", III: "45 cfu [cite: 3][cite_start]", IV: "81 cfu [cite: 3][cite_start]", V: "150 cfu [cite: 3]"}
+          [cite_start]MagistraleCicloUnico: {II: "15 cfu [cite: 3][cite_start]", III: "45 cfu [cite: 3][cite_start]", IV: "81 cfu [cite: 3][cite_start]", V: "100 cfu [cite: 3][cite_start]", VI: "145 cfu [cite: 3][cite_start]", VII: "180 cfu [cite: 3]"}
+          [cite_start]MagistraleBiennale: {II: "20 cfu [cite: 3][cite_start]", III: "50 cfu [cite: 3][cite_start]", IV: "90 cfu [cite: 3]"}
+    DerogaMerito: "Casi relativi a eventi/situazioni di bisogno/disagio economico particolarmente gravi possono essere presi in considerazione anche se i requisiti di merito non sono del tutto soddisfatti. [cite_start]La Commissione procede all’analisi del percorso di carriera esprimendo una valutazione complessiva utile al giudizio finale[cite: 4]."
+
+  Articolo5_ValoreSussidiConDebiti:
+    PagamentoRateizzato:
+      [cite_start]Modalita: "La Commissione valuta l’ISEEDSU corrente per stabilire la possibilità che lo studente si faccia carico del pagamento rateizzato di una parte del debito[cite: 1]."
+      [cite_start]Limite: "Massimo del **30%** del debito stesso[cite: 1]."
+    NeutralizzazioneDebitoResiduo:
+      PartTime:
+        [cite_start]Modalita: "Conferimento di un incarico part-time (ore massime stabilite dalla normativa, compatibilmente con la carriera dello studente)[cite: 2]."
+        [cite_start]Finalita: "Il compenso sarà utilizzato per la parziale o completa estinzione del debito[cite: 2]."
+      Fondi: "La parte residua, al netto dell'eventuale rateizzazione e del compenso part-time, sarà interamente neutralizzata facendola gravare sui fondi di cui all'Art. [cite_start]1[cite: 2]."
+
+  Articolo6_ValoreSussidiSenzaDebiti:
+    Applicazione: "Per i casi ritenuti particolarmente complessi, riconducibili alla lettera a) dell'Art. [cite_start]1 (disagio economico grave)[cite: 1]."
+    Vantaggio: "La Commissione può stabilire la **fruizione temporanea di taluni servizi** (alloggio e mensa) il cui valore graverà sui Fondi di cui all'Art. [cite_start]2, comma 1[cite: 1]."
+    [cite_start]ErogazioneDenaro: "**In nessun caso si procederà nella diretta erogazione di sussidi in denaro**[cite: 2]."
+
+  Articolo7_GraduatorieEPartTime:
+    Graduatoria:
+      [cite_start]Necessita: "Formulata se le somme stanziate non garantiscono adeguata copertura finanziaria per tutte le domande ammissibili[cite: 1]."
+      [cite_start]Parametro: "Valore crescente dell’ISEE[cite: 2]."
+      [cite_start]CriterioDiParita: "A parità di ISEE in ordine di età decrescente[cite: 2]."
+      [cite_start]ComunicazioneEsito: "Comunicato direttamente ai richiedenti, senza procedere in pubblicazioni[cite: 3]."
+    ConferimentoPartTime:
+      [cite_start]Istruttoria: "Curata da UOC Servizi Didattici e Centro Residenziale, sulla base delle disposizioni vigenti e del Bando annuale d’Ateneo[cite: 4]."
+      [cite_start]SedeSvolgimento: "UOC Servizi Didattici, CR o qualunque struttura dell’Ateneo[cite: 5]."
+      EsempiAttivita:
+        - [cite_start]"Supporto attività di accoglienza nel front office[cite: 5]."
+        - [cite_start]"Collaborazione per i servizi informativi, culturali e promozionali[cite: 5]."
+        - [cite_start]"Collaborazione con il personale preposto agli uffici[cite: 5]."
+        - [cite_start]"Inserimento dati, aggiornamento di tabelle e database, catalogazione di documenti in database elettronici[cite: 5]."
+    Provvedimenti:
+      [cite_start]AdottatiDa: "Direzione Generale dell’Ateneo (per istruttorie UOC Servizi Didattici) o Direzione del CR (per istruttorie CR)[cite: 6]."
+
+  Articolo8_ResponsabileProcedimento:
+    [cite_start]UOCServiziDidattici: "Responsabile della stessa UOC Servizi Didattici[cite: 1]."
+    [cite_start]CR: "Responsabile del Settore Diritto allo Studio dello stesso CR[cite: 1]."
+
+  Articolo9_TrattamentoDeiDati:
+    [cite_start]Finalita: "Unicamente all’espletamento delle attività previste dal presente Regolamento[cite: 1]."
+    [cite_start]Modalita: "A cura delle persone preposte, con utilizzo di procedure anche informatizzate[cite: 1]."
+    [cite_start]ObbligoConferimento: "Il conferimento dei dati è necessario per verificare i requisiti e la loro mancata indicazione può precludere tale verifica[cite: 1]."
+    DirittiInteressati: "Riconosciuti i diritti di cui agli artt. [cite_start]15 e ss. del Regolamento (UE) 2016/679 (accesso, rettifica, cancellazione, limitazione, opposizione)[cite: 2]."
+    [cite_start]Reclamo: "Diritto di proporre reclamo al Garante per la protezione dei dati personali o di adire le opportune sedi giudiziarie[cite: 3]."
+    [cite_start]ResponsabileDellaProtezioneDeiDatiRPD: "rpd@unical.it[cite: 4]."
+    [cite_start]InformativaDettagliata: "unical.it/privacy[cite: 5]."
+
+  Articolo10_NormeTransitorie:
+    [cite_start]IstanzePrecedenti: "Eventuali istanze presentate prima dell’approvazione del presente Regolamento e non ancora valutate, dovranno essere ripresentate seguendo le modalità ivi indicate[cite: 1]."
+    [cite_start]PrecedentiDisposizioni: "Cessano di avere efficacia a decorrere dalla stessa suddetta approvazione[cite: 2]."
