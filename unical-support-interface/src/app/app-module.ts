@@ -12,6 +12,7 @@ import { EmailToAnswerItem } from './components/email-to-answer-item/email-to-an
 import {AddressesFormatPipe} from "./model/pipes/AddressesFormatPipe";
 import {CategoriesFormatPipe} from './model/pipes/CategoriesFormatPipe';
 import {ConfidenceFormatPipe} from './model/pipes/ConfidenceFormatPipe';
+import { UploadDocument } from './components/upload-document/upload-document';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {ConfidenceFormatPipe} from './model/pipes/ConfidenceFormatPipe';
     ClassificationPage,
     AnswersPage,
     EmailToClassifyItem,
-    EmailToAnswerItem
+    EmailToAnswerItem,
+    UploadDocument
   ],
   imports: [
     BrowserModule,

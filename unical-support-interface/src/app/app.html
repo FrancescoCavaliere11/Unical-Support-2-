@@ -1,8 +1,21 @@
 <section class="wrapper" [class.dark]="settingsService.darkMode">
   <header>
-    <img src="logo.png" alt="Logo Università della Calabria">
-    <h1>Sistema gestione Email</h1>
+    <div class="logo">
+      <img src="logo.png" alt="Logo Università della Calabria">
+      <h1>Sistema gestione Email</h1>
+    </div>
+    <div class="actions">
+      <button (click)="openUploadDocumentPopup()">
+        <hugeicons-icon [icon]="Upload01Icon" class="btn-icon"></hugeicons-icon>
+        Carica Documenti
+      </button>
+    </div>
   </header>
+
+  @if (isUploadDocumentPopupOpen){
+    <app-upload-document (close)="closeUploadDocumentPopup()"></app-upload-document>
+  }
+
 
   <nav>
     <a routerLink="classification" routerLinkActive="active">
