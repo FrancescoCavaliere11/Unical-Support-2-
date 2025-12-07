@@ -44,7 +44,7 @@ public class CategoryCommand {
         return categoryService.createCategories(pathFile);
     }
 
-    @Command(command = "delete", alias = "d", description = "Delete a category by name")
+    @Command(command = "delete", alias = "del", description = "Delete a category by name")
     public String deleteCategory(
             @Option(longNames = "name", shortNames = 'n', description = "Specify the name of the category")
             @NotBlank(message = "name is required")

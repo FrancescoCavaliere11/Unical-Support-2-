@@ -25,6 +25,7 @@ public class OrchestratorServiceImpl implements OrchestratorService {
     private final EmailClassifier emailClassifier;
     private final EmailSender emailSender;
     private final EmailResponder emailResponder;
+    private final EmailService emailService;
     private final JudgerService judgerService;
     private final ModelMapper modelMapper;
 
@@ -132,14 +133,7 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             System.out.println("--------------------------------------------------");
             System.out.printf("Email ID: %d | Destinatario: %s%n", r.getEmailId(), original.getTo());
 
-            boolean isNonRiconosciuta = classification.getCategories().stream()
-                    .anyMatch(c -> "NON_RICONOSCIUTA".equalsIgnoreCase(c.getCategory()));
-
-            if (isNonRiconosciuta) {
-                System.out.println(ANSI_YELLOW + "  EMAIL NON RICONOSCIUTA -> INOLTRO ALL'OPERATORE" + ANSI_RESET);
-                forwardEmailToOperator(original);
-                continue;
-            }
+            emailService.saveEmail(original, classification);
 
             if (r.getResponses() != null) {
                 for (SingleResponseDto response : r.getResponses()) {
@@ -198,24 +192,24 @@ public class OrchestratorServiceImpl implements OrchestratorService {
         return reply;
     }
 
-    private void forwardEmailToOperator(EmailMessage original) {
-        EmailMessage toForward = new EmailMessage();
-        toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
-        toForward.setSubject(" [NON RICONOSCIUTA] Fwd: " + original.getSubject());
-
-        String originalSender = (original.getTo() != null && !original.getTo().isEmpty())
-                ? original.getTo().getFirst()
-                : "(sconosciuto)";
-
-        toForward.setBody(
-                "Attenzione: Il sistema non ha saputo classificare questa email.\n\n" +
-                        "--- Messaggio Originale ---\n" +
-                        "Mittente: " + originalSender + "\n" +
-                        "Testo:\n" + original.getBody()
-        );
-
-        emailSender.sendEmail(toForward);
-    }
+//    private void forwardEmailToOperator(EmailMessage original) {
+//        EmailMessage toForward = new EmailMessage();
+//        toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
+//        toForward.setSubject(" [NON RICONOSCIUTA] Fwd: " + original.getSubject());
+//
+//        String originalSender = (original.getTo() != null && !original.getTo().isEmpty())
+//                ? original.getTo().getFirst()
+//                : "(sconosciuto)";
+//
+//        toForward.setBody(
+//                "Attenzione: Il sistema non ha saputo classificare questa email.\n\n" +
+//                        "--- Messaggio Originale ---\n" +
+//                        "Mittente: " + originalSender + "\n" +
+//                        "Testo:\n" + original.getBody()
+//        );
+//
+//        emailSender.sendEmail(toForward);
+//    }
 
 
 
@@ -227,11 +221,11 @@ public class OrchestratorServiceImpl implements OrchestratorService {
         List<ClassificationEmailDto> batch = List.of(emailDto);
 
         var classificationResults = emailClassifier.classifyEmail(batch);
-        var singleClassification = classificationResults.get(0);
+        var singleClassification = classificationResults.getFirst();
         var judgementResults = judgerService.judge(batch, classificationResults);
-        var singleJudgement = judgementResults.get(0);
+        var singleJudgement = judgementResults.getFirst();
         var responderResults = emailResponder.generateEmailResponse(classificationResults);
-        var singleResponse = responderResults.get(0);
+        var singleResponse = responderResults.getFirst();
 
         return SingleEmailResponseDto.builder()
                 .classification(singleClassification.getCategories())
