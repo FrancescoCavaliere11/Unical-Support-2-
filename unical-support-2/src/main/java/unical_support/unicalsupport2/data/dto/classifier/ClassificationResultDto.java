@@ -1,10 +1,12 @@
 package unical_support.unicalsupport2.data.dto.classifier;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class ClassificationResultDto {
     private List<SingleCategoryDto> categories;
     private String explanation;
