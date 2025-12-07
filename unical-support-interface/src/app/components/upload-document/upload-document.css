@@ -176,13 +176,6 @@ footer {
 }
 
 /*----------Selected file----------*/
-.file-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  overflow-y: auto;
-  max-height: 60vh;
-}
 
 .file-item {
   display: flex;

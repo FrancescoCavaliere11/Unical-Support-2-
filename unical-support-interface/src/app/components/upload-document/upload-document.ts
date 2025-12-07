@@ -35,7 +35,7 @@ export class UploadDocument implements OnInit{
   ) {
     this.form = this.formBuilder.group({
       categoryId: ['', Validators.required],
-      files: [null, Validators.required]
+      file: [null, Validators.required]
     })
   }
 
