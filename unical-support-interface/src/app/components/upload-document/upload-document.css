@@ -112,7 +112,7 @@ select {
   border-radius: 12px;
 }
 
-.file-uploader:hover, .file-uploader.drag {
+.file-uploader.drag {
   border-color: var(--brand-strong);
 }
 
