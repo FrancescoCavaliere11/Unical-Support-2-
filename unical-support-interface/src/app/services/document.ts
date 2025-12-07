@@ -10,10 +10,10 @@ export class Document {
 
   constructor(private http: HttpClient) {}
 
-  uploadDocuments(files: File[], categoryId: string) {
+  uploadDocuments(file: File, categoryId: string) {
     const formData = new FormData();
 
-    files.forEach(file => formData.append('documents', file));
+    formData.append('document', file);
     formData.append('categoryId', categoryId);
 
     return this.http.post(this._apiUrl, formData);

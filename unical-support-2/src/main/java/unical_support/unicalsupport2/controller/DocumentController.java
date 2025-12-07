@@ -2,6 +2,7 @@ package unical_support.unicalsupport2.controller;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +25,18 @@ public class DocumentController {
 
     @PostMapping
     public ResponseEntity<HttpStatus> uploadDocument(
-            @RequestParam("documents")
-            @NotEmpty(message = "At least one document must be provided")
+            @RequestParam("document")
+            @NotNull
             // todo controlli sulle dimensioni dell'array
-            MultipartFile @ValidMultipartExtension [] documents,
+            @ValidMultipartExtension
+            MultipartFile document,
 
             @RequestParam("categoryId")
             @ValidCategoryId
             @NotBlank
             String categoryId
     ) {
-        Arrays.stream(documents)
-                .forEach(doc -> documentService.processAndSaveDocumentFromMultipart(doc, categoryId));
-
+        documentService.processAndSaveDocumentFromMultipart(document, categoryId);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();

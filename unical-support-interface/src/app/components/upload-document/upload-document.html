@@ -26,27 +26,23 @@
         <div class="file-uploader" [class.drag]="dragOver" (dragover)="onDragOver($event)"  (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
           <h3>Trascina qui i file</h3>
           <p>oppure</p>
-          <input id="fileUpload" type="file" hidden multiple (change)="onFileSelected($event)"/>
+          <input id="fileUpload" type="file" hidden (change)="onFileSelected($event)"/>
           <label for="fileUpload" class="file-upload-button">Scegli un file</label>
           <p>PDF, Word, Excel, TXT</p>
         </div>
         <p class="ia-warning">I documenti verranno utilizzati dall'AI per fornire risposte più accurate alle email degli studenti.</p>
-        @if (files.length > 0) {
+        @if (file) {
           <div class="selected-files">
-            <h5>File selezionati ({{ files.length }})</h5>
-            <div class="file-list" style="color: #D9534F">
-              @for (file of files; track file.name; let i = $index) {
-                <div class="file-item">
-                  <div class="file">
-                    <hugeicons-icon [icon]="DocumentAttachmentIcon"></hugeicons-icon>
-                    <div class="file-info">
-                      <p>{{ file.name }}</p>
-                      <p>{{ formatFileSize(file.size)}}</p>
-                    </div>
-                  </div>
-                  <hugeicons-icon (click)="removeFile(i)" [icon]="Cancel01Icon" class="cancel-icon" ></hugeicons-icon>
+            <h5>File selezionato</h5>
+            <div class="file-item">
+              <div class="file">
+                <hugeicons-icon [icon]="DocumentAttachmentIcon"></hugeicons-icon>
+                <div class="file-info">
+                  <p>{{ file.name }}</p>
+                  <p>{{ formatFileSize(file.size)}}</p>
                 </div>
-              }
+              </div>
+              <hugeicons-icon (click)="removeFile()" [icon]="Cancel01Icon" class="cancel-icon" ></hugeicons-icon>
             </div>
           </div>
         }

@@ -35,16 +35,16 @@ export class UploadDocument implements OnInit{
   ) {
     this.form = this.formBuilder.group({
       categoryId: ['', Validators.required],
-      files: [[]]
+      files: [null, Validators.required]
     })
   }
 
-  get files() {
-    return this.form.get('files')?.value || [];
+  get file() {
+    return this.form.get('file')?.value || null;
   }
 
   get isUploadDisabled(): boolean {
-    return this.files.length === 0 || !this.form.get('categoryId')?.value;
+    return !this.file || !this.form.get('categoryId')?.value;
   }
 
   ngOnInit(): void {
@@ -72,23 +72,16 @@ export class UploadDocument implements OnInit{
     event.stopPropagation();
     this.dragOver = false;
 
-    const files = event.dataTransfer?.files;
-    if (!files || files.length === 0) return;
-
-    // todo controllare se ho già inserito dei file con lo stesso nome
-    const currentFiles: File[] = this.form.get('files')?.value || [];
-
-    const newFiles = Array.from(files);
-    this.form.get('files')?.setValue([...currentFiles, ...newFiles]);
+    const file = event.dataTransfer?.files[0];
+    if (!file) return;
+    this.form.get('file')?.setValue(file);
   }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
 
-    // todo controllare se ho già inserito dei file con lo stesso nome
-    const currentFiles: File[] = this.form.get('files')?.value || [];
-    this.form.get('files')?.setValue([...currentFiles, ...Array.from(input.files)]);
+    this.form.get('file')?.setValue(input?.files[0]);
 
     console.log(this.form.value);
   }
@@ -106,17 +99,15 @@ export class UploadDocument implements OnInit{
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
-  removeFile(index: number) {
-    const currentFiles: File[] = this.form.get('files')?.value || [];
-    currentFiles.splice(index, 1);
-    this.form.get('files')?.setValue(currentFiles);
+  removeFile() {
+    this.form.get('file')?.setValue(null);
   }
 
 
   // API
   upload() {
     this.isLoading = true;
-    this.documentService.uploadDocuments(this.files, this.form.value.categoryId)
+    this.documentService.uploadDocuments(this.file, this.form.value.categoryId)
       .subscribe({
         next: () => {
           this.changeDetectorRef.detectChanges();
