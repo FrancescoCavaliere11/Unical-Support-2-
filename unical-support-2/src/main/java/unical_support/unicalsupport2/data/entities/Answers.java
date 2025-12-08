@@ -2,16 +2,19 @@ package unical_support.unicalsupport2.data.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.UuidGenerator;
 import unical_support.unicalsupport2.data.embeddables.SingleAnswer;
 
 import java.util.List;
 
 @Data
 @Entity
-@DiscriminatorValue("to_answer")
-@EqualsAndHashCode(callSuper = true)
-public class EmailToAnswer extends Email {
+@Table(name = "answers")
+public class Answers {
+    @Id
+    @UuidGenerator
+    private String id;
+
     @Column(name = "is_answered", nullable = false)
     private Boolean isAnswered;
 
@@ -21,4 +24,7 @@ public class EmailToAnswer extends Email {
             joinColumns = @JoinColumn(name = "email_id")
     )
     private List<SingleAnswer> singleAnswers;
+
+    @OneToOne(mappedBy = "answers", cascade = CascadeType.ALL, optional = false)
+    private Email email;
 }

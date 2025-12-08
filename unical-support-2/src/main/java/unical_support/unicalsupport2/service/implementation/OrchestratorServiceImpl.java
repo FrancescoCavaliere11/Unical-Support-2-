@@ -150,8 +150,8 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             }
 
             EmailMessage replyEmail = buildReplyEmail(original, r);
-            emailSender.sendEmail(replyEmail);
-            System.out.println("   Email inviata con successo.");
+//            emailSender.sendEmail(replyEmail);
+//            System.out.println("   Email inviata con successo.");
         }
         System.out.println("--------------------------------------------------\n");
     }
