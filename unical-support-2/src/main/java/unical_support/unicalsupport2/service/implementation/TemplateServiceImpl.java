@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+import unical_support.unicalsupport2.data.dto.template.TemplateCreateDto;
+import unical_support.unicalsupport2.data.dto.template.TemplateDto;
+import unical_support.unicalsupport2.data.dto.template.TemplateUpdateDto;
 import unical_support.unicalsupport2.data.embeddables.TemplateParameter;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.Template;
@@ -37,32 +39,32 @@ public class TemplateServiceImpl implements TemplateService {
     private final TemplateRepository templateRepository;
     private final CategoryRepository categoryRepository;
 
-    /**
-     * Renders a given template by replacing placeholders with provided values.
-     *
-     * @param templateName the template name (case-insensitive)
-     * @param parameters   map of parameter names and values
-     * @return the rendered template content
-     * @throws IllegalArgumentException if the template does not exist or required parameters are missing
-     */
+    @Override
+    public List<TemplateDto> getAll(String categoryId) {
+        return List.of();        //TODO
+    }
+
+    @Override
+    public TemplateDto createTemplate(TemplateCreateDto templateCreateDto) {
+        return null;        //TODO
+    }
+
+    @Override
+    public void updateTemplate(TemplateUpdateDto templateUpdateDto) {
+        //TODO
+    }
+
+    @Override
+    public void deleteTemplateById(String id) {
+        Template template = templateRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("template not found"));
+
+        templateRepository.delete(template);
+    }
+
     @Override
     public String renderTemplate(String templateName, Map<String, String> parameters) {
-        Template template = templateRepository.findByNameIgnoreCase(templateName)
-                .orElseThrow(() -> new IllegalArgumentException("Template not found: " + templateName));
-
-        List<TemplateParameter> requiredParams = template.getParameters();
-        for (TemplateParameter param : requiredParams) {
-            if (param.isRequired() && !parameters.containsKey(param.getName())) {
-                throw new IllegalArgumentException("Missing required parameter: " + param.getName());
-            }
-        }
-
-        String renderedTemplate = template.getContent();
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            renderedTemplate = renderedTemplate.replace("{{" + entry.getKey() + "}}", entry.getValue());
-        }
-
-        return renderedTemplate;
+        return "";
     }
 
     /**
@@ -161,7 +163,7 @@ public class TemplateServiceImpl implements TemplateService {
      * @param name template name (case-insensitive)
      */
     @Override
-    public void deleteTemplate(String name) {
+    public void deleteTemplateByName(String name) {
         templateRepository.findByNameIgnoreCase(name)
                 .ifPresentOrElse(template -> {
                         templateRepository.delete(template);
