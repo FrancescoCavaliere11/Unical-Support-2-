@@ -10,8 +10,6 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "emails")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "email_type", discriminatorType = DiscriminatorType.STRING)
 public class Email {
     @Id
     @UuidGenerator
@@ -31,4 +29,12 @@ public class Email {
 
     @Column(name = "body", nullable = false, columnDefinition = "TEXT")
     private String body;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "classifications_id")
+    private Classifications classifications;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "answers_id")
+    private Answers answers;
 }

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.email.SingleEmailRequestDto;
-import unical_support.unicalsupport2.data.dto.email.SingleEmailResponseDto;
+import unical_support.unicalsupport2.data.dto.responder.SingleEmailRequestDto;
+import unical_support.unicalsupport2.data.dto.responder.SingleEmailResponseDto;
 import unical_support.unicalsupport2.data.dto.judger.JudgementResultDto;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
@@ -150,8 +150,8 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             }
 
             EmailMessage replyEmail = buildReplyEmail(original, r);
-            emailSender.sendEmail(replyEmail);
-            System.out.println("   Email inviata con successo.");
+//            emailSender.sendEmail(replyEmail);
+//            System.out.println("   Email inviata con successo.");
         }
         System.out.println("--------------------------------------------------\n");
     }

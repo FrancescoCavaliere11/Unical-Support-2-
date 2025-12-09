@@ -1,11 +1,10 @@
-package unical_support.unicalsupport2.data.dto.email;
+package unical_support.unicalsupport2.data.dto.responder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
-import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
 
 import java.util.List;
 

@@ -24,6 +24,6 @@ public class DocumentChunk {
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @OneToOne(mappedBy = "chunk", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "chunk", cascade = CascadeType.ALL, optional = false)
     private ChunkEmbedding embedding;
 }
