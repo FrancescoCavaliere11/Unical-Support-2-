@@ -9,7 +9,7 @@ import java.util.List;
 public class TemplateDto {
     private String id;
     private String name;
-    private CategoryDto categoryId;
+    private CategoryDto category;
     private String content;
     private List<ParameterDto> parameters;
 }

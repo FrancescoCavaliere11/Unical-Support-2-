@@ -5,7 +5,6 @@ import unical_support.unicalsupport2.data.dto.template.TemplateDto;
 import unical_support.unicalsupport2.data.dto.template.TemplateUpdateDto;
 
 import java.util.List;
-import java.util.Map;
 
 public interface TemplateService {
     //Metodi per il controller Rest
@@ -15,7 +14,6 @@ public interface TemplateService {
     void deleteTemplateById(String id);
 
     //Metodi per il command shell
-    String renderTemplate(String templateName, Map<String, String> parameters);
     String listTemplates(String categoryName);
     void createTemplates(String pathFile);
     void deleteTemplateByName(String name);
