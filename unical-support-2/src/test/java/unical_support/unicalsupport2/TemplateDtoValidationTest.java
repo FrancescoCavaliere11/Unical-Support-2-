@@ -71,21 +71,17 @@ class TemplateDtoValidationTest {
     @DisplayName("Should fail when a parameter is defined in list but missing in content")
     void testValidParameters_ExtraParameterInList() {
         TemplateCreateDto dto = createValidTemplate();
-        // Aggiungo un parametro alla lista che NON c'è nel content
         dto.getParameters().add(createParam("extra_param"));
 
         Set<ConstraintViolation<TemplateCreateDto>> violations = validator.validate(dto);
 
-        // Mi aspetto 1 errore (quello della tua custom annotation sulla classe)
         assertEquals(1, violations.size());
-        // Nota: Il messaggio dipenderà da quello definito nella tua annotation @ValidParameters
     }
 
     @Test
     @DisplayName("Should fail when a placeholder exists in content but missing in list")
     void testValidParameters_MissingParameterInList() {
         TemplateCreateDto dto = createValidTemplate();
-        // Rimuovo un parametro dalla lista che però è presente nel content
         dto.getParameters().removeFirst();
 
         Set<ConstraintViolation<TemplateCreateDto>> violations = validator.validate(dto);
@@ -100,7 +96,7 @@ class TemplateDtoValidationTest {
         dto.setContent("Hello {{wrong_name}}");
 
         List<ParameterDto> params = new ArrayList<>();
-        params.add(createParam("correct_name")); // Size è 1 e 1, ma i nomi sono diversi
+        params.add(createParam("correct_name"));
         dto.setParameters(params);
 
         Set<ConstraintViolation<TemplateCreateDto>> violations = validator.validate(dto);
@@ -112,22 +108,16 @@ class TemplateDtoValidationTest {
     @DisplayName("Should handle spaces inside placeholders correctly (trimming)")
     void testValidParameters_TrimmingSpaces() {
         TemplateCreateDto dto = createValidTemplate();
-        // Nel content metto spazi: {{ user_name }}
         dto.setContent("Hello {{ user_name }}");
 
         List<ParameterDto> params = new ArrayList<>();
-        params.add(createParam("user_name")); // Nel DTO è senza spazi
+        params.add(createParam("user_name"));
         dto.setParameters(params);
 
         Set<ConstraintViolation<TemplateCreateDto>> violations = validator.validate(dto);
 
-        // Dovrebbe passare perché nel tuo validatore fai matcher.group(1).trim()
         assertTrue(violations.isEmpty(), "Should trim spaces inside curly braces");
     }
-
-    // ==========================================
-    // TEST 2: @ValidParameterName (Formato Snake Case)
-    // ==========================================
 
     @Test
     @DisplayName("Should pass for valid snake_case parameter names")
