@@ -1,9 +1,10 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {EmailDto} from '../../model/email-dto';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Email} from '../../services/email';
 import {Mail01Icon} from '@hugeicons/core-free-icons';
-import {EmailToAnswerDto} from '../../model/email-to-answer-dto';
+import {Answer} from '../../services/answer';
+
 
 @Component({
   selector: 'app-answers-page',
@@ -15,10 +16,10 @@ import {EmailToAnswerDto} from '../../model/email-to-answer-dto';
     '../../../../public/styles/input.css'
   ],
 })
-export class AnswersPage {
+export class AnswersPage implements OnInit {
   protected readonly Mail01Icon = Mail01Icon;
 
-  protected emails: EmailToAnswerDto[] = []
+  protected emails: EmailDto[] = []
   protected skeletons: number[] = []
 
   protected selectedEmail: EmailDto | null = null;
@@ -28,33 +29,89 @@ export class AnswersPage {
   protected isLoading: boolean = false;
   protected isFetching: boolean = false;
 
+  protected responseMaxLength = 500;
+
   constructor(
     private emailService: Email,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
+    private answerService: Answer
   ) {
     this.skeletons = Array(15).fill(0);
 
     this.form = this.formBuilder.group({
       id: [''],
-      response: ['', Validators.required],
+      responses: this.formBuilder.array(['', Validators.required])
     })
   }
 
-  ngOnInit(): void {
+  get responses() {
+    return this.form.get('responses') as FormArray;
+  }
 
+  get classification() {
+    return this.selectedEmail?.classify.singleClassifications;
+  }
+
+  ngOnInit(): void {
+    this.emailService.getEmails().subscribe({
+      next: emails => {
+        this.emails = emails
+        this.isFetching = false;
+        this.changeDetectorRef.detectChanges();
+      },
+      error: _ => {
+        this.isFetching = false;
+        this.changeDetectorRef.detectChanges();
+        alert("Errore nel caricamento delle email");
+      },
+    });
   }
 
   selectEmail(email: EmailDto) {
     this.selectedEmail = email;
-    this.form.patchValue({
 
-    })
+    this.responses.clear();
+
+    email.answer.singleAnswers.forEach(sa => {
+      this.responses.push(
+        this.formBuilder.control(
+          sa.answer,
+          [
+            Validators.required,
+            Validators.maxLength(this.responseMaxLength)
+          ]
+        )
+      );
+    });
+
+    this.form.patchValue({
+      id: email.id
+    });
   }
 
   submit() {
     if (this.form.invalid || this.isLoading) return;
 
     this.isLoading = true;
+
+    if(this.selectedEmail !== null) {
+      this.selectedEmail?.answer?.singleAnswers.forEach((sa, index) => {
+        sa.answer = this.responses.at(index).value;
+      });
+
+      this.answerService.updateAndSendResponse(this.selectedEmail).subscribe({
+        next: _ => {
+          this.isLoading = false;
+          alert("Risposte inviate con successo");
+        },
+        error: _ => {
+          this.isLoading = false;
+          alert("Errore nell'invio delle risposte");
+        }
+      })
+    }
+
+    this.isLoading = false;
   }
 }
