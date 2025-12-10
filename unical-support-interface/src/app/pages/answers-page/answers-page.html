@@ -41,7 +41,38 @@
         <p>{{ selectedEmail.body }}</p>
       </div>
 
-      <textarea formControlName="response" placeholder="Rispondi alla mail"></textarea>
+      <div class="responses" formArrayName="responses">
+        @for (i of responses.controls; let idx = $index; track idx) {
+          <div class="single-response">
+            <div class="sec">
+              <div class="sec-header">
+                <span>Classificazione:</span>
+                <p>{{ classification?.[idx]?.category?.name }}</p>
+              </div>
+              <p> {{ classification?.[idx]?.text }}</p>
+            </div>
+            <textarea
+              [formControlName]="idx"
+              placeholder="Risposta">
+            </textarea>
+
+            @if(!responses.at(idx).untouched && responses.at(idx).invalid){
+              <div class="error" >
+                @if(responses.at(idx).errors?.['required']) {
+                  <p>La risposta è obbligatoria.</p>
+                }
+
+                @if(responses.at(idx).errors?.['maxlength']) {
+                  <p>
+                    Massimo {{ responseMaxLength }} caratteri.
+                    ({{ responses.at(idx).errors?.['maxlength'].actualLength }}/{{ responseMaxLength }})
+                  </p>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
 
       <button type="submit" [disabled]="form.invalid || isLoading">
         Conferma Classificazione

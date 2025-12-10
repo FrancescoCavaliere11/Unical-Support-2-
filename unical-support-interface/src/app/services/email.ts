@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Environment} from '../utils/environment';
 import {HttpClient} from '@angular/common/http';
-import {EmailToClassifyDto} from '../model/email-to-classify-dto';
+import {EmailDto} from '../model/email-dto';
+
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class Email {
   protected constructor(private http: HttpClient) {}
 
   getEmails() {
-    return this.http.get<EmailToClassifyDto[]>(this._apiUrl)
+    return this.http.get<EmailDto[]>(this._apiUrl)
   }
 
   updateCategoryForEmail(

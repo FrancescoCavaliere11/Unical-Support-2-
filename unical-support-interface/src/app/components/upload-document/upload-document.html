@@ -9,7 +9,7 @@
     </header>
     <div class="separator"></div>
     <section>
-      <form [formGroup]="form">
+      <form [formGroup]="form" (submit)="upload()">
         <div class="category selection">
           <div class="category-label">
             <h5>Categoria</h5>
@@ -56,7 +56,7 @@
     <div class="separator"></div>
     <footer>
       <button class="cancel-btn" (click)="closePopup()">Annulla</button>
-      <button [disabled]="isUploadDisabled" (click)="upload()">Carica Documenti</button>
+      <button type="submit" [disabled]="isUploadDisabled" (click)="upload()">Carica Documenti</button>
     </footer>
   </div>
 </div>

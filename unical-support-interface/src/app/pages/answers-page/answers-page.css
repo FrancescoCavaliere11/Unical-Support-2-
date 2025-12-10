@@ -1,0 +1,27 @@
+.responses {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  border-top: 2px solid var(--stroke-weak);
+  padding-top: 16px;
+}
+
+textarea {
+  width: 100%;
+}
+
+.single-response {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: .3s ease-in-out;
+}
+
+
+.single-response .sec-header {
+  justify-content: space-between;
+}
+
+.error > p {
+  color: var(--error-strong) !important;
+}

@@ -34,6 +34,7 @@ button {
   font-size: 11pt;
   cursor: pointer;
   transition: .3s ease-in-out;
+  min-height: 28pt;
 }
 
 button:hover {

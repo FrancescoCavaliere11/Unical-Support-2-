@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {SingleClassificationDto} from '../classifier-result-dto';
+import {SingleClassificationDto} from '../single-classification-dto';
+
 
 @Pipe({
   name: 'categoriesFormat',
