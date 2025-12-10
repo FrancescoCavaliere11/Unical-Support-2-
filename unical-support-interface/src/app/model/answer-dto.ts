@@ -1,9 +1,11 @@
 import {SingleAnswerDto} from './single-answer-dto';
 
 export class AnswerDto {
+  id: string;
   singleAnswers: SingleAnswerDto[];
 
   constructor(data: any) {
-    this.singleAnswers = data.singleAnswers.map((sa: any) => new SingleAnswerDto(sa));
+    this.id = data.id;
+    this.singleAnswers = data.singleAnswers;
   }
 }

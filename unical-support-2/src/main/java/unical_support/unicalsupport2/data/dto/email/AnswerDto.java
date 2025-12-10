@@ -6,5 +6,6 @@ import java.util.List;
 
 @Data
 public class AnswerDto {
+    String id;
     List<SingleAnswerDto> singleAnswers;
 }

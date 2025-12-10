@@ -40,7 +40,7 @@ public class EmailServiceImpl implements EmailService {
                      //TODO verificare cjhe il mapping avvenga correttamente
                      EmailDto emailDto = modelMapper.map(email, EmailDto.class);
 
-                     ClassifyDto classifyDto = modelMapper.map(email, ClassifyDto.class);
+                     ClassifyDto classifyDto = modelMapper.map(email.getClassifications(), ClassifyDto.class);
                      classifyDto.getSingleClassifications()
                              .forEach(singleClassificationDto ->
                                      singleClassificationDto.setConfidence(singleClassificationDto.getConfidence() * 100));

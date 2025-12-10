@@ -6,7 +6,7 @@ export class SingleClassificationDto {
   text: string;
 
   constructor(data: any) {
-    this.category = new CategoryDto(data.category);
+    this.category = data.category;
     this.confidence = data.confidence;
     this.text = data.text;
   }
