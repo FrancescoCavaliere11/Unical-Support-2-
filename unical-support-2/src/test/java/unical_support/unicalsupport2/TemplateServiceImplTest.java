@@ -23,7 +23,7 @@ class TemplateServiceImplTest {
     @Test
     void validateParameterOccurrences_shouldReturnTrueWhenMatching() throws Exception {
         // given
-        String content = "Dear {{first_ame}}, your ID is {{user_d}}.";
+        String content = "Dear {{first_name}}, your ID is {{user_id}}.";
         List<TemplateParameter> params = new ArrayList<>();
 
         TemplateParameter p1 = new TemplateParameter();
