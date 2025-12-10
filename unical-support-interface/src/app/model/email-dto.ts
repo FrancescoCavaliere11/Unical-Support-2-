@@ -14,7 +14,7 @@ export class EmailDto {
     this.to = data.to;
     this.subject = data.subject;
     this.body = data.body;
-    this.classify = new ClassifyDto(data.classify);
-    this.answer = new AnswerDto(data.answer);
+    this.classify = data.classify;
+    this.answer = data.answer;
   }
 }

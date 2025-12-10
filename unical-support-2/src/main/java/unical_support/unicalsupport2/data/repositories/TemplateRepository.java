@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TemplateRepository extends JpaRepository<Template, String> {
+
     List<Template> findByCategoryNameIgnoreCase(String categoryName);
     Boolean existsByNameIgnoreCase(String name);
+    Boolean existsByNameIgnoreCaseAndIdNot(String name, String id);
     Optional<Template> findByNameIgnoreCase(String name);
 }

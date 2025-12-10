@@ -91,19 +91,25 @@ export class ClassificationPage implements OnInit {
   selectEmail(email: EmailDto) {
     this.selectedEmail = email;
 
-    this.form.patchValue({ id: this.selectedEmail.id });
+    this.form.patchValue({ id: this.selectedEmail.classify.id });
 
-    this.classifications.clear();
+    const newControls: FormGroup[] = [];
 
-    if (this.selectedEmail.classify.singleClassifications && this.selectedEmail.classify.singleClassifications.length > 0) {
+    if (this.selectedEmail.classify?.singleClassifications?.length > 0) {
       this.selectedEmail.classify.singleClassifications.forEach(classification => {
-        this.classifications.push(this.createClassificationGroup(classification));
+        newControls.push(this.createClassificationGroup(classification));
       });
     }
 
-    if (this.classifications.length === 0) {
-      this.addClassification();
+    if (newControls.length === 0) {
+      newControls.push(this.createClassificationGroup());
     }
+
+    const newFormArray = this.formBuilder.array(newControls);
+
+    this.form.setControl('classifications', newFormArray);
+
+    this.changeDetectorRef.detectChanges();
   }
 
   submit() {
@@ -111,7 +117,6 @@ export class ClassificationPage implements OnInit {
 
     this.isLoading = true;
 
-    const idToRemove = this.selectedEmail.id;
     const formValue = this.form.value;
 
     const payload = {
@@ -122,22 +127,18 @@ export class ClassificationPage implements OnInit {
       }))
     };
 
+    console.log(payload);
+
     this.emailService.updateCategoryForEmail(payload).subscribe({
       next: () => {
-        this.emails = this.emails.filter(email => email.id !== idToRemove);
-
         this.selectedEmail = null;
         this.classifications.clear();
         this.isLoading = false;
-
-        this.changeDetectorRef.detectChanges();
       },
       error: (error: any) => {
         console.error(error);
         alert("Errore durante il salvataggio");
         this.isLoading = false;
-
-        this.changeDetectorRef.detectChanges();
       }
     });
   }

@@ -4,37 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="Cambiato la definizione del metodo getLowConfidenceEmail() in getStoredEmail(Boolean isClassified), così da poter filtrare ed ottenere solo le email che devono essere classificate manualmente">
-      <change afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/pipes/AddressesFormatPipe.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/pipes/CategoriesFormatPipe.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/pipes/ConfidenceFormatPipe.ts" afterDir="false" />
+    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="Definito il TemplateController per l'esposizione degli endpoint per la gestione dei template dell'API. Definiti i dto dei template e dei parametri con validazioni annesse">
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotations/annotation/ValidParameters.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotations/validator/ParametersValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/TemplateDtoValidationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdff9745-58e9-411c-a5f3-688e0de1126e/storage_v2/_src_/database/unical_support.br2srQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cdff9745-58e9-411c-a5f3-688e0de1126e/storage_v2/_src_/database/unical_support.br2srQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/ModelMapperConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/configurations/ModelMapperConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/EmailDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/EmailDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/SingleClassificationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/email/SingleClassificationDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/Email.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/EmailToClassify.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/entities/EmailToClassify.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/OrchestratorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/OrchestratorServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/interfaces/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/template/TemplateAbstractDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/template/TemplateAbstractDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/template/TemplateUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/template/TemplateUpdateDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/public/styles/email-item.css" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/public/styles/email-item.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/public/styles/input.css" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/public/styles/input.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/public/styles/layout.css" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/public/styles/layout.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/app-module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/app-module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/components/email-to-answer-item/email-to-answer-item.html" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/components/email-to-answer-item/email-to-answer-item.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/components/email-to-classify-item/email-to-classify-item.html" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/components/email-to-classify-item/email-to-classify-item.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/category-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/category-dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/classifier-result-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/classifier-result-dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/email-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/email-dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/email-to-classify-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/email-to-classify-dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/model/responder-result-dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/model/responder-result-dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/pages/answers-page/answers-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/pages/answers-page/answers-page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/pages/classification-page/classification-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/pages/classification-page/classification-page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/pages/classification-page/classification-page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/pages/classification-page/classification-page.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/services/email.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/services/email.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +23,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="AnnotationType" />
         <option value="Interface" />
+        <option value="AnnotationType" />
         <option value="Class" />
       </list>
     </option>
@@ -59,10 +38,32 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;aldogioia&quot;
-  }
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOQGb2_c63dHvW&quot;,
+        &quot;number&quot;: 69
+      },
+      &quot;lastSeen&quot;: 1765306154664
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOQGb2_c63iXmF&quot;,
+        &quot;number&quot;: 72
+      },
+      &quot;lastSeen&quot;: 1765306160916
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOQGb2_c6376I-&quot;,
+        &quot;number&quot;: 73
+      },
+      &quot;lastSeen&quot;: 1765306162459
+    }
+  ]
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
@@ -108,6 +109,7 @@
     "JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully.executor": "Run",
     "JUnit.GmailSenderImplTest.shouldSendRealEmail.executor": "Run",
     "JUnit.OrchestratorTest.executor": "Run",
+    "JUnit.TemplateDtoValidationTest.executor": "Run",
     "JUnit.TemplateServiceImplTest (1).executor": "Run",
     "JUnit.TemplateServiceImplTest.executor": "Run",
     "JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly.executor": "Run",
@@ -123,7 +125,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.UnicalSupport2Application.executor": "Run",
-    "git-widget-placeholder": "emailEntity",
+    "git-widget-placeholder": "template-controller",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/aldogioia/Master Degree/Research&Development/Unical-Support-2-",
     "node.js.detected.package.eslint": "true",
@@ -156,23 +158,7 @@
       <recent name="unical_support.unicalsupport2.commands" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.UnicalSupport2Application">
-    <configuration name="GmailReceiverImplTest.shouldReceiveRealEmails" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="unical-support-2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailReceiverImplTest" />
-      <option name="METHOD_NAME" value="shouldReceiveRealEmails" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.TemplateDtoValidationTest">
     <configuration name="GmailSenderImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support-2" />
       <extension name="coverage">
@@ -183,6 +169,21 @@
       </extension>
       <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
       <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailSenderImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TemplateDtoValidationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="unical-support-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="unical_support.unicalsupport2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.TemplateDtoValidationTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -243,7 +244,7 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.GmailReceiverImplTest.shouldReceiveRealEmails" />
+      <item itemvalue="JUnit.TemplateDtoValidationTest" />
       <item itemvalue="JUnit.GmailSenderImplTest" />
       <item itemvalue="JUnit.TemplateServiceImplTest (1)" />
       <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" />
@@ -252,11 +253,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TemplateDtoValidationTest" />
         <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" />
         <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" />
         <item itemvalue="JUnit.TemplateServiceImplTest (1)" />
         <item itemvalue="JUnit.GmailSenderImplTest" />
-        <item itemvalue="JUnit.GmailReceiverImplTest.shouldReceiveRealEmails" />
       </list>
     </recent_temporary>
   </component>
@@ -289,6 +290,10 @@
       <workItem from="1764168289254" duration="7095000" />
       <workItem from="1764231864725" duration="1085000" />
       <workItem from="1764380830724" duration="7603000" />
+      <workItem from="1765155126616" duration="1573000" />
+      <workItem from="1765291516622" duration="153000" />
+      <workItem from="1765306116817" duration="4884000" />
+      <workItem from="1765358211194" duration="3080000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor del codice">
       <option name="closed" value="true" />
@@ -370,7 +375,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764233723740</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Definito il TemplateController per l'esposizione degli endpoint per la gestione dei template dell'API. Definiti i dto dei template e dei parametri con validazioni annesse">
+      <option name="closed" value="true" />
+      <created>1765318694855</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1765318694855</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -398,7 +411,8 @@
     <MESSAGE value="Fix missing subject" />
     <MESSAGE value="Fatto il metodo updateEmailCategory nel EmailServiceImpl. Aggiunti mapping custom nel modelMapper. Aggiornati i dto UpdateEmailCategoryDto e SingleClassificationDto.java e aggiunto il UpdateSingleClassificationDto. Fix nell'embeddable SingleClassification cambiando tipo del campo category da String a Category." />
     <MESSAGE value="Cambiato la definizione del metodo getLowConfidenceEmail() in getStoredEmail(Boolean isClassified), così da poter filtrare ed ottenere solo le email che devono essere classificate manualmente" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cambiato la definizione del metodo getLowConfidenceEmail() in getStoredEmail(Boolean isClassified), così da poter filtrare ed ottenere solo le email che devono essere classificate manualmente" />
+    <MESSAGE value="Definito il TemplateController per l'esposizione degli endpoint per la gestione dei template dell'API. Definiti i dto dei template e dei parametri con validazioni annesse" />
+    <option name="LAST_COMMIT_MESSAGE" value="Definito il TemplateController per l'esposizione degli endpoint per la gestione dei template dell'API. Definiti i dto dei template e dei parametri con validazioni annesse" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

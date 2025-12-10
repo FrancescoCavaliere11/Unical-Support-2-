@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import unical_support.unicalsupport2.data.dto.template.TemplateCreateDto;
+import unical_support.unicalsupport2.data.dto.template.TemplateDto;
+import unical_support.unicalsupport2.data.dto.template.TemplateUpdateDto;
 import unical_support.unicalsupport2.data.embeddables.TemplateParameter;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.Template;
@@ -36,33 +39,97 @@ public class TemplateServiceImpl implements TemplateService {
 
     private final TemplateRepository templateRepository;
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
     /**
-     * Renders a given template by replacing placeholders with provided values.
+     * Retrieves all templates, optionally filtering by category ID.
+     * <p>
+     * If a category ID is provided, only templates belonging to that category are returned.
+     * Otherwise, returns all available templates.
      *
-     * @param templateName the template name (case-insensitive)
-     * @param parameters   map of parameter names and values
-     * @return the rendered template content
-     * @throws IllegalArgumentException if the template does not exist or required parameters are missing
+     * @param categoryId the unique identifier of the category to filter by (can be null)
+     * @return a list of {@link TemplateDto} representing the found templates
      */
     @Override
-    public String renderTemplate(String templateName, Map<String, String> parameters) {
-        Template template = templateRepository.findByNameIgnoreCase(templateName)
-                .orElseThrow(() -> new IllegalArgumentException("Template not found: " + templateName));
+    public List<TemplateDto> getAll(String categoryId) {
+        List<Template> templates = (categoryId != null && !categoryId.isBlank())
+                ? templateRepository.findByCategoryNameIgnoreCase(categoryId)
+                : templateRepository.findAll();
 
-        List<TemplateParameter> requiredParams = template.getParameters();
-        for (TemplateParameter param : requiredParams) {
-            if (param.isRequired() && !parameters.containsKey(param.getName())) {
-                throw new IllegalArgumentException("Missing required parameter: " + param.getName());
-            }
+        return templates.stream()
+                .map(template -> modelMapper.map(template, TemplateDto.class))
+                .toList();
+    }
+
+    /**
+     * Creates a new template from the provided data transfer object.
+     * <p>
+     * Validations performed:
+     * <ul>
+     * <li>Checks if a template with the same name already exists (case-insensitive)</li>
+     * <li>Verifies the existence of the linked Category</li>
+     * </ul>
+     *
+     * @param templateCreateDto the DTO containing data for the new template
+     * @return the created {@link TemplateDto} including the generated ID
+     * @throws RuntimeException if the template name is already in use or category is not found
+     */
+    @Override
+    public TemplateDto createTemplate(TemplateCreateDto templateCreateDto) {
+        if (templateRepository.existsByNameIgnoreCase(templateCreateDto.getName()))
+            // TODO fare custom exception
+            throw new RuntimeException("Template with name: '"+ templateCreateDto.getName()  +"' already exists");
+
+        Category category = categoryRepository.findById(templateCreateDto.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        Template template = modelMapper.map(templateCreateDto, Template.class);
+        template.setCategory(category);
+        templateRepository.save(template);
+
+        return modelMapper.map(template, TemplateDto.class);
+    }
+
+    /**
+     * Updates an existing template.
+     * <p>
+     * Ensures consistency by checking that the new name (if changed) does not conflict
+     * with other existing templates. Updates the content, category, and parameters.
+     *
+     * @param templateUpdateDto the DTO containing updated data and the target ID
+     * @throws RuntimeException if the template is not found or the name is already taken by another entity
+     */
+    @Override
+    public void updateTemplate(TemplateUpdateDto templateUpdateDto) {
+        if (templateRepository.existsByNameIgnoreCaseAndIdNot(templateUpdateDto.getName(), templateUpdateDto.getId()))
+            // TODO fare custom exception
+            throw new RuntimeException("Template with name: '"+ templateUpdateDto.getName()  +"' already exists");
+
+        Template template = templateRepository.findById(templateUpdateDto.getId())
+                .orElseThrow(() -> new RuntimeException("template not found"));
+
+        if (!template.getCategory().getId().equals(templateUpdateDto.getCategoryId())) {
+            Category newCategory = categoryRepository.findById(templateUpdateDto.getCategoryId())
+                    .orElseThrow(() -> new RuntimeException("Category not found"));
+            template.setCategory(newCategory);
         }
 
-        String renderedTemplate = template.getContent();
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            renderedTemplate = renderedTemplate.replace("{{" + entry.getKey() + "}}", entry.getValue());
-        }
+        modelMapper.map(templateUpdateDto, template);
+        templateRepository.save(template);
+    }
 
-        return renderedTemplate;
+    /**
+     * Permanently removes a template identified by its ID.
+     *
+     * @param id the unique identifier of the template to delete
+     * @throws RuntimeException if no template is found with the given ID
+     */
+    @Override
+    public void deleteTemplateById(String id) {
+        Template template = templateRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("template not found")); // TODO fare custom exception
+
+        templateRepository.delete(template);
     }
 
     /**
@@ -161,7 +228,7 @@ public class TemplateServiceImpl implements TemplateService {
      * @param name template name (case-insensitive)
      */
     @Override
-    public void deleteTemplate(String name) {
+    public void deleteTemplateByName(String name) {
         templateRepository.findByNameIgnoreCase(name)
                 .ifPresentOrElse(template -> {
                         templateRepository.delete(template);
@@ -211,8 +278,8 @@ public class TemplateServiceImpl implements TemplateService {
             return false;
         }
         int length = content.length();
-        if (length < 20 || length > 2000) {
-            log.warn("Invalid content length ({} chars). Accepted range: 20–2000.", length);
+        if (length > 5000) {
+            log.warn("Invalid content length ({} chars). Accepted range: 1–5000.", length);
             return false;
         }
         return true;
