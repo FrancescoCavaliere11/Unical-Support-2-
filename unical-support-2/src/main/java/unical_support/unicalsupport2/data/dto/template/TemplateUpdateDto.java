@@ -6,7 +6,7 @@ import unical_support.unicalsupport2.security.customAnnotations.annotation.Valid
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TemplateUpdateDto extends TemplateDto {
+public class TemplateUpdateDto extends TemplateAbstractDto {
     @ValidIdFormat
     private String id;
 }

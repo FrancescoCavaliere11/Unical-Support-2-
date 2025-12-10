@@ -5,10 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidIdFormat;
+import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidParameters;
 
 import java.util.List;
 
 @Data
+@ValidParameters
 public abstract class TemplateAbstractDto {
     @NotBlank(message = "Template name cannot be empty or whitespace")
     @Size(min = 1, max = 50, message = "Template name must be between 1 and 50 characters")
