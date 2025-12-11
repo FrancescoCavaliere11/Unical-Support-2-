@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.jdbc.core.JdbcTemplate;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
@@ -38,9 +37,6 @@ class DocumentServiceImplTest {
 
     @Mock
     private LlmClient geminiApiClient;
-
-    @Mock
-    private JdbcTemplate jdbcTemplate;
 
     @InjectMocks
     private DocumentServiceImpl service;
