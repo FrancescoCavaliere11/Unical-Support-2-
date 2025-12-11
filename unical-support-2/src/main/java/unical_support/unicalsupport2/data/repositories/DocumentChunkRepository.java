@@ -17,13 +17,13 @@ public interface DocumentChunkRepository extends JpaRepository<DocumentChunk, St
         JOIN categories cat ON d.category_id = cat.id
         JOIN chunk_embeddings ce ON ce.chunk_id = c.id
         WHERE LOWER(cat.name) = LOWER(:category)
-          AND (ce.embedding <=> CAST(:embedding AS vector)) <= :maxDistance
+        AND (ce.embedding <=> CAST(:embedding AS vector)) <= :maxDistance
         ORDER BY ce.embedding <=> CAST(:embedding AS vector)
         LIMIT :limitValue
         """, nativeQuery = true)
     List<String> findRelevantChunkIds(
             @Param("category") String category,
-            @Param("embedding") String embedding,     // JSON tipo "[0.1,0.2,...]"
+            @Param("embedding") String embedding,
             @Param("maxDistance") double maxDistance,
             @Param("limitValue") int limitValue
     );
