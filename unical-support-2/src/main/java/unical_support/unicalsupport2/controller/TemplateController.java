@@ -1,6 +1,7 @@
 package unical_support.unicalsupport2.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,9 +50,11 @@ public class TemplateController {
                 .build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteTemplate(
-            @RequestParam @ValidIdFormat String id
+            @PathVariable
+            @NotNull(message = "Id is required")
+            @ValidIdFormat String id
     ){
         templateService.deleteTemplateById(id);
         return ResponseEntity

@@ -8,6 +8,7 @@ import unical_support.unicalsupport2.security.customAnnotations.annotation.Valid
 
 @Data
 public class UpdateSingleClassificationDto {
+    @NotNull(message = "Category id is required")
     @ValidIdFormat
     private String categoryId;
 
