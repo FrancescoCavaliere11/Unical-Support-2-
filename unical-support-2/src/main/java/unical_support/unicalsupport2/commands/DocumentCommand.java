@@ -17,11 +17,11 @@ public class DocumentCommand {
 
     @Command(command = "save", alias = "s", description = "Save a document")
     public String saveDocument(
-            @Option(longNames = "path", shortNames = 'p', description = "Path to the document")
+            @Option(required = true, longNames = "path", shortNames = 'p', description = "Path to the document")
             @NotBlank(message = "Path cannot be null")
             String path,
 
-            @Option(longNames = "category", shortNames = 'c', description = "Category of the document")
+            @Option(required = true, longNames = "category", shortNames = 'c', description = "Category of the document")
             @NotBlank(message = "Category cannot be null")
             @ValidCategoryName
             String category
@@ -33,9 +33,10 @@ public class DocumentCommand {
                 + ", category=" + result.getCategoryName()
                 + ", chunks=" + result.getChunksCount();
     }
+
     @Command(command = "delete", alias = "del", description = "Delete a document and its vectors by filename")
     public String deleteDocument(
-            @Option(longNames = "name", shortNames = 'n', description = "Exact filename (e.g. Regolamento.pdf)")
+            @Option(required = true, longNames = "name", shortNames = 'n', description = "Exact filename (e.g. Regolamento.pdf)")
             @NotBlank
             String filename
     ) {
@@ -45,6 +46,7 @@ public class DocumentCommand {
             return "Errore durante la cancellazione: " + e.getMessage();
         }
     }
+
     @Command(command = "list", alias = "ls", description = "List all vectorized documents")
     public String listDocuments() {
         return documentService.listDocuments();

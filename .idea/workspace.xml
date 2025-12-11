@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="Definito il TemplateController per l'esposizione degli endpoint per la gestione dei template dell'API. Definiti i dto dei template e dei parametri con validazioni annesse">
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotations/annotation/ValidParameters.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/security/customAnnotations/validator/ParametersValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/TemplateDtoValidationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cdff9745-58e9-411c-a5f3-688e0de1126e/storage_v2/_src_/database/unical_support.br2srQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cdff9745-58e9-411c-a5f3-688e0de1126e/storage_v2/_src_/database/unical_support.br2srQ/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
+    <list default="true" id="5598fd66-85b1-4326-8fcc-cd1fbe4a10f7" name="Changes" comment="fix rag, ora le query vengono fatte nel repository e non nel service">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/template/TemplateAbstractDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/template/TemplateAbstractDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/template/TemplateUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/data/dto/template/TemplateUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/prompting/implementations/FewShotPromptStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/prompting/implementations/FewShotPromptStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailClassifierImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/java/unical_support/unicalsupport2/service/implementation/EmailClassifierImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/RagTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-2/src/test/java/unical_support/unicalsupport2/RagTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unical-support-interface/src/app/pages/template-page/template-page.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unical-support-interface/src/app/pages/template-page/template-page.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,6 +106,8 @@
     "JUnit.GmailSenderImplTest.shouldSendEmailSuccessfully.executor": "Run",
     "JUnit.GmailSenderImplTest.shouldSendRealEmail.executor": "Run",
     "JUnit.OrchestratorTest.executor": "Run",
+    "JUnit.RagTest.executor": "Run",
+    "JUnit.RagTest.testFindRelevantChunks_StandardFlow.executor": "Run",
     "JUnit.TemplateDtoValidationTest.executor": "Run",
     "JUnit.TemplateServiceImplTest (1).executor": "Run",
     "JUnit.TemplateServiceImplTest.executor": "Run",
@@ -125,7 +124,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.UnicalSupport2Application.executor": "Run",
-    "git-widget-placeholder": "template-controller",
+    "git-widget-placeholder": "#77 on uploadEmail",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/aldogioia/Master Degree/Research&Development/Unical-Support-2-",
     "node.js.detected.package.eslint": "true",
@@ -158,8 +157,8 @@
       <recent name="unical_support.unicalsupport2.commands" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TemplateDtoValidationTest">
-    <configuration name="GmailSenderImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.ModelCommandTest">
+    <configuration name="DocumentServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support-2" />
       <extension name="coverage">
         <pattern>
@@ -168,13 +167,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.GmailSenderImplTest" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.DocumentServiceImplTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TemplateDtoValidationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ModelCommandTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support-2" />
       <extension name="coverage">
         <pattern>
@@ -183,13 +182,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.TemplateDtoValidationTest" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.ModelCommandTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TemplateServiceImplTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PromptStrategyFactoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support-2" />
       <extension name="coverage">
         <pattern>
@@ -198,13 +197,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.TemplateServiceImplTest" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.PromptStrategyFactoryTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RagTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support-2" />
       <extension name="coverage">
         <pattern>
@@ -213,14 +212,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.TemplateServiceImplTest" />
-      <option name="METHOD_NAME" value="renderTemplate_shouldReplacePlaceholdersCorrectly" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.RagTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RagTest.testFindRelevantChunks_StandardFlow" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="unical-support-2" />
       <extension name="coverage">
         <pattern>
@@ -229,8 +227,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="unical_support.unicalsupport2" />
-      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.TemplateServiceImplTest" />
-      <option name="METHOD_NAME" value="renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" />
+      <option name="MAIN_CLASS_NAME" value="unical_support.unicalsupport2.RagTest" />
+      <option name="METHOD_NAME" value="testFindRelevantChunks_StandardFlow" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -244,20 +242,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.TemplateDtoValidationTest" />
-      <item itemvalue="JUnit.GmailSenderImplTest" />
-      <item itemvalue="JUnit.TemplateServiceImplTest (1)" />
-      <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" />
-      <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" />
+      <item itemvalue="JUnit.DocumentServiceImplTest" />
+      <item itemvalue="JUnit.ModelCommandTest" />
+      <item itemvalue="JUnit.PromptStrategyFactoryTest" />
+      <item itemvalue="JUnit.RagTest" />
+      <item itemvalue="JUnit.RagTest.testFindRelevantChunks_StandardFlow" />
       <item itemvalue="Spring Boot.UnicalSupport2Application" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TemplateDtoValidationTest" />
-        <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldThrowExceptionWhenMissingRequiredParam" />
-        <item itemvalue="JUnit.TemplateServiceImplTest.renderTemplate_shouldReplacePlaceholdersCorrectly" />
-        <item itemvalue="JUnit.TemplateServiceImplTest (1)" />
-        <item itemvalue="JUnit.GmailSenderImplTest" />
+        <item itemvalue="JUnit.ModelCommandTest" />
+        <item itemvalue="JUnit.DocumentServiceImplTest" />
+        <item itemvalue="JUnit.PromptStrategyFactoryTest" />
+        <item itemvalue="JUnit.RagTest" />
+        <item itemvalue="JUnit.RagTest.testFindRelevantChunks_StandardFlow" />
       </list>
     </recent_temporary>
   </component>
@@ -383,7 +381,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765318694855</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fix rag, ora le query vengono fatte nel repository e non nel service">
+      <option name="closed" value="true" />
+      <created>1765468207370</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1765468207370</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,7 +418,8 @@
     <MESSAGE value="Fatto il metodo updateEmailCategory nel EmailServiceImpl. Aggiunti mapping custom nel modelMapper. Aggiornati i dto UpdateEmailCategoryDto e SingleClassificationDto.java e aggiunto il UpdateSingleClassificationDto. Fix nell'embeddable SingleClassification cambiando tipo del campo category da String a Category." />
     <MESSAGE value="Cambiato la definizione del metodo getLowConfidenceEmail() in getStoredEmail(Boolean isClassified), così da poter filtrare ed ottenere solo le email che devono essere classificate manualmente" />
     <MESSAGE value="Definito il TemplateController per l'esposizione degli endpoint per la gestione dei template dell'API. Definiti i dto dei template e dei parametri con validazioni annesse" />
-    <option name="LAST_COMMIT_MESSAGE" value="Definito il TemplateController per l'esposizione degli endpoint per la gestione dei template dell'API. Definiti i dto dei template e dei parametri con validazioni annesse" />
+    <MESSAGE value="fix rag, ora le query vengono fatte nel repository e non nel service" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix rag, ora le query vengono fatte nel repository e non nel service" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

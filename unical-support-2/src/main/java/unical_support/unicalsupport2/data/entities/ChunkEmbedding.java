@@ -20,7 +20,7 @@ public class ChunkEmbedding {
     @Type(VectorType.class)
     private PGvector embedding;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "chunk_id", nullable = false)
     private DocumentChunk chunk;
 }
