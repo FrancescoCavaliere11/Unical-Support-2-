@@ -26,12 +26,17 @@ header  > img {
 
 nav {
   display: flex;
-  gap: 16pt;
-  overflow-x: auto;
+  align-items: center;
   position: sticky;
   top: 0;
   background: var(--background);
   z-index: 99;
+}
+
+nav > div {
+  display: flex;
+  gap: 16pt;
+  overflow-x: auto;
 }
 
 a {
@@ -55,7 +60,7 @@ a:last-of-type {
 }
 
 .actions {
-  position: fixed;
+  position: absolute;
   right: 16pt;
   display: flex;
   align-items: center;
