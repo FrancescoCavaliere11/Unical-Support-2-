@@ -4,9 +4,8 @@
       <hugeicons-icon [icon]="Mail01Icon"></hugeicons-icon>
       {{ emailDto | addressesFormat }}
     </p>
-    <p>
-      <hugeicons-icon [icon]="LabelIcon"></hugeicons-icon>
-      {{ emailDto.classify.singleClassifications | categoriesFormat }}
+    <p [class]="emailDto.classify.classified ? 'valid' : 'invalid'">
+      {{ emailDto.classify.classified ? 'Classificata' : 'Non Classificata'}}
     </p>
   </div>
   <h3>{{ emailDto.subject }}</h3>

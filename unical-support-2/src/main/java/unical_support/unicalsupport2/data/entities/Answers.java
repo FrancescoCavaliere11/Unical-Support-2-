@@ -15,8 +15,8 @@ public class Answers {
     @UuidGenerator
     private String id;
 
-    @Column(name = "is_answered", nullable = false)
-    private Boolean isAnswered;
+    @Column(name = "answered", nullable = false)
+    private Boolean answered;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(

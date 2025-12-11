@@ -4,9 +4,8 @@
       <hugeicons-icon [icon]="Mail01Icon"></hugeicons-icon>
       {{ emailDto | addressesFormat }}
     </p>
-    <p>
-      <hugeicons-icon [icon]="LabelIcon"></hugeicons-icon>
-      {{ emailDto.classify.singleClassifications | categoriesFormat }}
+    <p [class]="emailDto.answer.answered ? 'valid' : 'invalid'">
+      {{ emailDto.answer.answered ? 'Risposta' : 'Non Risposta'}}
     </p>
   </div>
   <h3>{{ emailDto.subject }}</h3>
