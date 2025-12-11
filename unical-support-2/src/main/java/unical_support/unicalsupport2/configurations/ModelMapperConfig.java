@@ -6,14 +6,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import unical_support.unicalsupport2.data.dto.email.EmailDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateSingleClassificationDto;
+import unical_support.unicalsupport2.data.dto.template.TemplateCreateDto;
 import unical_support.unicalsupport2.data.embeddables.SingleClassification;
 import unical_support.unicalsupport2.data.entities.Email;
+import unical_support.unicalsupport2.data.entities.Template;
 
 @Configuration
 public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
+
+        modelMapper.addMappings(new PropertyMap<TemplateCreateDto, Template>() {
+
+            @Override
+            protected void configure() {
+                skip().setId(null);
+            }
+        });
 
         modelMapper.addMappings(new PropertyMap<Email, EmailDto>() {
             @Override

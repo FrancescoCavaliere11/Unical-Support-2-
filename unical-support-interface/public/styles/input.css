@@ -1,4 +1,4 @@
-select, textarea {
+select, textarea, input {
   border-radius: 4pt;
   background: var(--fill);
   border: 1px solid var(--stroke-weak);
@@ -7,13 +7,15 @@ select, textarea {
   transition: .3s ease-in-out;
 }
 
-select {
+select, input {
   height: 28pt;
+  padding: 4pt;
 }
 
 textarea {
   padding: 4pt;
-  height: 50pt;
+  min-height: 50pt;
+  resize: vertical;
 }
 
 select:hover, textarea:hover {
@@ -59,4 +61,24 @@ button:disabled {
 .secondary-btn:hover {
   background: var(--fill);
   border: 1px solid var(--brand-stroke-strong);
+}
+
+.secondary-btn.neutral {
+  color: var(--text-weak);
+  border: 1px solid var(--stroke-weak);
+}
+
+.secondary-btn.neutral:hover {
+  color: var(--text-strong);
+  border: 1px solid var(--stroke-strong);
+}
+
+.secondary-btn.delete {
+  color: var(--error-weak);
+  border: 1px solid var(--error-stroke-weak);
+}
+
+.secondary-btn.delete:hover {
+  color: var(--error-strong);
+  border: 1px solid var(--error-stroke-strong);
 }
