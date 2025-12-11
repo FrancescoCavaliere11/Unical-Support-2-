@@ -6,6 +6,7 @@ import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.email.EmailDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
+import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 
 public interface EmailService {
     List<EmailDto> getStoredEmail();
@@ -13,4 +14,6 @@ public interface EmailService {
     void updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto);
     
     void saveEmail(EmailMessage emailToSave, ClassificationResultDto classificationResultDto);
+
+    void saveAnswers(ResponderResultDto responderResultDto);
 }

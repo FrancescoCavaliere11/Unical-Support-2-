@@ -13,13 +13,15 @@ import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto
 import unical_support.unicalsupport2.data.dto.email.ClassifyDto;
 import unical_support.unicalsupport2.data.dto.email.EmailDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
+import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
+import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
+import unical_support.unicalsupport2.data.embeddables.SingleAnswer;
 import unical_support.unicalsupport2.data.embeddables.SingleClassification;
-import unical_support.unicalsupport2.data.entities.Category;
-import unical_support.unicalsupport2.data.entities.Classifications;
-import unical_support.unicalsupport2.data.entities.Email;
+import unical_support.unicalsupport2.data.entities.*;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.data.repositories.ClassificationsRepository;
 import unical_support.unicalsupport2.data.repositories.EmailRepository;
+import unical_support.unicalsupport2.data.repositories.TemplateRepository;
 import unical_support.unicalsupport2.service.interfaces.EmailService;
 
 @Service
@@ -29,6 +31,7 @@ public class EmailServiceImpl implements EmailService {
     private final EmailRepository emailRepository;
     private final ClassificationsRepository classificationsRepository;
     private final CategoryRepository categoryRepository;
+    private final TemplateRepository templateRepository;
 
     private final ModelMapper modelMapper;
 
@@ -106,5 +109,56 @@ public class EmailServiceImpl implements EmailService {
         newEmail.setClassifications(classifications);
 
         emailRepository.save(newEmail);
+    }
+
+    @Override
+    @Transactional
+    public void saveAnswers(ResponderResultDto responderResultDto) {
+        String emailId = String.valueOf(responderResultDto.getEmailId());
+        Email email = emailRepository.findById(emailId)
+                .orElseThrow(() -> new RuntimeException("Email not found with ID: " + emailId));
+
+        Answers answers = new Answers();
+        answers.setEmail(email);
+
+        boolean hasResponses = responderResultDto.getResponses() != null && !responderResultDto.getResponses().isEmpty();
+        answers.setAnswered(hasResponses);
+
+        List<SingleAnswer> singleAnswersList = new ArrayList<>();
+
+        if (hasResponses) {
+            for (SingleResponseDto responseDto : responderResultDto.getResponses()) {
+                SingleAnswer singleAnswer = new SingleAnswer();
+
+                // Se content è null, salviamo una stringa vuota ""
+                String content = responseDto.getContent() != null ? responseDto.getContent() : "";
+                singleAnswer.setAnswer(content);
+
+                singleAnswer.setParameter(responseDto.getParameter());
+
+                Category category = categoryRepository.findByNameIgnoreCase(responseDto.getCategory()) //
+                        .orElseThrow(() -> new RuntimeException("Category not found: " + responseDto.getCategory()));
+                singleAnswer.setCategory(category);
+
+                Template template = templateRepository.findByNameIgnoreCase(responseDto.getTemplate()) //
+                        .orElseThrow(() -> new RuntimeException("Template not found: " + responseDto.getTemplate()));
+                singleAnswer.setTemplate(template);
+
+                try {
+                    double reasonVal = Double.parseDouble(responseDto.getReason());
+                    singleAnswer.setReason(reasonVal);
+                } catch (NumberFormatException | NullPointerException e) {
+                    singleAnswer.setReason(0.0);
+                }
+
+                singleAnswersList.add(singleAnswer);
+            }
+        }
+
+        answers.setSingleAnswers(singleAnswersList);
+
+        email.setAnswers(answers);
+
+        emailRepository.save(email);
     }
 }
