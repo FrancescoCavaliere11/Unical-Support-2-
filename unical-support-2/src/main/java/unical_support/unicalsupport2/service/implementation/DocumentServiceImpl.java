@@ -117,21 +117,13 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional
-    public String removeDocument(String id) {
-        Document doc = documentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Documento non trovato con ID: " + id));
-
-//        int chunksCount = doc.getChunks() != null ? doc.getChunks().size() : 0;
-        String filename = doc.getOriginalFilename();
-
-
-//        String sqlDeleteEmbeddings = "DELETE FROM chunk_embeddings WHERE chunk_id IN (SELECT id FROM chunks WHERE document_id = ?)";
-//        int vectorsDeleted = jdbcTemplate.update(sqlDeleteEmbeddings, id);
-
-
+    public String removeDocument(String fileName) {
+        Document doc = documentRepository.findByOriginalFilename(fileName)
+                .orElseThrow(() -> new IllegalArgumentException("Documento non trovato con file name: " + fileName));
+        String id = doc.getId();
         documentRepository.delete(doc);
 
-        return String.format("Documento '%s' (ID: %s) eliminato. Rimossi i chunk ed i vettori associati.", filename, id);
+        return String.format("Documento '%s' (ID: %s) eliminato. Rimossi i chunk ed i vettori associati.", fileName, id);
     }
 
     @Override
