@@ -7,4 +7,5 @@ import unical_support.unicalsupport2.data.entities.Email;
 
 @Repository
 public interface EmailRepository extends JpaRepository<Email, String>{
+
 } 

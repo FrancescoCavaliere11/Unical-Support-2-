@@ -1,18 +1,33 @@
 import { Injectable } from '@angular/core';
 import {Environment} from '../utils/environment';
 import {HttpClient} from '@angular/common/http';
-import {EmailToClassifyDto} from '../model/email-to-classify-dto';
+import {EmailDto} from '../model/email-dto';
+import {BehaviorSubject, map, Observable, tap} from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class Email {
   private _apiUrl: string = Environment.getInstance().apiUrl + 'email';
+  private emailsCache$: BehaviorSubject<EmailDto[] | null> = new BehaviorSubject<EmailDto[] | null>(null);
 
   protected constructor(private http: HttpClient) {}
 
-  getEmails() {
-    return this.http.get<EmailToClassifyDto[]>(this._apiUrl)
+  private loadEmails() {
+    return this.http.get<EmailDto[]>(this._apiUrl)
+  }
+
+  getEmails(forceRefresh: boolean = false): Observable<EmailDto[]> {
+    if (!forceRefresh && this.emailsCache$.value !== null) {
+      return this.emailsCache$.asObservable().pipe(
+        map(emails => emails ?? [])
+      );
+    }
+
+    return this.loadEmails().pipe(
+      tap(emails => this.emailsCache$.next(emails))
+    );
   }
 
   updateCategoryForEmail(

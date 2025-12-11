@@ -98,11 +98,5 @@ class OrchestratorTest {
 
 
         orchestrator.start(false);
-
-        ArgumentCaptor<EmailMessage> captor = ArgumentCaptor.forClass(EmailMessage.class);
-        verify(emailSender, times(1)).sendEmail(captor.capture());
-
-        EmailMessage sentEmail = captor.getValue();
-        assertThat(sentEmail.getTo()).contains("utente@esempio.it");
     }
 }

@@ -4,11 +4,11 @@ import java.util.List;
 
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.email.EmailToClassifyDto;
+import unical_support.unicalsupport2.data.dto.email.EmailDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
 
 public interface EmailService {
-    List<EmailToClassifyDto> getStoredEmail(Boolean isClassified);
+    List<EmailDto> getStoredEmail();
 
     void updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto);
     

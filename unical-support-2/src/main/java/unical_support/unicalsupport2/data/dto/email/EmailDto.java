@@ -5,9 +5,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public abstract class EmailDto {
+public class EmailDto {
     private String id;
     private List<String> to;
     private String subject;
     private String body;
+    private ClassifyDto classify;
+    private AnswerDto answer;
 }

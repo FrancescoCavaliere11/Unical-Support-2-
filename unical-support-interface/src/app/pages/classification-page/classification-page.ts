@@ -4,7 +4,7 @@ import {Email} from '../../services/email';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../services/category';
 import {CategoryDto} from '../../model/category-dto';
-import {EmailToClassifyDto} from '../../model/email-to-classify-dto';
+import {EmailDto} from '../../model/email-dto';
 
 @Component({
   selector: 'app-classification-page',
@@ -21,11 +21,11 @@ export class ClassificationPage implements OnInit {
   protected readonly Delete02Icon = Delete02Icon;
   protected readonly Add01Icon = Add01Icon;
 
-  protected emails: EmailToClassifyDto[] = []
+  protected emails: EmailDto[] = []
   protected categories: CategoryDto[] = []
   protected skeletons: number[] = []
 
-  protected selectedEmail: EmailToClassifyDto | null = null;
+  protected selectedEmail: EmailDto | null = null;
 
   protected form: FormGroup = new FormGroup({});
 
@@ -88,22 +88,28 @@ export class ClassificationPage implements OnInit {
     }
   }
 
-  selectEmail(email: EmailToClassifyDto) {
+  selectEmail(email: EmailDto) {
     this.selectedEmail = email;
 
-    this.form.patchValue({ id: this.selectedEmail.id });
+    this.form.patchValue({ id: this.selectedEmail.classify.id });
 
-    this.classifications.clear();
+    const newControls: FormGroup[] = [];
 
-    if (this.selectedEmail.singleClassifications && this.selectedEmail.singleClassifications.length > 0) {
-      this.selectedEmail.singleClassifications.forEach(classification => {
-        this.classifications.push(this.createClassificationGroup(classification));
+    if (this.selectedEmail.classify?.singleClassifications?.length > 0) {
+      this.selectedEmail.classify.singleClassifications.forEach(classification => {
+        newControls.push(this.createClassificationGroup(classification));
       });
     }
 
-    if (this.classifications.length === 0) {
-      this.addClassification();
+    if (newControls.length === 0) {
+      newControls.push(this.createClassificationGroup());
     }
+
+    const newFormArray = this.formBuilder.array(newControls);
+
+    this.form.setControl('classifications', newFormArray);
+
+    this.changeDetectorRef.detectChanges();
   }
 
   submit() {
@@ -111,7 +117,6 @@ export class ClassificationPage implements OnInit {
 
     this.isLoading = true;
 
-    const idToRemove = this.selectedEmail.id;
     const formValue = this.form.value;
 
     const payload = {
@@ -122,22 +127,18 @@ export class ClassificationPage implements OnInit {
       }))
     };
 
+    console.log(payload);
+
     this.emailService.updateCategoryForEmail(payload).subscribe({
       next: () => {
-        this.emails = this.emails.filter(email => email.id !== idToRemove);
-
         this.selectedEmail = null;
         this.classifications.clear();
         this.isLoading = false;
-
-        this.changeDetectorRef.detectChanges();
       },
       error: (error: any) => {
         console.error(error);
         alert("Errore durante il salvataggio");
         this.isLoading = false;
-
-        this.changeDetectorRef.detectChanges();
       }
     });
   }

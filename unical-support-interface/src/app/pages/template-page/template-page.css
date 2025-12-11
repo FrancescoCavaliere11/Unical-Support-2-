@@ -1,0 +1,100 @@
+.list-item{
+  display: flex;
+  align-items: flex-start;
+  gap: 4pt;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8pt;
+  cursor: pointer;
+  background: var(--fill);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.list-item:hover {
+  border-color: var(--stroke-weak);
+}
+
+.list-item.selected {
+  border-color: var(--brand-strong);
+}
+
+.list-item hugeicons-icon {
+  stroke: var(--brand-strong);
+}
+
+.text-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.text-info p {
+  color: var(--text-strong);
+}
+
+.text-info span {
+  color: var(--text-weak);
+  font-size: 12px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.parameters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.parameter-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 28pt;
+  padding: 8px;
+  background: var(--fill);
+  border-radius: 4pt;
+  border: 1px solid var(--stroke-weak);
+}
+
+.chip {
+  color: var(--brand-strong);
+  font-family: monospace;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--text-strong);
+}
+
+.info-box {
+  padding: 12px;
+  background: var(--fill);
+  border-radius: 4pt;
+  color: var(--text-weak);
+  font-size: 12pt;
+}
+
+.actions, .sub-actions {
+  display: flex;
+  gap: 8pt;
+  width: 100%;
+}
+
+.actions {
+  flex-direction: column;
+}
+
+button, .secondary-btn {
+  width: 100% !important;
+}
+
+.secondary-btn {
+  border-radius: 8pt !important;
+}
