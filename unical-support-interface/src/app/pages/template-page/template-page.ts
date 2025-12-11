@@ -8,6 +8,8 @@ import {Category} from '../../services/category';
 import {Template} from '../../services/template';
 
 
+const PERMISSIVE_REGEX = /\{\{\s*([a-zA-Z0-9_\s]+)\s*\}\}/g;
+const SNAKE_CASE_REGEX = /^[a-z]+(_[a-z]+)*$/;
 
 @Component({
   selector: 'app-template-page',
@@ -35,7 +37,7 @@ export class TemplatePage implements OnInit, OnDestroy {
   protected form: FormGroup;
   private destroy$ = new Subject<void>();
 
-  protected nome_richiesta = "{{nome_richiesta}}"
+  protected placeholder = "{{nome_richiesta}}"
 
   constructor(
     private formBuilder: FormBuilder,
@@ -88,24 +90,32 @@ export class TemplatePage implements OnInit, OnDestroy {
   }
 
 
+  private createParameterGroup(name: string, required: boolean): FormGroup {
+    return this.formBuilder.group({
+      name: [name, [Validators.pattern(SNAKE_CASE_REGEX)]],
+      required: [required]
+    });
+  }
+
   selectTemplate(template: TemplateDto): void {
     this.selectedTemplate = template;
-
-    this.form.reset({}, { emitEvent: false });
-    this.parameters.clear();
 
     this.form.patchValue({
       id: template.id,
       name: template.name,
       categoryId: template.category.id,
       content: template.content
-    },{ emitEvent: false });
+    }, { emitEvent: false });
 
+    const newParamsControls: FormGroup[] = [];
     if (template.parameters) {
       template.parameters.forEach(p => {
-        this.addParameterControl(p.name, p.required);
+        newParamsControls.push(this.createParameterGroup(p.name, p.required));
       });
     }
+
+    const newFormArray = this.formBuilder.array(newParamsControls);
+    this.form.setControl('parameters', newFormArray, { emitEvent: false });
   }
 
   reset(): void {
@@ -138,8 +148,6 @@ export class TemplatePage implements OnInit, OnDestroy {
         ...dto,
         id: this.selectedTemplate.id
       };
-
-      console.log('Updating:', updatePayload);
 
       this.templateService.updateTemplate(updatePayload).subscribe({
         next: () => {
@@ -177,8 +185,6 @@ export class TemplatePage implements OnInit, OnDestroy {
     if (confirm('Sei sicuro di voler eliminare questo template?')) {
       this.isLoading = true;
 
-      console.log('Deleting ID:', this.selectedTemplate.id);
-
       this.templateService.deleteTemplate(this.selectedTemplate.id).subscribe({
         next: () => {
           this.isLoading = false;
@@ -193,42 +199,45 @@ export class TemplatePage implements OnInit, OnDestroy {
     }
   }
 
-  // --- Parameter Parsing Logic ---
-
   private parseParametersFromContent(content: string | null): void {
     if (!content) {
       this.parameters.clear();
       return;
     }
 
-    const regex = /\{\{([a-z]+(?:_[a-z]+)*)\}\}/g;
-
-    const foundNames = new Set<string>();
+    // 1. Estrazione nomi dal testo (Usando un Set per unicità)
+    const foundNamesInText = new Set<string>();
     let match;
+    // IMPORTANTE: Resettiamo lastIndex per sicurezza se la regex è globale
+    PERMISSIVE_REGEX.lastIndex = 0;
 
-    while ((match = regex.exec(content)) !== null) {
-      foundNames.add(match[1]);
+    while ((match = PERMISSIVE_REGEX.exec(content)) !== null) {
+      foundNamesInText.add(match[1].trim());
     }
 
-    for (let i = this.parameters.length - 1; i >= 0; i--) {
-      const currentName = this.parameters.at(i).value.name;
-      if (!foundNames.has(currentName)) {
-        this.parameters.removeAt(i);
-      } else {
-        foundNames.delete(currentName);
+    const currentFormNames = new Set<string>();
+    this.parameters.controls.forEach(c => currentFormNames.add(c.value.name));
+
+    const toAdd = [...foundNamesInText].filter(name => !currentFormNames.has(name));
+    const toRemove = [...currentFormNames].filter(name => !foundNamesInText.has(name));
+
+    if (toRemove.length === 1 && toAdd.length === 1) {
+      const indexToUpdate = this.parameters.controls.findIndex(c => c.value.name === toRemove[0]);
+
+      if (indexToUpdate !== -1) {
+        this.parameters.at(indexToUpdate).patchValue({ name: toAdd[0] });
+        return;
       }
     }
 
-    foundNames.forEach(name => {
-      this.addParameterControl(name, true);
-    });
-  }
+    for (let i = this.parameters.length - 1; i >= 0; i--) {
+      if (toRemove.includes(this.parameters.at(i).value.name)) {
+        this.parameters.removeAt(i);
+      }
+    }
 
-  private addParameterControl(name: string, required: boolean): void {
-    const group = this.formBuilder.group({
-      name: [name],
-      required: [required]
+    toAdd.forEach(name => {
+      this.parameters.push(this.createParameterGroup(name, true));
     });
-    this.parameters.push(group);
   }
 }

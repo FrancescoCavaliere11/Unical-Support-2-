@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {LabelIcon, Mail01Icon, Upload01Icon} from '@hugeicons/core-free-icons'
+import {LabelIcon, Mail01Icon, NoteIcon, Upload01Icon} from '@hugeicons/core-free-icons'
 import {Settings} from './services/settings';
 
 @Component({
@@ -26,4 +26,6 @@ export class App {
   closeUploadDocumentPopup() {
     this.isUploadDocumentPopupOpen = false;
   }
+
+  protected readonly NoteIcon = NoteIcon;
 }

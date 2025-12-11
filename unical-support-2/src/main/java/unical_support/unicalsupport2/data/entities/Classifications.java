@@ -15,8 +15,8 @@ public class Classifications {
     @UuidGenerator
     private String id;
 
-    @Column(name = "is_classified", nullable = false)
-    private boolean isClassified;
+    @Column(name = "classified", nullable = false)
+    private boolean classified;
 
     @Column(name = "explanation", columnDefinition = "TEXT")
     private String explanation;

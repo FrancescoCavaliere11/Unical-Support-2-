@@ -15,8 +15,8 @@
         <div class="list-item" [class.selected]="selectedTemplate?.id === template.id" (click)="selectTemplate(template)">
           <hugeicons-icon [icon]="NoteIcon" size="24"></hugeicons-icon>
           <div class="text-info">
-            <p>{{ template.name }}</p>
-            <span>{{ template.content }}</span>
+            <h3>{{ template.name }}</h3>
+            <p>{{ template.content }}</p>
           </div>
         </div>
       }
@@ -52,7 +52,7 @@
 
     <div class="sec">
       <span>Contenuto</span>
-      <textarea formControlName="content" placeholder="Gentile studente, la tua richiesta {{nome_richiesta}}..."></textarea>
+      <textarea formControlName="content" placeholder="Gentile studente, la tua richiesta {{placeholder}}..."></textarea>
     </div>
 
     @if (parameters.controls.length > 0) {
@@ -60,8 +60,16 @@
         <span>Parametri Rilevati</span>
         <div class="parameters-list" formArrayName="parameters">
           @for (control of parameters.controls; let i = $index; track i) {
-            <div class="parameter-item" [formGroupName]="i">
-              <span class="chip">{{ control.get('name')?.value }}</span>
+            <div class="parameter-item" [formGroupName]="i" [class.invalid]="control.get('name')?.invalid">
+              <div class="param-info">
+                <span class="chip">
+                  {{ control.get('name')?.value }}
+                </span>
+
+                @if (control.get('name')?.invalid) {
+                  <span class="error-msg">Usa snake_case (es. nome_parametro)</span>
+                }
+              </div>
               <label class="checkbox-container">
                 <input type="checkbox" formControlName="required">
                 <span>Required</span>

@@ -6,7 +6,8 @@ import java.util.List;
 
 @Data
 public class ClassifyDto {
-    String id;
+    private String id;
     private String explanation;
+    private Boolean classified;
     private List<SingleClassificationDto> singleClassifications;
 }

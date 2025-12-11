@@ -3,7 +3,7 @@
   align-items: flex-start;
   gap: 4pt;
   width: 100%;
-  padding: 12px;
+  padding: 12pt;
   border-radius: 8pt;
   cursor: pointer;
   background: var(--fill);
@@ -30,18 +30,12 @@
 }
 
 .text-info p {
-  color: var(--text-strong);
-}
-
-.text-info span {
-  color: var(--text-weak);
-  font-size: 12px;
+  display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 .parameters-list {
   display: flex;
@@ -53,16 +47,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 28pt;
-  padding: 8px;
+  min-height: 28pt;
+  padding: 4pt 8px;
   background: var(--fill);
   border-radius: 4pt;
   border: 1px solid var(--stroke-weak);
 }
 
+.parameter-item.invalid {
+  border: 1px solid var(--error-stroke-strong) !important;
+}
+
+.param-info {
+  display: flex;
+  flex-direction: column;
+}
+
 .chip {
-  color: var(--brand-strong);
+  font-size: 12px !important;
+  color: var(--text-strong) !important;
   font-family: monospace;
+}
+
+.error-msg {
+  font-size: 10px !important;
+  color: var(--error-strong) !important;
 }
 
 .checkbox-container {
