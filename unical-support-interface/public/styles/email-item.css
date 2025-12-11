@@ -14,7 +14,7 @@
   border: 1px solid var(--brand-stroke-weak);
 }
 
-item.selected {
+.item.selected {
   border: 1px solid var(--brand-stroke-strong);
 }
 
