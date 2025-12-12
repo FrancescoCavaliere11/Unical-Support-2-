@@ -10,6 +10,7 @@ public class TemplateDto {
     private String id;
     private String name;
     private CategoryDto category;
+    private String description;
     private String content;
     private List<ParameterDto> parameters;
 }

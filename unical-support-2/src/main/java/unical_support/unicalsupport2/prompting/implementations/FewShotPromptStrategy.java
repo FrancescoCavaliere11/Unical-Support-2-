@@ -306,6 +306,7 @@ public class FewShotPromptStrategy implements PromptStrategy {
                     sb.append("    Template disponibili:\n");
                     for (Template t : templates) {
                         sb.append("      - Nome: ").append(t.getName()).append("\n");
+                        sb.append("Descrizione: " ).append(t.getDescription()).append("\n");
                         sb.append("        Parametri: ").append(
                                 t.getParameters().stream().map(TemplateParameter::getName).toList()
                         ).append("\n");

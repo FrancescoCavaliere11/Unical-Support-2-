@@ -93,4 +93,5 @@ public class TemplateCommand {
     ) {
         templateService.deleteTemplateByName(name);
     }
+
 }

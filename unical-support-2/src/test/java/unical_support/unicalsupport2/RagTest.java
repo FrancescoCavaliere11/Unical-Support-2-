@@ -13,7 +13,7 @@ import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.repositories.DocumentChunkRepository;
 import unical_support.unicalsupport2.service.implementation.DocumentChunkServiceImpl;
-import unical_support.unicalsupport2.service.interfaces.LlmClient;
+import unical_support.unicalsupport2.service.implementation.GeminiApiClientImpl;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ class RagTest {
     private DocumentChunkRepository chunkRepository;
 
     @Mock
-    private LlmClient llmClient;
+    private GeminiApiClientImpl llmClient;
 
     @Spy
     private ObjectMapper objectMapper = new ObjectMapper();
