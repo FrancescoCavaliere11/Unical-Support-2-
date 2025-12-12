@@ -13,13 +13,14 @@ import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto
 import unical_support.unicalsupport2.data.dto.email.ClassifyDto;
 import unical_support.unicalsupport2.data.dto.email.EmailDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
+import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
+import unical_support.unicalsupport2.data.embeddables.SingleAnswer;
 import unical_support.unicalsupport2.data.embeddables.SingleClassification;
-import unical_support.unicalsupport2.data.entities.Category;
-import unical_support.unicalsupport2.data.entities.Classifications;
-import unical_support.unicalsupport2.data.entities.Email;
+import unical_support.unicalsupport2.data.entities.*;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.data.repositories.ClassificationsRepository;
 import unical_support.unicalsupport2.data.repositories.EmailRepository;
+import unical_support.unicalsupport2.data.repositories.TemplateRepository;
 import unical_support.unicalsupport2.service.interfaces.EmailService;
 
 @Service
@@ -29,6 +30,7 @@ public class EmailServiceImpl implements EmailService {
     private final EmailRepository emailRepository;
     private final ClassificationsRepository classificationsRepository;
     private final CategoryRepository categoryRepository;
+    private final TemplateRepository templateRepository;
 
     private final ModelMapper modelMapper;
 
@@ -82,7 +84,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Transactional
-    public void saveEmail(EmailMessage emailToSave, ClassificationResultDto classificationResultDto) {
+    public Email saveEmail(EmailMessage emailToSave, ClassificationResultDto classificationResultDto) {
 
         Email newEmail = modelMapper.map(emailToSave, Email.class);
 
@@ -103,8 +105,57 @@ public class EmailServiceImpl implements EmailService {
                 }).toList()
         );
 
+        classifications.setEmail(newEmail);
         newEmail.setClassifications(classifications);
 
-        emailRepository.save(newEmail);
+        return emailRepository.save(newEmail);
     }
+
+    @Override
+    @Transactional
+    public void saveAnswers(Email email, ResponderResultDto responderResultDto) {
+        Answers answers = new Answers();
+        answers.setAnswered(false);
+
+        answers.setSingleAnswers(
+                responderResultDto.getResponses()
+                        .stream()
+                        .map(sr -> {
+                            SingleAnswer singleAnswer = new SingleAnswer();
+
+                            // Se content è null, salviamo una stringa vuota ""
+                            String content = sr.getContent() != null ? sr.getContent() : "";
+                            singleAnswer.setAnswer(content);
+
+                            singleAnswer.setParameter(sr.getParameter());
+
+                            Category category = sr.getCategory() == null
+                                    ? categoryRepository.findByNameIgnoreCase("NON RICONOSCIUTA")
+                                        .orElseThrow(() -> new RuntimeException("Category not found: NON RICONOSCIUTA"))
+                                    : categoryRepository.findByNameIgnoreCase(sr.getCategory())
+                                        .orElseThrow(() -> new RuntimeException("Category not found: " + sr.getCategory()));
+                            singleAnswer.setCategory(category);
+
+                            if(sr.getTemplate() != null) {
+                                Template template = templateRepository.findByNameIgnoreCase(sr.getTemplate()) //
+                                        .orElseThrow(() -> new RuntimeException("Template not found: " + sr.getTemplate()));
+                                singleAnswer.setTemplate(template);
+                            }
+
+                            try {
+                                double reasonVal = Double.parseDouble(sr.getReason());
+                                singleAnswer.setReason(reasonVal);
+                            } catch (NumberFormatException | NullPointerException e) {
+                                singleAnswer.setReason(0.0);
+                            }
+
+                            return singleAnswer;
+                        }).toList()
+        );
+
+        answers.setEmail(email);
+        email.setAnswers(answers);
+        emailRepository.save(email);
+    }
+
 }

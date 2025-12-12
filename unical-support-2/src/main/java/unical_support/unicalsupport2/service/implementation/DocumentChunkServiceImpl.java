@@ -3,7 +3,6 @@ package unical_support.unicalsupport2.service.implementation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
@@ -11,7 +10,6 @@ import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.repositories.DocumentChunkRepository;
 import unical_support.unicalsupport2.service.interfaces.DocumentChunkService;
-import unical_support.unicalsupport2.service.interfaces.LlmClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ public class DocumentChunkServiceImpl implements DocumentChunkService {
 
     private static final double MAX_COSINE_DISTANCE = 0.6;
     private final DocumentChunkRepository chunkRepository;
-    private final LlmClient llmClient;
+    private final GeminiApiClientImpl llmClient;
     private final ObjectMapper objectMapper;
 
     @Override
