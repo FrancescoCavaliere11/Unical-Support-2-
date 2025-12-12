@@ -1,11 +1,9 @@
 package unical_support.unicalsupport2;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
@@ -13,7 +11,7 @@ import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.repositories.DocumentChunkRepository;
 import unical_support.unicalsupport2.service.implementation.DocumentChunkServiceImpl;
-import unical_support.unicalsupport2.service.interfaces.LlmClient;
+import unical_support.unicalsupport2.service.implementation.GeminiApiClientImpl;
 
 import java.util.List;
 
@@ -28,10 +26,7 @@ class RagTest {
     private DocumentChunkRepository chunkRepository;
 
     @Mock
-    private LlmClient llmClient;
-
-    @Spy
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private GeminiApiClientImpl llmClient;
 
     @InjectMocks
     private DocumentChunkServiceImpl ragService;
