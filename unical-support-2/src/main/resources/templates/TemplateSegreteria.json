@@ -1,0 +1,122 @@
+[
+  {
+    "name": "RispostaInfoGeneriche",
+    "category": "Informazioni generiche",
+    "description": "Da usare per richieste generiche, orari, aule, o regolamenti non specifici.",
+    "content": "Gentile utente,\n\nIn merito alla tua richiesta: \"{{domanda_utente}}\".\n\nConsultando le fonti ufficiali, ecco quanto emerso:\n{{dettagli_risposta}}\n\nPer ulteriori dettagli consultare il portale d'Ateneo.\n\nCordiali saluti,\nSegreteria Studenti",
+    "parameters": [
+      { "name": "domanda_utente", "required": true },
+      { "name": "dettagli_risposta", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaReclamo",
+    "category": "Reclamo",
+    "description": "Da usare per segnalazioni di disservizi o lamentele formali.",
+    "content": "Gentile studente,\n\nAbbiamo preso in carico la tua segnalazione su: {{oggetto_reclamo}}.\n\nLa pratica è stata inoltrata all'ufficio competente. In base alla normativa vigente:\n{{normativa_riferimento}}\n\nTi aggiorneremo appena possibile.\n\nCordiali saluti,\nUfficio Reclami",
+    "parameters": [
+      { "name": "oggetto_reclamo", "required": true },
+      { "name": "normativa_riferimento", "required": false }
+    ]
+  },
+  {
+    "name": "RispostaErasmus",
+    "category": "Erasmus e mobilità internazionale",
+    "description": "Da usare per tutte le domande su Erasmus, bandi esteri e Learning Agreement.",
+    "content": "Gentile studente,\n\nRiguardo alla tua richiesta sul programma Erasmus/Mobilità.\n\nLe disposizioni attuali prevedono che:\n{{info_bando}}\n\nTi invitiamo a monitorare le scadenze sul sito dell'Ufficio Relazioni Internazionali.\n\nSaluti,\nUfficio Mobilità",
+    "parameters": [
+      { "name": "info_bando", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaRiconoscimentoCFU",
+    "category": "Riconoscimento esami e CFU",
+    "description": "Da usare per richieste di convalida esami, carriere pregresse o passaggi di corso.",
+    "content": "Gentile studente,\n\nPer la procedura di riconoscimento {{tipo_pratica}}, il regolamento prevede:\n{{regole_didattiche}}\n\nTi invitiamo a presentare modulistica al Dipartimento.\n\nSaluti,\nSegreteria Didattica",
+    "parameters": [
+      { "name": "tipo_pratica", "required": true },
+      { "name": "regole_didattiche", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaEsamiAppelli",
+    "category": "Esami e appelli",
+    "description": "Da usare per problemi su prenotazioni esami, date appelli, verbalizzazioni o problemi tecnici su Esse3.",
+    "content": "Gentile studente,\n\nIn merito alla richiesta su esami/appelli:\n{{info_appelli}}\n\nSe il problema è tecnico, riprova più tardi o contatta l'helpdesk con uno screenshot.\n\nSaluti,\nSupporto Didattica",
+    "parameters": [
+      { "name": "info_appelli", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaLaureaTesi",
+    "category": "Laurea e tesi",
+    "description": "Da usare per domande su scadenze tesi, domanda di laurea e caricamento elaborati.",
+    "content": "Gentile laureando,\n\nCongratulazioni per il traguardo.\n\nSulla procedura di laurea (scadenze/caricamento):\n{{info_laurea}}\n\nRicorda di regolarizzare le tasse prima della seduta.\n\nIn bocca al lupo,\nSegreteria Lauree",
+    "parameters": [
+      { "name": "info_laurea", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaServiziCampus",
+    "category": "Servizi campus",
+    "description": "Da usare per informazioni su alloggi, mense, trasporti e centro residenziale.",
+    "content": "Gentile utente,\n\nLe informazioni attuali sui servizi Campus (alloggi/mensa/trasporti) sono:\n{{info_servizi}}\n\nVerifica i requisiti nel bando specifico del Centro Residenziale.\n\nSaluti,\nCentro Residenziale",
+    "parameters": [
+      { "name": "info_servizi", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaTasseGenerale",
+    "category": "Tasse ed esoneri",
+    "description": "Da usare per qualsiasi richiesta su tasse, contributi, scadenze, calcoli basati su ISEE o esoneri.",
+    "content": "Gentile studente,\n\nIn merito alla tua richiesta su tasse e contributi.\n\n{{dettaglio_calcolo_o_regola}}\n\nPer dubbi consultare il Regolamento Tasse vigente.\n\nCordiali saluti,\nUfficio Tasse",
+    "parameters": [
+      { "name": "dettaglio_calcolo_o_regola", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaRinunciaUnified",
+    "category": "Rinuncia agli studi",
+    "description": "Da usare per gestire l'intera procedura di rinuncia agli studi, coprendo sia i casi standard che quelli con debiti pregressi o borse di studio da revocare.",
+    "content": "Gentile studente,\n\nAbbiamo preso in carico la tua richiesta di rinuncia agli studi.\n\nDalle verifiche effettuate sulla tua carriera:\n{{stato_pratica}}\n\n(Se hai debiti, saldali per sbloccare la tassa di rinuncia. Se sei in regola, attendi la generazione del bollo su Esse3).\n\nCordiali saluti,\nSegreteria Studenti",
+    "parameters": [
+      { "name": "stato_pratica", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaDecadenzaUnified",
+    "category": "Decadenza",
+    "description": "Da usare per comunicazioni relative allo stato di decadenza: avvio delle verifiche, conferma di avvenuta decadenza o conferma di carriera attiva.",
+    "content": "Gentile studente,\n\nRiguardo la tua posizione di possibile decadenza:\n{{esito_verifica_decadenza}}\n\nLa carriera rimane consultabile su Esse3.\n\nSaluti,\nSegreteria Studenti",
+    "parameters": [
+      { "name": "esito_verifica_decadenza", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaRicognizioneUnified",
+    "category": "Ricognizione carriera",
+    "description": "Da usare per studenti che intendono riprendere gli studi dopo un'interruzione (Ricognizione), specificando importi e anni da recuperare.",
+    "content": "Gentile studente,\n\nPer riattivare la carriera (Ricognizione):\n{{dettagli_pagamenti_e_anni}}\n\nUna volta saldato quanto dovuto, genereremo l'iscrizione per l'anno corrente.\n\nCordiali saluti,\nSegreteria Studenti",
+    "parameters": [
+      { "name": "dettagli_pagamenti_e_anni", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaSospensioneUnified",
+    "category": "Sospensione carriera",
+    "description": "Da usare per richieste di sospensione temporanea della carriera (congelamento), indicando se necessario saldare debiti o solo il bollo.",
+    "content": "Gentile studente,\n\nPer la sospensione della carriera:\n{{istruzioni_sospensione}}\n\nProcederemo dopo la verifica dei pagamenti.\n\nSaluti,\nSegreteria Studenti",
+    "parameters": [
+      { "name": "istruzioni_sospensione", "required": true }
+    ]
+  },
+  {
+    "name": "RispostaPergamenaUnified",
+    "category": "Rilascio Pergamena",
+    "description": "Da usare per informazioni sul ritiro della pergamena, verifica dello stato di stampa e dettagli sui pagamenti (tassa o bollo).",
+    "content": "Gentilissim*,\n\nIn merito al rilascio della pergamena di laurea:\n{{stato_pagamento_e_ritiro}}\n\nPer il ritiro consultare gli orari dell'Area Servizi Didattici.\n\nCordiali saluti,\nUfficio Pergamene",
+    "parameters": [
+      { "name": "stato_pagamento_e_ritiro", "required": true }
+    ]
+  }
+]
