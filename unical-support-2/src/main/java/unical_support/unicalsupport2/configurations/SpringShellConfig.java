@@ -12,7 +12,8 @@
             TemplateCommand.class,
             PromptCommand.class,
             JudgerCommand.class,
-            DocumentCommand.class
+            DocumentCommand.class,
+            ResponderCommand.class
     })
     public class SpringShellConfig {
     }
