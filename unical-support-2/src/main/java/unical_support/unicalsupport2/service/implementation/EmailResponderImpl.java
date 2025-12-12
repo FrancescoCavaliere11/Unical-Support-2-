@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
-import unical_support.unicalsupport2.prompting.PromptService;
 import unical_support.unicalsupport2.service.interfaces.EmailResponder;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
+import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,9 +95,9 @@ public class EmailResponderImpl implements EmailResponder {
             }
 
             // 4. Controllo Finale: Se dopo tutto questo un'email non ha risposte, mettiamo errore
-            for (int i = 0; i < out.size(); i++) {
-                if (out.get(i).getResponses().isEmpty()) {
-                    out.get(i).setResponses(List.of(
+            for (ResponderResultDto responderResultDto : out) {
+                if (responderResultDto.getResponses().isEmpty()) {
+                    responderResultDto.setResponses(List.of(
                             new SingleResponseDto(null, null, null, Map.of(), "NO_RESPONSE_FROM_LLM")
                     ));
                 }

@@ -10,9 +10,9 @@ import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
-import unical_support.unicalsupport2.prompting.PromptService;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
+import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.*;
 
@@ -101,14 +101,13 @@ public class EmailClassifierImpl implements EmailClassifier {
 
         if (json.path("categories").isArray()) {
             for (JsonNode n : json.path("categories")) {
-                String cat = safe(n.path("name").asText());
+                String cat = safe(n.path("category").asText());
                 double conf = n.path("confidence").isNumber() ? n.path("confidence").asDouble() : 0.0;
                 String text = safe(n.path("text").asText());
 
                 addCategoryToList(categoriesList, cat, conf, text, categories);
             }
         } else {
-
             String categoryStr = safe(json.path("category").asText());
             double confidence = json.path("confidence").isNumber() ? json.path("confidence").asDouble() : 0.0;
             String text = safe(json.path("text").asText());
