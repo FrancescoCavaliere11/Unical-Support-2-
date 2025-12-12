@@ -1,7 +1,6 @@
 package unical_support.unicalsupport2.controller;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import unical_support.unicalsupport2.security.customAnnotations.annotation.Valid
 import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidMultipartExtension;
 import unical_support.unicalsupport2.service.interfaces.DocumentService;
 
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/document")
@@ -27,7 +25,6 @@ public class DocumentController {
     public ResponseEntity<HttpStatus> uploadDocument(
             @RequestParam("document")
             @NotNull
-            // todo controlli sulle dimensioni dell'array
             @ValidMultipartExtension
             MultipartFile document,
 

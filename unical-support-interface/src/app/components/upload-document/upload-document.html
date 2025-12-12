@@ -56,7 +56,9 @@
     <div class="separator"></div>
     <footer>
       <button class="cancel-btn" (click)="closePopup()">Annulla</button>
-      <button type="submit" [disabled]="isUploadDisabled" (click)="upload()">Carica Documenti</button>
+      <button type="submit" [disabled]="isUploadDisabled" (click)="upload()">
+        {{ this.isLoading ? 'Caricamento...' : 'Carica Documento' }}
+      </button>
     </footer>
   </div>
 </div>

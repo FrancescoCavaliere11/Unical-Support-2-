@@ -17,6 +17,10 @@ header {
   justify-content: space-between;
 }
 
+header > .actions {
+  padding: 0 16px;
+}
+
 header > .actions > button {
   display: flex;
   align-items: center;

@@ -10,13 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.email.ClassifyDto;
-import unical_support.unicalsupport2.data.dto.email.EmailDto;
-import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
+import unical_support.unicalsupport2.data.dto.email.*;
+import unical_support.unicalsupport2.data.embeddables.SingleAnswer;
 import unical_support.unicalsupport2.data.embeddables.SingleClassification;
+import unical_support.unicalsupport2.data.entities.Answers;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.Classifications;
 import unical_support.unicalsupport2.data.entities.Email;
+import unical_support.unicalsupport2.data.repositories.AnswersRepository;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.data.repositories.ClassificationsRepository;
 import unical_support.unicalsupport2.data.repositories.EmailRepository;
@@ -29,6 +30,9 @@ public class EmailServiceImpl implements EmailService {
     private final EmailRepository emailRepository;
     private final ClassificationsRepository classificationsRepository;
     private final CategoryRepository categoryRepository;
+    private final AnswersRepository answersRepository;
+
+    private final GmailSenderImpl gmailSender;
 
     private final ModelMapper modelMapper;
 
@@ -106,5 +110,28 @@ public class EmailServiceImpl implements EmailService {
         newEmail.setClassifications(classifications);
 
         emailRepository.save(newEmail);
+    }
+
+    @Transactional
+    @Override
+    public EmailDto updateAndSendEmail(UpdateAnswerDto updateAnswerDto) {
+
+        Email email = emailRepository.findByAnswers_Id(updateAnswerDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Answer not found with id: " + updateAnswerDto.getId()));
+
+        Answers answer = email.getAnswers();
+        List<SingleAnswer> singleAnswers = updateAnswerDto.getSingleAnswers()
+                .stream()
+                .map(a -> modelMapper.map(a, SingleAnswer.class))
+                .toList();
+
+        answer.setIsAnswered(true);
+        answer.setSingleAnswers(singleAnswers);
+        email.setAnswers(answer);
+
+        answersRepository.save(answer);
+        gmailSender.sendEmail(email);
+
+        return modelMapper.map(email, EmailDto.class);
     }
 }

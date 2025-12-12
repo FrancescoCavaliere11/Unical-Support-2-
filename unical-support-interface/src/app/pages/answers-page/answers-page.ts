@@ -50,6 +50,14 @@ export class AnswersPage implements OnInit {
   }
 
   get classification() {
+    return this.selectedEmail?.classify;
+  }
+
+  get answer() {
+    return this.selectedEmail?.answer
+  }
+
+  get singleClassifications() {
     return this.selectedEmail?.classify.singleClassifications;
   }
 
@@ -66,17 +74,17 @@ export class AnswersPage implements OnInit {
         alert("Errore nel caricamento delle email");
       },
     });
+
   }
 
   selectEmail(email: EmailDto) {
     this.selectedEmail = email;
-
     this.responses.clear();
 
-    email.answer.singleAnswers.forEach(sa => {
+    email.classify.singleClassifications.forEach((sc, index) => {
       this.responses.push(
         this.formBuilder.control(
-          sa.answer,
+          this.selectedEmail?.answer?.singleAnswers[index]?.answer || '',
           [
             Validators.required,
             Validators.maxLength(this.responseMaxLength)
@@ -96,7 +104,12 @@ export class AnswersPage implements OnInit {
     this.isLoading = true;
 
     if(this.selectedEmail !== null) {
-      this.selectedEmail?.answer?.singleAnswers.forEach((sa, index) => {
+      if(!this.selectedEmail.answer) {
+        alert("Errore nella generazione delle risposte")
+        return;
+      }
+
+      this.selectedEmail.answer.singleAnswers.forEach((sa, index) => {
         sa.answer = this.responses.at(index).value;
       });
 
