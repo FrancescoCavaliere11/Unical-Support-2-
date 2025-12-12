@@ -29,8 +29,9 @@ $$JSON\_SCHEMA$$
 ]
 $$END\_JSON\_SCHEMA$$
 
-## INPUT DA CLASSIFICARE
-[EMAIL\_INPUT]
+# [User Prompt] INPUT DA CLASSIFICARE
 Analizza e classifica le seguenti email applicando rigorosamente i passaggi di ragionamento definiti.
 
 {{EMAIL_LIST}}
+
+RISPONDI ORA SOLO CON IL JSON ARRAY.

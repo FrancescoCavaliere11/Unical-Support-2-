@@ -11,10 +11,10 @@ import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.judger.CategoryEvaluationDto;
 import unical_support.unicalsupport2.data.dto.judger.JudgementResultDto;
-import unical_support.unicalsupport2.prompting.PromptService;
 import unical_support.unicalsupport2.runtime.ActiveJudgerLlmRegistry;
 import unical_support.unicalsupport2.service.interfaces.JudgerService;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
+import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.ArrayList;
 import java.util.Collections;

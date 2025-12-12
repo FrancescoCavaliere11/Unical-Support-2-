@@ -8,10 +8,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
-import unical_support.unicalsupport2.prompting.PromptService;
 import unical_support.unicalsupport2.service.implementation.EmailResponderImpl;
 import unical_support.unicalsupport2.service.interfaces.EmailResponder;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
+import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.List;
 

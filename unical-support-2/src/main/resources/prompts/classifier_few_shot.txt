@@ -62,9 +62,9 @@ Cordiali saluti LP
   }
 ]
 
-## EMAIL DA CLASSIFICARE
-
-[EMAIL\_INPUT]
+# [User Prompt] EMAIL DA CLASSIFICARE
 Ora classifica le seguenti email nello stesso formato JSON, **SENZA AGGIUNGERE MARKDOWN O COMMENTI**:
 
 {{EMAIL_LIST}}
+
+RISPONDI ORA SOLO CON IL JSON ARRAY.

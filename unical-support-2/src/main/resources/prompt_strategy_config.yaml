@@ -1,0 +1,18 @@
+prompt:
+  modules:
+    classifier:
+      default-strategy: "zeroShot"
+      strategies:
+        fewShot: "classpath:prompts/classifier_few_shot.txt"
+        zeroShot: "classpath:prompts/classifier_zero_shot_chain_of_thought.txt"
+
+    judger:
+      default-strategy: "zeroShot"
+      strategies:
+        fewShot: "classpath:prompts/judger_few_shot.txt"
+        zeroShot: "classpath:prompts/judger_zero_shot_chain_of_thought.txt"
+
+    responder:
+      default-strategy: "zeroShot"
+      strategies:
+        zeroShot: "classpath:prompts/responder_zero_shot_chain_of_thought.txt"
