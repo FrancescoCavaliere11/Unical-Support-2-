@@ -1,9 +1,11 @@
 package unical_support.unicalsupport2;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
@@ -27,6 +29,9 @@ class RagTest {
 
     @Mock
     private GeminiApiClientImpl llmClient;
+
+    @Spy
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @InjectMocks
     private DocumentChunkServiceImpl ragService;
