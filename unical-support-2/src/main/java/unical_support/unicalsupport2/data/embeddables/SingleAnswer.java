@@ -19,7 +19,7 @@ public class SingleAnswer {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "template_id", nullable = false)
+    @JoinColumn(name = "template_id")
     private Template template;
 
     @Column(name = "reason", nullable = false)
@@ -29,6 +29,6 @@ public class SingleAnswer {
     private String answer;
 
     @Convert(converter = MapToJsonConverter.class)
-    @Column(name = "parameters", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "parameters", columnDefinition = "TEXT")
     private Map<String, String> parameter;
 }

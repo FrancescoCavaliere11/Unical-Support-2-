@@ -19,6 +19,9 @@ public class Template {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
@@ -40,6 +43,7 @@ public class Template {
         return "{\n" +
                 "\tname= '" + name + "'\n" +
                 "\tcontent= '" + cleanedContent + "'\n" +
+                "\tdescription= '" + description + "'\n" +
                 "\tparameters= " + parameters.toString() + "\n" +
                 "}\n\n";
     }

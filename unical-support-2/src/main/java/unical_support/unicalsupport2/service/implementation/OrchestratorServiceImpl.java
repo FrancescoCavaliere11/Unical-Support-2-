@@ -12,6 +12,7 @@ import unical_support.unicalsupport2.data.dto.responder.SingleEmailResponseDto;
 import unical_support.unicalsupport2.data.dto.judger.JudgementResultDto;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
+import unical_support.unicalsupport2.data.entities.Email;
 import unical_support.unicalsupport2.service.interfaces.*;
 
 import java.util.List;
@@ -21,13 +22,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrchestratorServiceImpl implements OrchestratorService {
 
-    private final EmailReceiver emailReceiver;
     private final EmailClassifier emailClassifier;
-    private final EmailSender emailSender;
     private final EmailResponder emailResponder;
     private final EmailService emailService;
     private final JudgerService judgerService;
     private final ModelMapper modelMapper;
+    private final EmailReceiver emailReceiver;
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_GREEN = "\u001B[32m";
@@ -133,7 +133,8 @@ public class OrchestratorServiceImpl implements OrchestratorService {
             System.out.println("--------------------------------------------------");
             System.out.printf("Email ID: %d | Destinatario: %s%n", r.getEmailId(), original.getTo());
 
-            emailService.saveEmail(original, classification);
+            Email email = emailService.saveEmail(original, classification);
+            emailService.saveAnswers(email, r);
 
             if (r.getResponses() != null) {
                 for (SingleResponseDto response : r.getResponses()) {
@@ -149,9 +150,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
                 }
             }
 
-            EmailMessage replyEmail = buildReplyEmail(original, r);
-//            emailSender.sendEmail(replyEmail);
-//            System.out.println("   Email inviata con successo.");
         }
         System.out.println("--------------------------------------------------\n");
     }
