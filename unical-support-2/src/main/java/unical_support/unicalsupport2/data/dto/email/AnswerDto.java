@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class AnswerDto {
-    String id;
-    List<SingleAnswerDto> singleAnswers;
+    private String id;
+    private Boolean answered;
+    private List<SingleAnswerDto> singleAnswers;
 }

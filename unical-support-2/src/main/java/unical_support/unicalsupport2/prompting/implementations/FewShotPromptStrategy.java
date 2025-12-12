@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
+import unical_support.unicalsupport2.data.embeddables.TemplateParameter;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.entities.Template;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
@@ -290,7 +291,7 @@ public class FewShotPromptStrategy implements PromptStrategy {
                 String categoryName = category.getCategory();
 
                 // non risponde alle categorie non riconosicute
-                if("NON_RICONOSCIUTA".equalsIgnoreCase(categoryName)) continue;
+                if("NON RICONOSCIUTA".equalsIgnoreCase(categoryName)) continue;
 
                 List<Template> templates = templatesCache.computeIfAbsent(
                         categoryName,
@@ -305,8 +306,9 @@ public class FewShotPromptStrategy implements PromptStrategy {
                     sb.append("    Template disponibili:\n");
                     for (Template t : templates) {
                         sb.append("      - Nome: ").append(t.getName()).append("\n");
+                        sb.append("Descrizione: " ).append(t.getDescription()).append("\n");
                         sb.append("        Parametri: ").append(
-                                t.getParameters().stream().map(p -> p.getName()).toList()
+                                t.getParameters().stream().map(TemplateParameter::getName).toList()
                         ).append("\n");
                         sb.append("        Testo Template: ").append(
                                 t.getContent().replace("\n", " ").replace("\r", "")

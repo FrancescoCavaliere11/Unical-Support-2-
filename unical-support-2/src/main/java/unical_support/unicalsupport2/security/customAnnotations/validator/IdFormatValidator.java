@@ -7,7 +7,7 @@ import unical_support.unicalsupport2.security.customAnnotations.annotation.Valid
 public class IdFormatValidator implements ConstraintValidator<ValidIdFormat, String> {
     @Override
     public boolean isValid(String id, ConstraintValidatorContext constraintValidatorContext) {
-        if (id == null) return false;
+        if (id == null) return true;
         return id.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
     }
 }

@@ -10,9 +10,9 @@ import { EmailToClassifyItem } from './components/email-to-classify-item/email-t
 import {ReactiveFormsModule} from "@angular/forms";
 import { EmailToAnswerItem } from './components/email-to-answer-item/email-to-answer-item';
 import {AddressesFormatPipe} from "./model/pipes/AddressesFormatPipe";
-import {CategoriesFormatPipe} from './model/pipes/CategoriesFormatPipe';
 import {ConfidenceFormatPipe} from './model/pipes/ConfidenceFormatPipe';
 import { UploadDocument } from './components/upload-document/upload-document';
+import { TemplatePage } from './pages/template-page/template-page';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,8 @@ import { UploadDocument } from './components/upload-document/upload-document';
     AnswersPage,
     EmailToClassifyItem,
     EmailToAnswerItem,
-    UploadDocument
+    UploadDocument,
+    TemplatePage,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +30,6 @@ import { UploadDocument } from './components/upload-document/upload-document';
     HugeiconsIconComponent,
     ReactiveFormsModule,
     AddressesFormatPipe,
-    CategoriesFormatPipe,
     ConfidenceFormatPipe
   ],
   providers: [

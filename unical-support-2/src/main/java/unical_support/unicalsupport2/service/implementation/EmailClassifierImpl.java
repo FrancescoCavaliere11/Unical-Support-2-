@@ -46,7 +46,7 @@ public class EmailClassifierImpl implements EmailClassifier {
                 arr.add(root);
             }
 
-            // Prepara lista risultati con NON_RICONOSCIUTA di default
+            // Prepara lista risultati con NON RICONOSCIUTA di default
             List<ClassificationResultDto> out = new ArrayList<>();
             for (int i = 0; i < classificationEmailDtos.size(); i++) {
                 out.add(
@@ -70,7 +70,7 @@ public class EmailClassifierImpl implements EmailClassifier {
             return out;
 
         } catch (Exception x) {
-            // In caso di JSON non array o errore, restituisci tutti NON_RICONOSCIUTA
+            // In caso di JSON non array o errore, restituisci tutti NON RICONOSCIUTA
             List<ClassificationResultDto> classificationResultDtos = new ArrayList<>();
             for (int i = 0; i < classificationEmailDtos.size(); i++) {
                 classificationResultDtos.add(

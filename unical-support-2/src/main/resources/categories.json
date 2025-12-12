@@ -7,10 +7,10 @@
     "name": "Reclamo",
     "description": "Segnalazioni di disservizi, comportamenti inappropriati o problematiche relative a docenti, personale amministrativo o infrastrutture universitarie."
   },
-    {
-        "name": "NON_RICONOSCIUTA",
-        "description": "Messaggi che non rientrano in nessuna categoria predefinita o che risultano troppo generici per essere classificati in modo preciso."
-    },
+  {
+    "name": "NON RICONOSCIUTA",
+    "description": "Messaggi che non rientrano in nessuna categoria predefinita o che risultano troppo generici per essere classificati in modo preciso."
+  },
   {
     "name": "Erasmus e mobilità internazionale",
     "description": "Comunicazioni riguardanti programmi di scambio, bandi Erasmus, accordi di mobilità internazionale, partenze, rientri e riconoscimenti di attività svolte all’estero."
@@ -30,6 +30,29 @@
   {
     "name": "Servizi campus",
     "description": "Segnalazioni o domande relative ai servizi offerti dal campus, come mensa, rete Wi-Fi, biblioteca, alloggi, trasporti e strutture universitarie."
+  },
+  {
+    "name": "Tasse ed esoneri",
+    "description": "Richieste di informazioni su importi, scadenze, calcolo ISEE, more, rimborsi e procedure per ottenere esoneri o riduzioni delle tasse universitarie."
+  },
+  {
+    "name": "Rinuncia agli studi",
+    "description": "Richieste riguardanti la volontà di abbandonare gli studi, le procedure di chiusura carriera, il calcolo dell'eventuale tassa di rinuncia e le verifiche amministrative connesse."
+  },
+  {
+    "name": "Decadenza",
+    "description": "Richieste di informazioni o verifiche sullo stato di decadenza dagli studi per inattività o fuori corso prolungato, incluse le procedure per l'eventuale nuova immatricolazione."
+  },
+  {
+    "name": "Ricognizione carriera",
+    "description": "Richieste relative alla procedura di ricognizione per riattivare una carriera studentesca interrotta da anni, con calcolo delle tasse arretrate e diritti fissi."
+  },
+  {
+    "name": "Sospensione carriera",
+    "description": "Richieste per la sospensione temporanea della carriera (congelamento) per motivi specifici (es. studio all'estero, grave infermità), incluse le info sul bollo virtuale."
+  },
+  {
+    "name": "Rilascio Pergamena",
+    "description": "Domande riguardanti la pergamena di laurea: stato della stampa, pagamento del contributo pergamena o bollo virtuale, modalità e orari di ritiro."
   }
-
 ]

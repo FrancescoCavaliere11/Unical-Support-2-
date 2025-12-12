@@ -1,9 +1,7 @@
 package unical_support.unicalsupport2.service.implementation;
 
-import com.google.gson.Gson;
 import com.pgvector.PGvector;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,8 +11,6 @@ import unical_support.unicalsupport2.data.entities.ChunkEmbedding;
 import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
-import unical_support.unicalsupport2.data.repositories.ChunkEmbeddingRepository;
-import unical_support.unicalsupport2.data.repositories.DocumentChunkRepository;
 import unical_support.unicalsupport2.data.repositories.DocumentRepository;
 import unical_support.unicalsupport2.service.interfaces.DocumentService;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
@@ -33,10 +29,6 @@ public class DocumentServiceImpl implements DocumentService {
     private final LlmClient geminiApiClient;
     private final CategoryRepository categoryRepository;
 
-
-    private final JdbcTemplate jdbcTemplate;
-    private final Gson gson = new Gson();
-
     @Transactional
     @Override
     public DocumentProcessingResult processAndSaveDocumentFromPath(String filePath, String categoryName) {
@@ -52,7 +44,12 @@ public class DocumentServiceImpl implements DocumentService {
         doc.setCategory(category);
         doc = documentRepository.save(doc);
 
-        String text = textExtractorService.extractText(file);
+        List<String> chunksText = getTextFromFile(doc, textExtractorService.extractText(file));
+
+        return new DocumentProcessingResult(doc.getId(), doc.getOriginalFilename(), doc.getFileType(), category.getName(), chunksText.size());
+    }
+
+    private List<String> getTextFromFile(Document doc, String text) {
         List<String> chunksText = splitIntoChunksByWords(text, 300, 50);
 
         List<DocumentChunk> chunks = new ArrayList<>();
@@ -77,7 +74,7 @@ public class DocumentServiceImpl implements DocumentService {
         doc.setChunks(chunks);
         documentRepository.save(doc);
 
-        return new DocumentProcessingResult(doc.getId(), doc.getOriginalFilename(), doc.getFileType(), category.getName(), chunksText.size());
+        return chunksText;
     }
 
 
@@ -109,30 +106,7 @@ public class DocumentServiceImpl implements DocumentService {
         doc.setCategory(category);
 
 
-        String text = textExtractorService.extractText(multipart);
-        List<String> chunksText = splitIntoChunksByWords(text, 300, 50);
-
-        List<DocumentChunk> chunks = new ArrayList<>();
-        for (int i = 0; i < chunksText.size(); i++) {
-            String chText = chunksText.get(i);
-
-            DocumentChunk chunk = new DocumentChunk();
-            chunk.setChunkIndex(i);
-            chunk.setContent(chText);
-            chunk.setDocument(doc);
-
-            float[] emb = geminiApiClient.embed(chText);
-
-            ChunkEmbedding embedding = new ChunkEmbedding();
-            embedding.setEmbedding(new PGvector(emb));
-            embedding.setChunk(chunk);
-
-            chunk.setEmbedding(embedding);
-            chunks.add(chunk);
-        }
-
-        doc.setChunks(chunks);
-        documentRepository.save(doc);
+        getTextFromFile(doc, textExtractorService.extractText(multipart));
     }
 
     private String extractExtension(String filename) {
@@ -143,23 +117,13 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional
-    public String removeDocument(String id) {
-        // 1. Trova il documento per ID
-        Document doc = documentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Documento non trovato con ID: " + id));
-
-        int chunksCount = doc.getChunks() != null ? doc.getChunks().size() : 0;
-        String filename = doc.getOriginalFilename();
-
-
-        String sqlDeleteEmbeddings = "DELETE FROM chunk_embeddings WHERE chunk_id IN (SELECT id FROM chunks WHERE document_id = ?)";
-        int vectorsDeleted = jdbcTemplate.update(sqlDeleteEmbeddings, id);
-
-
+    public String removeDocument(String fileName) {
+        Document doc = documentRepository.findByOriginalFilename(fileName)
+                .orElseThrow(() -> new IllegalArgumentException("Documento non trovato con file name: " + fileName));
+        String id = doc.getId();
         documentRepository.delete(doc);
 
-        return String.format("Documento '%s' (ID: %s) eliminato. Rimossi %d chunk e %d vettori.",
-                filename, id, chunksCount, vectorsDeleted);
+        return String.format("Documento '%s' (ID: %s) eliminato. Rimossi i chunk ed i vettori associati.", fileName, id);
     }
 
     @Override

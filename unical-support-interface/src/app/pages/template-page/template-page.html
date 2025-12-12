@@ -1,0 +1,105 @@
+<section class="skeleton">
+  <div class="list">
+    @if (isFetching) {
+      @for (_ of skeletons; track $index) {
+        <div class="skeleton-item animated"></div>
+      }
+    }
+    @else if (templates.length === 0) {
+      <div class="skeleton-item empty">
+        <p>Nessun template trovato.</p>
+      </div>
+    }
+    @else {
+      @for (template of templates; track template.id) {
+        <div class="list-item" [class.selected]="selectedTemplate?.id === template.id" (click)="selectTemplate(template)">
+          <hugeicons-icon [icon]="NoteIcon" size="24"></hugeicons-icon>
+          <div class="text-info">
+            <h3>{{ template.name }}</h3>
+            <p>{{ template.content }}</p>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <form [formGroup]="form" (submit)="submit()" class="preview">
+
+    <div class="sec-header">
+      @if (selectedTemplate) {
+        <hugeicons-icon [icon]="FileEditIcon" size="28"></hugeicons-icon>
+        <h2>Modifica Template</h2>
+      } @else {
+        <hugeicons-icon [icon]="FileAddIcon" size="28"></hugeicons-icon>
+        <h2>Nuovo Template</h2>
+      }
+    </div>
+
+    <div class="sec">
+      <span>Nome Template</span>
+      <input type="text" formControlName="name" placeholder="Es. Risposta Automatica Ordini">
+    </div>
+
+    <div class="sec">
+      <span>Categoria</span>
+      <select formControlName="categoryId">
+        <option value="" disabled selected>Seleziona Categoria</option>
+        @for (cat of categories; track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="sec">
+      <span>Contenuto</span>
+      <textarea formControlName="content" placeholder="Gentile studente, la tua richiesta {{placeholder}}..."></textarea>
+    </div>
+
+    @if (parameters.controls.length > 0) {
+      <div class="sec">
+        <span>Parametri Rilevati</span>
+        <div class="parameters-list" formArrayName="parameters">
+          @for (control of parameters.controls; let i = $index; track i) {
+            <div class="parameter-item" [formGroupName]="i" [class.invalid]="control.get('name')?.invalid">
+              <div class="param-info">
+                <span class="chip">
+                  {{ control.get('name')?.value }}
+                </span>
+
+                @if (control.get('name')?.invalid) {
+                  <span class="error-msg">Usa snake_case (es. nome_parametro)</span>
+                }
+              </div>
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="required">
+                <span>Required</span>
+              </label>
+            </div>
+          }
+        </div>
+      </div>
+    } @else if (form.get('content')?.value) {
+      <div class="info-box" ngNonBindable>
+        <p>Nessun parametro rilevato nel testo. Usa il formato <code>{{nome_parametro}}</code>.</p>
+      </div>
+    }
+
+    <div class="actions">
+      <button type="submit" [disabled]="form.invalid || isLoading">
+        @if (isLoading) { Attendere... } @else { {{ selectedTemplate ? 'Salva Modifiche' : 'Crea Template' }} }
+      </button>
+      @if (!isLoading) {
+        <div class="sub-actions">
+          <button type="reset" class="secondary-btn neutral" (click)="reset()" [disabled]="isLoading">
+            Annulla
+          </button>
+          @if (selectedTemplate) {
+            <button type="button" class="secondary-btn delete" (click)="deleteTemplate()" [disabled]="isLoading">
+              Elimina
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </form>
+</section>

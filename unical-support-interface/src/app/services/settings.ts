@@ -1,23 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Settings {
 
-  //TODO in futuro si può salvar eil valore impostato
-  // nel localstorage per fare in modo di mantenere
-  // il tema scelto dall'utente ad ogni avvio
+  public darkMode: WritableSignal<boolean> = signal(false);
 
-  private _darkMode: boolean = true;
-
-  constructor() { }
-
-  get darkMode() {
-    return this._darkMode;
+  constructor() {
+    this.initializeSystemTheme();
   }
 
-  set darkMode(value: boolean) {
-    this._darkMode = value;
+  private initializeSystemTheme() {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+      this.darkMode.set(mediaQuery.matches);
+
+      mediaQuery.addEventListener('change', (event) => {
+        this.darkMode.set(event.matches);
+      });
+    }
   }
 }

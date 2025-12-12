@@ -55,9 +55,11 @@
               } @else {
                 <span class="neutral-badge">Nuova Classificazione</span>
               }
-              <span class="delete" (click)="removeClassification(i)">
+              @if (i >= 1) {
+                <span class="delete" (click)="removeClassification(i)">
                 <hugeicons-icon [icon]="Delete02Icon" size="16"></hugeicons-icon>
               </span>
+              }
             </div>
             <select formControlName="categoryId">
               <option value="" disabled selected>Seleziona una categoria</option>

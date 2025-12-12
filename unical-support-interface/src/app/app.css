@@ -14,44 +14,29 @@ header, nav {
 }
 
 header {
-  justify-content: space-between;
-}
-
-header > .actions {
-  padding: 0 16px;
-}
-
-header > .actions > button {
-  display: flex;
-  align-items: center;
-
-  padding: 8px;
-  gap: 8px;
-}
-
-.btn-icon {
-  stroke: var(--text-strong);
-}
-
-header > .logo{
   display: flex;
   align-items: center;
   padding: 16pt;
   gap: 4pt;
 }
 
-header > .logo > img {
-  height: 50pt;
+header  > img {
+  height: 30pt;
 }
 
 nav {
   display: flex;
-  gap: 16pt;
-  overflow-x: auto;
+  align-items: center;
   position: sticky;
   top: 0;
   background: var(--background);
   z-index: 99;
+}
+
+nav > div {
+  display: flex;
+  gap: 16pt;
+  overflow-x: auto;
 }
 
 a {
@@ -68,6 +53,35 @@ a {
 
 a:first-of-type {
   margin-left: 16pt;
+}
+
+a:last-of-type {
+  margin-right: 64pt;
+}
+
+.actions {
+  position: absolute;
+  right: 16pt;
+  display: flex;
+  align-items: center;
+  gap: 16pt;
+}
+
+.third-btn {
+  padding: 8pt;
+  border-radius: 8pt;
+  background: var(--fill);
+  backdrop-filter: blur(8pt);
+  border: 1px solid var(--brand-stroke-weak);
+  stroke: var(--brand-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.third-btn:hover {
+  background: var(--brand-fill);
+  border: 1px solid var(--brand-stroke-strong);
 }
 
 .nav-icon {
