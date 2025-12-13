@@ -9,8 +9,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import unical_support.unicalsupport2.prompting.PromptProperties;
-import unical_support.unicalsupport2.prompting.PromptStrategyFactory;
+import unical_support.unicalsupport2.configurations.factory.PromptProperties;
+import unical_support.unicalsupport2.configurations.factory.PromptStrategyFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

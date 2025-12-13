@@ -6,10 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.service.implementation.EmailClassifierImpl;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
@@ -29,7 +31,10 @@ public class EmailClassifierTest {
     private CategoryRepository categoryRepository;
 
     @Mock
-    private LlmClient geminiApiClient;
+    private LlmStrategyFactory llmStrategyFactory;
+
+    @Mock
+    private LlmClient llmClient;
 
     @Mock
     private PromptService promptService;
@@ -38,7 +43,8 @@ public class EmailClassifierTest {
 
     @BeforeEach
     void setup() {
-        classifierService = new EmailClassifierImpl(categoryRepository, geminiApiClient, promptService);
+        when(llmStrategyFactory.getLlmClient(ModuleName.CLASSIFIER)).thenReturn(llmClient);
+        classifierService = new EmailClassifierImpl(categoryRepository, promptService, llmStrategyFactory);
     }
 
     @Test
@@ -46,7 +52,7 @@ public class EmailClassifierTest {
     void acceptsEmptyOrNullSubjectBody() throws Exception {
         when(promptService.buildClassifyPrompt(anyList())).thenReturn("system prompt");
 
-        when(geminiApiClient.chat(anyString())).thenReturn("[]");
+        when(llmStrategyFactory.getLlmClient(ModuleName.CLASSIFIER).chat(anyString())).thenReturn("[]");
 
         ClassificationEmailDto e1 = new ClassificationEmailDto(); e1.setSubject(null); e1.setBody("");
         ClassificationEmailDto e2 = new ClassificationEmailDto(); e2.setSubject(""); e2.setBody(null);
@@ -82,7 +88,7 @@ public class EmailClassifierTest {
           }
         ]
         """;
-        when(geminiApiClient.chat(anyString())).thenReturn(oldJsonFormat);
+        when(llmStrategyFactory.getLlmClient(ModuleName.CLASSIFIER).chat(anyString())).thenReturn(oldJsonFormat);
 
         Category c1 = new Category(); c1.setName("RECLAMO");
         // Importante: il mock del repository deve restituire la categoria che ci aspettiamo
@@ -119,7 +125,7 @@ public class EmailClassifierTest {
           }
         ]
         """;
-        when(geminiApiClient.chat(anyString())).thenReturn(multiLabelJson);
+        when(llmStrategyFactory.getLlmClient(ModuleName.CLASSIFIER).chat(anyString())).thenReturn(multiLabelJson);
 
         Category c1 = new Category(); c1.setName("ESAMI_E_APPELLI");
         Category c2 = new Category(); c2.setName("SERVIZI_CAMPUS");

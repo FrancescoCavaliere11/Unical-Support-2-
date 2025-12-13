@@ -7,13 +7,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory; // Import necessario
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.data.repositories.DocumentChunkRepository;
 import unical_support.unicalsupport2.service.implementation.DocumentChunkServiceImpl;
-import unical_support.unicalsupport2.service.implementation.GeminiApiClientImpl;
+import unical_support.unicalsupport2.service.interfaces.LlmClient;
 
 import java.util.List;
 
@@ -28,7 +30,10 @@ class RagTest {
     private DocumentChunkRepository chunkRepository;
 
     @Mock
-    private GeminiApiClientImpl llmClient;
+    private LlmClient llmClient;
+
+    @Mock
+    private LlmStrategyFactory llmStrategyFactory;
 
     @Spy
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -43,6 +48,8 @@ class RagTest {
         String userQuery = "Quanto pago?";
         float[] mockEmbedding = new float[]{0.1f, 0.2f, 0.3f};
         String mockChunkId = "chunk-uuid-123";
+
+        when(llmStrategyFactory.getLlmClient(ModuleName.EMBEDDER)).thenReturn(llmClient);
 
         // Simulo l'input del classificatore
         ClassificationResultDto input = new ClassificationResultDto(
@@ -61,7 +68,7 @@ class RagTest {
                 eq(5)
         )).thenReturn(List.of(mockChunkId));
 
-        // 3. Simulo il recupero dell'entità completa
+        // Simulo il recupero dell'entità completa
         DocumentChunk chunk = new DocumentChunk();
         chunk.setId(mockChunkId);
         chunk.setContent("Testo del regolamento tasse...");

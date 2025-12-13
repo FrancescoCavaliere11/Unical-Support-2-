@@ -3,7 +3,7 @@ package unical_support.unicalsupport2.commands;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.command.annotation.Command;
 import org.springframework.validation.annotation.Validated;
-import unical_support.unicalsupport2.prompting.PromptProperties;
+import unical_support.unicalsupport2.configurations.factory.PromptProperties;
 import org.springframework.shell.command.annotation.Option;
 import org.springframework.shell.table.ArrayTableModel;
 import org.springframework.shell.table.BorderStyle;
