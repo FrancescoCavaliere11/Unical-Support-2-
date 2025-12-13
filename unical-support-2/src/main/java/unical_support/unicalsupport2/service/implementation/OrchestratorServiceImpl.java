@@ -40,12 +40,7 @@ public class OrchestratorServiceImpl implements OrchestratorService {
     public void start(boolean sequentialMode) {
         log.info("Avvio procedura di fetch...");
 
-        // todo decommentare List<EmailMessage> originalEmails = emailReceiver.receiveEmails();
-        EmailMessage testEmail = new EmailMessage();
-        testEmail.setBody("Buongiorno, ho bisogno di assistenza per quanto riguarda le tasse da pagare per l'iscrizione all'università. Potreste fornirmi informazioni sui costi e le scadenze?");
-        testEmail.setSubject("Richiesta informazioni tasse universitarie");
-        testEmail.setTo(List.of("francesco.cavaliere03@gmail.com"));
-        List<EmailMessage> originalEmails = List.of(testEmail); // placeholder per testing
+        List<EmailMessage> originalEmails = emailReceiver.receiveEmails();
 
         if (originalEmails.isEmpty()) {
             log.info("Nessuna nuova email trovata.");
