@@ -29,6 +29,9 @@ $$JSON\_SCHEMA$$
 ]
 $$END\_JSON\_SCHEMA$$
 
+## REGOLE
+1. Assegna l'**id** come numero progressivo 0 based.
+
 # [User Prompt] INPUT DA CLASSIFICARE
 Analizza e classifica le seguenti email applicando rigorosamente i passaggi di ragionamento definiti.
 

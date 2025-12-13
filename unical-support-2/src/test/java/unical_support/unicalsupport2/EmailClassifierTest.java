@@ -118,8 +118,8 @@ public class EmailClassifierTest {
           {
             "id":0,
             "categories":[
-               {"category":"ESAMI_E_APPELLI","confidence":0.8,"text":"prenotazione esame"},
-               {"category":"SERVIZI_CAMPUS","confidence":0.6,"text":"rete wifi"}
+               {"name":"ESAMI_E_APPELLI","confidence":0.8,"text":"prenotazione esame"},
+               {"name":"SERVIZI_CAMPUS","confidence":0.6,"text":"rete wifi"}
             ],
             "explanation":"Riguarda più aree"
           }

@@ -48,8 +48,7 @@ $$END\_JSON\_SCHEMA$$
 - **NO_TEMPLATE_MATCH**: Nessun template adatto alla categoria.
 - **MISSING_INFO_FROM_SOURCES**: Manca un parametro obbligatorio che non è stato trovato né nell'email né nelle fonti (es. l'utente chiede una data che non è nei documenti).
 
-## INPUT DA ELABORARE
-
+## [User Prompt] INPUT DA ELABORARE
 Ecco i dati arricchiti con categorie, template e fonti RAG:
 
 {{ENRICHED_INPUT}}
