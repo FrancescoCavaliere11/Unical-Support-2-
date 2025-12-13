@@ -12,6 +12,7 @@ import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.data.repositories.DocumentChunkRepository;
 import unical_support.unicalsupport2.service.implementation.DocumentChunkServiceImpl;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
@@ -48,7 +49,7 @@ class RagTest {
         float[] mockEmbedding = new float[]{0.1f, 0.2f, 0.3f};
         String mockChunkId = "chunk-uuid-123";
 
-        when(llmStrategyFactory.getLlmClient(any())).thenReturn(llmClient);
+        when(llmStrategyFactory.getLlmClient(ModuleName.EMBEDDER)).thenReturn(llmClient);
 
         // Simulo l'input del classificatore
         ClassificationResultDto input = new ClassificationResultDto(

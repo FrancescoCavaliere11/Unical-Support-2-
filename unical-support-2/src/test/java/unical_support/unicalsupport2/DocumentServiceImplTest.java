@@ -1,5 +1,6 @@
 package unical_support.unicalsupport2;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
@@ -7,8 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.Document;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.data.repositories.DocumentRepository;
 import unical_support.unicalsupport2.service.implementation.DocumentServiceImpl;
@@ -22,6 +25,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class DocumentServiceImplTest {
@@ -36,10 +40,18 @@ class DocumentServiceImplTest {
     private TextExtractorService textExtractorService;
 
     @Mock
-    private LlmClient geminiApiClient;
+    private LlmClient llmClient;
+
+    @Mock
+    private LlmStrategyFactory llmStrategyFactory;
 
     @InjectMocks
     private DocumentServiceImpl service;
+
+    @BeforeEach
+    void setUp() {
+        when(llmStrategyFactory.getLlmClient(ModuleName.EMBEDDER)).thenReturn(llmClient);
+    }
 
     @Test
     void testProcessAndSaveDocumentFromPath(@TempDir Path tempDir) throws Exception {
@@ -57,12 +69,12 @@ class DocumentServiceImplTest {
         Mockito.when(categoryRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.of(category));
         Mockito.when(documentRepository.save(any())).thenReturn(savedDoc);
         Mockito.when(textExtractorService.extractText((File) any())).thenReturn("uno due tre quattro cinque sei");
-        Mockito.when(geminiApiClient.embed(anyString())).thenReturn(new float[]{0.1f, 0.2f});
+        Mockito.when(llmStrategyFactory.getLlmClient(ModuleName.EMBEDDER).embed(anyString())).thenReturn(new float[]{0.1f, 0.2f});
 
         service.processAndSaveDocumentFromPath(absolutePath, "test");
 
         Mockito.verify(textExtractorService).extractText(any(File.class));
-        Mockito.verify(geminiApiClient, Mockito.atLeastOnce()).embed(anyString());
+        Mockito.verify(llmClient, Mockito.atLeastOnce()).embed(anyString());
         Mockito.verify(documentRepository, Mockito.atLeast(2)).save(any(Document.class));
     }
 }
