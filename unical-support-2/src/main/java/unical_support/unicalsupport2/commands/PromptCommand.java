@@ -79,7 +79,7 @@ public class PromptCommand {
      * @param strategy the strategy name to set as default (option: --strategy / -s), required
      * @return success message when updated or an error message when validation fails
      */
-    @Command(command = "set", description = "Imposta la strategia di default per un modulo.")
+    @Command(command = "set", alias = "s", description = "Imposta la strategia di default per un modulo.")
     public String setStrategy(
             @Option(longNames = "module", shortNames = 'm', required = true, description = "Nome del modulo (es. classifier)") String module,
             @Option(longNames = "strategy", shortNames = 's', required = true, description = "Nome della strategia (es. fewShot)") String strategy

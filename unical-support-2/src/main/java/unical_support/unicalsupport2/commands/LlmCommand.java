@@ -96,7 +96,7 @@ public class LlmCommand {
      * @return Success message with the previous and new provider, or an error message
      * if the module is not configured or the provider is unavailable.
      */
-    @Command(command = "set", description = "Set the LLM provider for a module.")
+    @Command(command = "set", alias = "s", description = "Set the LLM provider for a module.")
     public String setProvider(
             @Option(longNames = "module", shortNames = 'm', required = true, description = "Module name (e.g. classifier)") String module,
             @Option(longNames = "provider", shortNames = 'p', required = true, description = "Provider name (e.g. groq)") String provider

@@ -33,9 +33,12 @@ public class EmailClassifierImpl implements EmailClassifier {
             String prompt = promptService.buildClassifyPrompt(classificationEmailDtos);
 
             LlmClient llmClient = llmStrategyFactory.getLlmClient(ModuleName.CLASSIFIER);
+
             String raw = llmClient.chat(prompt);
+            System.out.println("Prompt:" + raw);
 
             String cleaned = sanitizeJson(raw);
+            System.out.println("Prompt:" + cleaned);
 
             JsonNode root = mapper.readTree(cleaned);
             ArrayNode arr;
@@ -67,6 +70,8 @@ public class EmailClassifierImpl implements EmailClassifier {
 
                 out.set(id, parseSingleResult(n));
             }
+
+            System.out.println(out);
             return out;
 
         } catch (Exception x) {
@@ -101,7 +106,7 @@ public class EmailClassifierImpl implements EmailClassifier {
 
         if (json.path("categories").isArray()) {
             for (JsonNode n : json.path("categories")) {
-                String cat = safe(n.path("category").asText());
+                String cat = safe(n.path("name").asText());
                 double conf = n.path("confidence").isNumber() ? n.path("confidence").asDouble() : 0.0;
                 String text = safe(n.path("text").asText());
 
