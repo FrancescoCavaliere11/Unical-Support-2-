@@ -37,7 +37,6 @@ export class Email {
   }
 
   updateAndSendResponse(updateAnswerDto: { id: string, singleAnswers: Array<{ answer: string, template_id: string | null }> }) {
-    console.log(updateAnswerDto);
-    return this.http.put(this._apiUrl + "/answer", updateAnswerDto);
+    return this.http.put<EmailDto>(this._apiUrl + "/answer", updateAnswerDto);
   }
 }

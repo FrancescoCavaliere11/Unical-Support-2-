@@ -22,6 +22,7 @@ export class AnswersPage implements OnInit {
   protected skeletons: number[] = []
 
   protected selectedEmail: EmailDto | null = null;
+  protected originalEmail: EmailDto | null = null;
 
   protected form: FormGroup = new FormGroup({});
 
@@ -77,6 +78,7 @@ export class AnswersPage implements OnInit {
 
   selectEmail(email: EmailDto) {
     this.selectedEmail = email;
+    this.originalEmail = email;
     this.responses.clear();
 
     email.classify.singleClassifications.forEach((sc, index) => {
@@ -108,6 +110,7 @@ export class AnswersPage implements OnInit {
         return;
       }
 
+
       if(this.selectedEmail.answer.answered) {
         alert("Hai già inviato le risposte per questa email")
         this.isLoading = false;
@@ -120,12 +123,35 @@ export class AnswersPage implements OnInit {
 
       let updateAnswerDto = {
         id: this.selectedEmail.answer.id,
-        singleAnswers: this.selectedEmail.answer.singleAnswers.map(sa => ({ answer: sa.answer, template_id: sa.template ? sa.template.id : null }))
+        singleAnswers: this.selectedEmail.answer.singleAnswers.map((sa, index) => {
+          let templateId: string | null = sa.template ? sa.template.id : null;
+
+          if(sa.answer !== this.originalEmail?.answer?.singleAnswers[index].answer)
+            templateId = null;
+
+          return ({
+            answer: sa.answer,
+            template_id: templateId
+          })
+        })
       };
 
       this.emailService.updateAndSendResponse(updateAnswerDto).subscribe({
-        next: _ => {
+        next: (updatedEmail: EmailDto) => {
           this.isLoading = false;
+
+          this.selectedEmail = updatedEmail;
+
+          const index = this.emails.findIndex(e => e.id === updatedEmail.id);
+          if (index !== -1) {
+            this.emails = [
+              ...this.emails.slice(0, index),
+              updatedEmail,
+              ...this.emails.slice(index + 1),
+            ];
+          }
+
+          this.changeDetectorRef.detectChanges();
           alert("Risposte inviate con successo");
         },
         error: _ => {
