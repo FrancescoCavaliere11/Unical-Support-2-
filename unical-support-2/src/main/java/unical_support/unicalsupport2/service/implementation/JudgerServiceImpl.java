@@ -6,12 +6,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import unical_support.unicalsupport2.configurations.LlmStrategyFactory; // *** NUOVA IMPORT ***
+import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.judger.CategoryEvaluationDto;
 import unical_support.unicalsupport2.data.dto.judger.JudgementResultDto;
-import unical_support.unicalsupport2.runtime.ActiveJudgerLlmRegistry;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.service.interfaces.JudgerService;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
 import unical_support.unicalsupport2.service.interfaces.PromptService;
@@ -26,8 +26,6 @@ import java.util.List;
 public class JudgerServiceImpl implements JudgerService {
 
     private final PromptService promptService;
-    private final ActiveJudgerLlmRegistry judgerRegistry;
-
 
     private final LlmStrategyFactory llmStrategyFactory;
 
@@ -48,7 +46,7 @@ public class JudgerServiceImpl implements JudgerService {
             final String prompt = promptService.buildJudgePrompt(emails, results);
 
 
-            LlmClient client = selectJudgerClient();
+            LlmClient client = llmStrategyFactory.getLlmClient(ModuleName.JUDGER);
 
             String raw = client.chat(prompt);
             log.debug("Judger RAW response: {}", raw);
@@ -88,22 +86,6 @@ public class JudgerServiceImpl implements JudgerService {
      * Se esiste un provider dedicato nel registry del Judger, usa quello (tramite map lookup).
      * Altrimenti usa il client di default globale dalla StrategyFactory.
      */
-    private LlmClient selectJudgerClient() {
-        // 1. Cerca se c'è un override specifico per il Judger
-        String judgerSpecificProvider = judgerRegistry.get();
-
-        if (judgerSpecificProvider != null && !judgerSpecificProvider.isBlank()) {
-
-            return llmStrategyFactory.getLlmClient(judgerSpecificProvider);
-        }
-
-        // 2. Se non c'è override, usa il default globale
-        return llmStrategyFactory.getLlmClient();
-    }
-
-    // ... (Il resto dei metodi privati parseItem, safe, sanitizeJson rimane UGUALE) ...
-    // Li ometto per brevità, copiali dal tuo vecchio file o dimmi se li vuoi completi.
-
     private JudgementResultDto parseItem(JsonNode n, int id) {
         JudgementResultDto dto = new JudgementResultDto();
         dto.setId(id);

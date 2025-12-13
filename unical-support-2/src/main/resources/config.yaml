@@ -16,3 +16,11 @@ prompt:
       default-strategy: "zeroShot"
       strategies:
         zeroShot: "classpath:prompts/responder_zero_shot_chain_of_thought.txt"
+
+llm:
+  default-provider: "gemini"
+  modules:
+    classifier: "gemini"
+    judger: "groq"
+    embedding: "gemini"
+    responder: "groq"

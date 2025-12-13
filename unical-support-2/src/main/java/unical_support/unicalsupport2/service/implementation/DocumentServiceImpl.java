@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory;
 import unical_support.unicalsupport2.data.dto.Document.DocumentProcessingResult;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.ChunkEmbedding;
 import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.DocumentChunk;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.data.repositories.DocumentRepository;
 import unical_support.unicalsupport2.service.interfaces.DocumentService;
@@ -26,8 +28,8 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
     private final TextExtractorService textExtractorService;
-    private final LlmClient geminiApiClient;
     private final CategoryRepository categoryRepository;
+    private final LlmStrategyFactory llmStrategyFactory;
 
     @Transactional
     @Override
@@ -61,7 +63,8 @@ public class DocumentServiceImpl implements DocumentService {
             chunk.setContent(chText);
             chunk.setDocument(doc);
 
-            float[] emb = geminiApiClient.embed(chText);
+            LlmClient llmClient = llmStrategyFactory.getLlmClient(ModuleName.EMBEDDER);
+            float[] emb = llmClient.embed(chText);
 
             ChunkEmbedding embedding = new ChunkEmbedding();
             embedding.setEmbedding(new PGvector(emb));

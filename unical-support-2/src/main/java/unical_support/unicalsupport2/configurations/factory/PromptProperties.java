@@ -1,4 +1,4 @@
-package unical_support.unicalsupport2.prompting;
+package unical_support.unicalsupport2.configurations.factory;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

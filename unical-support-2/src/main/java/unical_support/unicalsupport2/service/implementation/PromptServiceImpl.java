@@ -10,7 +10,7 @@ import unical_support.unicalsupport2.data.entities.DocumentChunk;
 import unical_support.unicalsupport2.data.entities.Template;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.data.repositories.TemplateRepository;
-import unical_support.unicalsupport2.prompting.PromptStrategyFactory;
+import unical_support.unicalsupport2.configurations.factory.PromptStrategyFactory;
 import unical_support.unicalsupport2.service.interfaces.DocumentChunkService;
 import unical_support.unicalsupport2.service.interfaces.PromptService;
 

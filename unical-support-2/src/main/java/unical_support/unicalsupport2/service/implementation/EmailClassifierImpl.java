@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
@@ -20,8 +22,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class EmailClassifierImpl implements EmailClassifier {
     private final CategoryRepository categoryRepository;
-    private final LlmClient geminiApiClient;
     private final PromptService promptService;
+    private final LlmStrategyFactory llmStrategyFactory;
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
@@ -30,12 +32,10 @@ public class EmailClassifierImpl implements EmailClassifier {
 
             String prompt = promptService.buildClassifyPrompt(classificationEmailDtos);
 
-
-            String raw = geminiApiClient.chat(prompt);
-
+            LlmClient llmClient = llmStrategyFactory.getLlmClient(ModuleName.CLASSIFIER);
+            String raw = llmClient.chat(prompt);
 
             String cleaned = sanitizeJson(raw);
-
 
             JsonNode root = mapper.readTree(cleaned);
             ArrayNode arr;

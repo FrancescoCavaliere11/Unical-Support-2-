@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.service.interfaces.EmailResponder;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
 import unical_support.unicalsupport2.service.interfaces.PromptService;
@@ -22,8 +24,8 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class EmailResponderImpl implements EmailResponder {
-    private final LlmClient llmClient; // Usa l'interfaccia generica
     private final PromptService promptService;
+    private final LlmStrategyFactory llmStrategyFactory;
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
@@ -36,6 +38,8 @@ public class EmailResponderImpl implements EmailResponder {
 
         try {
             String prompt = promptService.buildResponderPrompt(emails);
+
+            LlmClient llmClient = llmStrategyFactory.getLlmClient(ModuleName.RESPONDER);
             String raw = llmClient.chat(prompt);
 
             // 1. Pulizia JSON

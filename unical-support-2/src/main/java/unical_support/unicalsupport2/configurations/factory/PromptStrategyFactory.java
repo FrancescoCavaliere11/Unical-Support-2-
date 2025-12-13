@@ -1,4 +1,4 @@
-package unical_support.unicalsupport2.prompting;
+package unical_support.unicalsupport2.configurations.factory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
