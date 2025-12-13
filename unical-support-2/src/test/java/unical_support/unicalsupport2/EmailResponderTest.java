@@ -5,13 +5,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.dto.responder.SingleResponseDto;
-import unical_support.unicalsupport2.prompting.PromptService;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.service.implementation.EmailResponderImpl;
 import unical_support.unicalsupport2.service.interfaces.EmailResponder;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
+import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.List;
 
@@ -23,10 +25,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class EmailResponderTest {
     @Mock
-    private LlmClient client;
+    private LlmStrategyFactory llmStrategyFactory;
 
     @Mock
     private PromptService promptService;
+
+    @Mock
+    private LlmClient llmClient;
 
     private EmailResponder emailResponder;
     private List<ClassificationResultDto> sampleEmails;
@@ -34,7 +39,10 @@ public class EmailResponderTest {
 
     @BeforeEach
     void setUp() {
-        emailResponder = new EmailResponderImpl(client, promptService);
+        when(llmStrategyFactory.getLlmClient(ModuleName.RESPONDER)).thenReturn(llmClient);
+
+        emailResponder = new EmailResponderImpl(promptService, llmStrategyFactory);
+
         sampleEmails = List.of(
                 new ClassificationResultDto(List.of(), "", 0)
         );
@@ -60,7 +68,7 @@ public class EmailResponderTest {
             ]
             """;
 
-        when(client.chat(any())).thenReturn(mockJson);
+        when(llmStrategyFactory.getLlmClient(ModuleName.RESPONDER).chat(any())).thenReturn(mockJson);
 
         List<ResponderResultDto> out = emailResponder.generateEmailResponse(sampleEmails);
 
@@ -96,7 +104,7 @@ public class EmailResponderTest {
     ]
     """;
 
-        when(client.chat(any())).thenReturn(mockJson);
+        when(llmStrategyFactory.getLlmClient(ModuleName.RESPONDER).chat(any())).thenReturn(mockJson);
 
         List<ResponderResultDto> out = emailResponder.generateEmailResponse(sampleEmails);
 
@@ -107,7 +115,7 @@ public class EmailResponderTest {
 
     @Test
     void testInvalidJsonTriggersFallback() throws Exception {
-        when(client.chat(any())).thenReturn("NOT JSON");
+        when(llmStrategyFactory.getLlmClient(ModuleName.RESPONDER).chat(any())).thenReturn("NOT JSON");
 
         List<ResponderResultDto> out = emailResponder.generateEmailResponse(sampleEmails);
 

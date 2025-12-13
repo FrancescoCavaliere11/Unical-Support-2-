@@ -1,19 +1,26 @@
 prompt:
   modules:
     classifier:
-      default: "fewShot"
+      default-strategy: "zeroShot"
       strategies:
-        fewShot: "src/main/resources/prompts/classifier_few_shot.txt"
-        zeroShot: "src/main/resources/prompts/classifier_zero_shot_chain_of_tought.txt"
+        fewShot: "classpath:prompts/classifier_few_shot.txt"
+        zeroShot: "classpath:prompts/classifier_zero_shot_chain_of_thought.txt"
 
     judger:
-      default: "zeroShot"
+      default-strategy: "zeroShot"
       strategies:
-        fewShot: "src/main/resources/prompts/judger_few_shot.txt"
-        zeroShot: "src/main/resources/prompts/judger_zero_shot_chain_of_tought.txt"
+        fewShot: "classpath:prompts/judger_few_shot.txt"
+        zeroShot: "classpath:prompts/judger_zero_shot_chain_of_thought.txt"
 
     responder:
-      default: "fewShot"
+      default-strategy: "zeroShot"
       strategies:
-        fewShot: "src/main/resources/prompts/responder_few_shot.txt"
-        zeroShot: "src/main/resources/prompts/responder_zero_shot_chain_of_tought.txt"
+        zeroShot: "classpath:prompts/responder_zero_shot_chain_of_thought.txt"
+
+llm:
+  default-provider: "gemini"
+  modules:
+    classifier: "gemini"
+    judger: "groq"
+    embedding: "gemini"
+    responder: "groq"

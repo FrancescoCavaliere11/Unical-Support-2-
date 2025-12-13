@@ -2,10 +2,7 @@ package unical_support.unicalsupport2.data.embeddables;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import unical_support.unicalsupport2.data.converters.MapToJsonConverter;
-import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.Template;
 
 import java.util.Map;

@@ -5,14 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationEmailDto;
 import unical_support.unicalsupport2.data.dto.classifier.SingleCategoryDto;
 import unical_support.unicalsupport2.data.entities.Category;
+import unical_support.unicalsupport2.data.enumerators.ModuleName;
 import unical_support.unicalsupport2.data.repositories.CategoryRepository;
-import unical_support.unicalsupport2.prompting.PromptService;
 import unical_support.unicalsupport2.service.interfaces.EmailClassifier;
 import unical_support.unicalsupport2.service.interfaces.LlmClient;
+import unical_support.unicalsupport2.service.interfaces.PromptService;
 
 import java.util.*;
 
@@ -20,8 +22,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class EmailClassifierImpl implements EmailClassifier {
     private final CategoryRepository categoryRepository;
-    private final LlmClient geminiApiClient;
     private final PromptService promptService;
+    private final LlmStrategyFactory llmStrategyFactory;
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
@@ -30,12 +32,13 @@ public class EmailClassifierImpl implements EmailClassifier {
 
             String prompt = promptService.buildClassifyPrompt(classificationEmailDtos);
 
+            LlmClient llmClient = llmStrategyFactory.getLlmClient(ModuleName.CLASSIFIER);
 
-            String raw = geminiApiClient.chat(prompt);
-
+            String raw = llmClient.chat(prompt);
+            System.out.println("Prompt:" + raw);
 
             String cleaned = sanitizeJson(raw);
-
+            System.out.println("Prompt:" + cleaned);
 
             JsonNode root = mapper.readTree(cleaned);
             ArrayNode arr;
@@ -67,6 +70,8 @@ public class EmailClassifierImpl implements EmailClassifier {
 
                 out.set(id, parseSingleResult(n));
             }
+
+            System.out.println(out);
             return out;
 
         } catch (Exception x) {
@@ -108,7 +113,6 @@ public class EmailClassifierImpl implements EmailClassifier {
                 addCategoryToList(categoriesList, cat, conf, text, categories);
             }
         } else {
-
             String categoryStr = safe(json.path("category").asText());
             double confidence = json.path("confidence").isNumber() ? json.path("confidence").asDouble() : 0.0;
             String text = safe(json.path("text").asText());

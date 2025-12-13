@@ -8,12 +8,10 @@
     @EnableCommand({
             CategoryCommand.class,
             EmailCommand.class,
-            ModelCommand.class,
+            LlmCommand.class,
             TemplateCommand.class,
             PromptCommand.class,
-            JudgerCommand.class,
             DocumentCommand.class,
-            ResponderCommand.class
     })
     public class SpringShellConfig {
     }
