@@ -22,6 +22,6 @@ textarea {
   justify-content: space-between;
 }
 
-.error > p {
+.error {
   color: var(--error-strong) !important;
 }

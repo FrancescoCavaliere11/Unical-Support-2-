@@ -3,7 +3,6 @@ import {EmailDto} from '../../model/email-dto';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Email} from '../../services/email';
 import {Mail01Icon} from '@hugeicons/core-free-icons';
-import {Answer} from '../../services/answer';
 
 
 @Component({
@@ -23,19 +22,19 @@ export class AnswersPage implements OnInit {
   protected skeletons: number[] = []
 
   protected selectedEmail: EmailDto | null = null;
+  protected originalEmail: EmailDto | null = null;
 
   protected form: FormGroup = new FormGroup({});
 
   protected isLoading: boolean = false;
   protected isFetching: boolean = false;
 
-  protected responseMaxLength = 500;
+  protected responseMaxLength = 5000;
 
   constructor(
     private emailService: Email,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
-    private answerService: Answer
   ) {
     this.skeletons = Array(15).fill(0);
 
@@ -50,6 +49,14 @@ export class AnswersPage implements OnInit {
   }
 
   get classification() {
+    return this.selectedEmail?.classify;
+  }
+
+  get answer() {
+    return this.selectedEmail?.answer
+  }
+
+  get singleClassifications() {
     return this.selectedEmail?.classify.singleClassifications;
   }
 
@@ -66,17 +73,18 @@ export class AnswersPage implements OnInit {
         alert("Errore nel caricamento delle email");
       },
     });
+
   }
 
   selectEmail(email: EmailDto) {
     this.selectedEmail = email;
-
+    this.originalEmail = email;
     this.responses.clear();
 
-    email.answer.singleAnswers.forEach(sa => {
+    email.classify.singleClassifications.forEach((sc, index) => {
       this.responses.push(
         this.formBuilder.control(
-          sa.answer,
+          this.selectedEmail?.answer?.singleAnswers[index]?.answer || '',
           [
             Validators.required,
             Validators.maxLength(this.responseMaxLength)
@@ -96,13 +104,54 @@ export class AnswersPage implements OnInit {
     this.isLoading = true;
 
     if(this.selectedEmail !== null) {
-      this.selectedEmail?.answer?.singleAnswers.forEach((sa, index) => {
+      if(!this.selectedEmail.answer) {
+        alert("Errore nella generazione delle risposte")
+        this.isLoading = false;
+        return;
+      }
+
+
+      if(this.selectedEmail.answer.answered) {
+        alert("Hai già inviato le risposte per questa email")
+        this.isLoading = false;
+        return;
+      }
+
+      this.selectedEmail.answer.singleAnswers.forEach((sa, index) => {
         sa.answer = this.responses.at(index).value;
       });
 
-      this.answerService.updateAndSendResponse(this.selectedEmail).subscribe({
-        next: _ => {
+      let updateAnswerDto = {
+        id: this.selectedEmail.answer.id,
+        singleAnswers: this.selectedEmail.answer.singleAnswers.map((sa, index) => {
+          let templateId: string | null = sa.template ? sa.template.id : null;
+
+          if(sa.answer !== this.originalEmail?.answer?.singleAnswers[index].answer)
+            templateId = null;
+
+          return ({
+            answer: sa.answer,
+            template_id: templateId
+          })
+        })
+      };
+
+      this.emailService.updateAndSendResponse(updateAnswerDto).subscribe({
+        next: (updatedEmail: EmailDto) => {
           this.isLoading = false;
+
+          this.selectedEmail = updatedEmail;
+
+          const index = this.emails.findIndex(e => e.id === updatedEmail.id);
+          if (index !== -1) {
+            this.emails = [
+              ...this.emails.slice(0, index),
+              updatedEmail,
+              ...this.emails.slice(index + 1),
+            ];
+          }
+
+          this.changeDetectorRef.detectChanges();
           alert("Risposte inviate con successo");
         },
         error: _ => {
@@ -110,8 +159,9 @@ export class AnswersPage implements OnInit {
           alert("Errore nell'invio delle risposte");
         }
       })
+    } else {
+      this.isLoading = false;
     }
 
-    this.isLoading = false;
   }
 }

@@ -35,4 +35,8 @@ export class Email {
   ) {
     return this.http.patch(this._apiUrl, updateDto)
   }
+
+  updateAndSendResponse(updateAnswerDto: { id: string, singleAnswers: Array<{ answer: string, template_id: string | null }> }) {
+    return this.http.put<EmailDto>(this._apiUrl + "/answer", updateAnswerDto);
+  }
 }

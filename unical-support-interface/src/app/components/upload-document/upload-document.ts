@@ -106,19 +106,22 @@ export class UploadDocument implements OnInit{
 
   // API
   upload() {
+    if (this.isUploadDisabled) return;
+
     this.isLoading = true;
+
     this.documentService.uploadDocuments(this.file, this.form.value.categoryId)
       .subscribe({
         next: () => {
-          this.changeDetectorRef.detectChanges();
-          this.isLoading = false;
+          alert("Documenti caricati con successo");
           this.closePopup();
+          this.isLoading = false;
+          this.changeDetectorRef.detectChanges();
         },
         error: err => {
-          console.error(err) // todo
           alert("Errore durante l'upload dei documenti");
-          this.changeDetectorRef.detectChanges();
           this.isLoading = false;
+          this.changeDetectorRef.detectChanges();
         }
       });
   }

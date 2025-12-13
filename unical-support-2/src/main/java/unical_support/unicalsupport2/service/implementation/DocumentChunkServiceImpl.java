@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DocumentChunkServiceImpl implements DocumentChunkService {
 
-    private static final double MAX_COSINE_DISTANCE = 0.3;
+    private static final double MAX_COSINE_DISTANCE = 0.4;
     private final DocumentChunkRepository chunkRepository;
     private final LlmStrategyFactory llmStrategyFactory;
     private final ObjectMapper objectMapper;

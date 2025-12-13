@@ -17,4 +17,6 @@ public interface EmailService {
     Email saveEmail(EmailMessage emailToSave, ClassificationResultDto classificationResultDto);
 
     void saveAnswers(Email email, ResponderResultDto responderResultDto);
+
+    EmailDto updateAndSendEmail(unical_support.unicalsupport2.data.dto.email.UpdateAnswerDto updateAnswerDto);
 }

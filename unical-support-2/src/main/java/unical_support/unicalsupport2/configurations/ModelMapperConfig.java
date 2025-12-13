@@ -5,8 +5,10 @@ import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import unical_support.unicalsupport2.data.dto.email.EmailDto;
+import unical_support.unicalsupport2.data.dto.email.UpdateSingleAnswerDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateSingleClassificationDto;
 import unical_support.unicalsupport2.data.dto.template.TemplateCreateDto;
+import unical_support.unicalsupport2.data.embeddables.SingleAnswer;
 import unical_support.unicalsupport2.data.embeddables.SingleClassification;
 import unical_support.unicalsupport2.data.entities.Email;
 import unical_support.unicalsupport2.data.entities.Template;
@@ -29,6 +31,7 @@ public class ModelMapperConfig {
             @Override
             protected void configure() {
                 skip().setClassify(null); // Per poter impostare la confidence
+                skip().setAnswer(null); // Per poter impostare le singleAnswers
             }
         });
 
@@ -37,6 +40,14 @@ public class ModelMapperConfig {
             protected void configure() {
                 skip().setCategory(null);
                 map().setConfidence(1);
+            }
+        });
+
+        // mapping da UpdateSingleAnswerDto a SingleAnswer
+        modelMapper.addMappings(new PropertyMap<UpdateSingleAnswerDto, SingleAnswer>() {
+            @Override
+            protected void configure() {
+                skip().setTemplate(null);
             }
         });
 
