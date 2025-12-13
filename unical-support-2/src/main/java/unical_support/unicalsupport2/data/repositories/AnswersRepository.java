@@ -6,4 +6,5 @@ import unical_support.unicalsupport2.data.entities.Answers;
 
 @Repository
 public interface AnswersRepository extends JpaRepository<Answers, String> {
+    int countById(String id);
 }

@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DocumentChunkServiceImpl implements DocumentChunkService {
 
-    private static final double MAX_COSINE_DISTANCE = 0.6;
+    private static final double MAX_COSINE_DISTANCE = 0.4;
     private final DocumentChunkRepository chunkRepository;
     private final GeminiApiClientImpl llmClient;
     private final ObjectMapper objectMapper;
@@ -39,6 +39,8 @@ public class DocumentChunkServiceImpl implements DocumentChunkService {
             System.out.println("Cerco documenti per categoria: " + cat.getCategory() + " basandomi su: \"" + queryText + "\"");
 
             float[] embedding = llmClient.embed(queryText);
+
+            System.out.println("EMBEDDINGGGGGGG: " + embedding.length);
 
             // 2. Query SQL
             /*String sql = """

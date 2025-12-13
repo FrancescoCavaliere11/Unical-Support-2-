@@ -39,7 +39,13 @@ public class OrchestratorServiceImpl implements OrchestratorService {
     @Override
     public void start(boolean sequentialMode) {
         log.info("Avvio procedura di fetch...");
-        List<EmailMessage> originalEmails = emailReceiver.receiveEmails();
+
+        // todo decommentare List<EmailMessage> originalEmails = emailReceiver.receiveEmails();
+        EmailMessage testEmail = new EmailMessage();
+        testEmail.setBody("Buongiorno, ho bisogno di assistenza per quanto riguarda le tasse da pagare per l'iscrizione all'università. Potreste fornirmi informazioni sui costi e le scadenze?");
+        testEmail.setSubject("Richiesta informazioni tasse universitarie");
+        testEmail.setTo(List.of("francesco.cavaliere03@gmail.com"));
+        List<EmailMessage> originalEmails = List.of(testEmail); // placeholder per testing
 
         if (originalEmails.isEmpty()) {
             log.info("Nessuna nuova email trovata.");
@@ -153,62 +159,6 @@ public class OrchestratorServiceImpl implements OrchestratorService {
         }
         System.out.println("--------------------------------------------------\n");
     }
-
-    private EmailMessage buildReplyEmail(EmailMessage original, ResponderResultDto responderResult) {
-        EmailMessage reply = new EmailMessage();
-
-        reply.setInReplyToHeader(original.getInReplyToHeader());
-        reply.setReferencesHeader(original.getReferencesHeader());
-        reply.setTo(original.getTo());
-
-        String subject = original.getSubject();
-        if (subject != null && !subject.toLowerCase().startsWith("re:")) {
-            subject = "Re: " + subject;
-        }
-        reply.setSubject(subject);
-
-        StringBuilder body = new StringBuilder();
-        boolean hasContent = false;
-
-        if (responderResult.getResponses() != null) {
-            for (SingleResponseDto response : responderResult.getResponses()) {
-                if (response.getContent() != null && !response.getContent().isBlank()) {
-                    body.append(response.getContent()).append("\n\n");
-                    hasContent = true;
-                }
-            }
-        }
-
-        if (!hasContent) {
-            body.append("Gentile utente,\n\n")
-                    .append("Abbiamo ricevuto la tua richiesta ma non siamo riusciti a elaborare una risposta automatica specifica.\n")
-                    .append("La tua pratica è stata inoltrata a un operatore che ti risponderà al più presto.\n\n")
-                    .append("Cordiali saluti,\nSegreteria Studenti");
-        }
-
-        reply.setBody(body.toString());
-        return reply;
-    }
-
-//    private void forwardEmailToOperator(EmailMessage original) {
-//        EmailMessage toForward = new EmailMessage();
-//        toForward.setTo(List.of("lorenzo.test.04112025@gmail.com"));
-//        toForward.setSubject(" [NON RICONOSCIUTA] Fwd: " + original.getSubject());
-//
-//        String originalSender = (original.getTo() != null && !original.getTo().isEmpty())
-//                ? original.getTo().getFirst()
-//                : "(sconosciuto)";
-//
-//        toForward.setBody(
-//                "Attenzione: Il sistema non ha saputo classificare questa email.\n\n" +
-//                        "--- Messaggio Originale ---\n" +
-//                        "Mittente: " + originalSender + "\n" +
-//                        "Testo:\n" + original.getBody()
-//        );
-//
-//        emailSender.sendEmail(toForward);
-//    }
-
 
 
     @Override

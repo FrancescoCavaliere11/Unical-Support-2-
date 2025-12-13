@@ -321,6 +321,7 @@ public class FewShotPromptStrategy implements PromptStrategy {
 
             sb.append("\nFONTI INFORMATIVE (CHUNK DAI DOCUMENTI):\n");
 
+            int lenght = sb.length();
             // RAG: Recupera i documenti
             List<DocumentChunk> relevantChunks = documentChunkService.findRelevantChunks(email, K_PER_CATEGORY);
 
@@ -335,6 +336,8 @@ public class FewShotPromptStrategy implements PromptStrategy {
             } else {
                 sb.append("Nessuna informazione trovata nei documenti.\n");
             }
+            System.out.println("RAG - Chunks recuperati: " + relevantChunks.size() +
+                    " | Caratteri aggiunti al prompt: " + (sb.length() - lenght));
             sb.append("--------------------------------------------------\n\n");
         }
 

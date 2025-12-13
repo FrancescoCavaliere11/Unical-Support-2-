@@ -2,6 +2,7 @@ package unical_support.unicalsupport2.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.data.dto.classifier.ClassificationResultDto;
-import unical_support.unicalsupport2.data.dto.email.ClassifyDto;
-import unical_support.unicalsupport2.data.dto.email.EmailDto;
-import unical_support.unicalsupport2.data.dto.email.UpdateEmailCategoryDto;
+import unical_support.unicalsupport2.data.dto.email.*;
 import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.embeddables.SingleAnswer;
 import unical_support.unicalsupport2.data.embeddables.SingleClassification;
@@ -31,6 +30,7 @@ public class EmailServiceImpl implements EmailService {
     private final ClassificationsRepository classificationsRepository;
     private final CategoryRepository categoryRepository;
     private final TemplateRepository templateRepository;
+    private final GmailSenderImpl gmailSender;
 
     private final ModelMapper modelMapper;
 
@@ -48,6 +48,9 @@ public class EmailServiceImpl implements EmailService {
                                      singleClassificationDto.setConfidence(singleClassificationDto.getConfidence() * 100));
 
                      emailDto.setClassify(classifyDto);
+
+                     AnswerDto answerDto = modelMapper.map(email.getAnswers(), AnswerDto.class);
+                     emailDto.setAnswer(answerDto);
 
                      return emailDto;
                  })
@@ -123,30 +126,13 @@ public class EmailServiceImpl implements EmailService {
                         .map(sr -> {
                             SingleAnswer singleAnswer = new SingleAnswer();
 
-                            // Se content è null, salviamo una stringa vuota ""
                             String content = sr.getContent() != null ? sr.getContent() : "";
                             singleAnswer.setAnswer(content);
 
-                            singleAnswer.setParameter(sr.getParameter());
-
-                            Category category = sr.getCategory() == null
-                                    ? categoryRepository.findByNameIgnoreCase("NON RICONOSCIUTA")
-                                        .orElseThrow(() -> new RuntimeException("Category not found: NON RICONOSCIUTA"))
-                                    : categoryRepository.findByNameIgnoreCase(sr.getCategory())
-                                        .orElseThrow(() -> new RuntimeException("Category not found: " + sr.getCategory()));
-                            singleAnswer.setCategory(category);
-
-                            if(sr.getTemplate() != null) {
+                            if(sr.getTemplate() != null && !sr.getTemplate().equals("NO_TEMPLATE_MATCH")) {
                                 Template template = templateRepository.findByNameIgnoreCase(sr.getTemplate()) //
                                         .orElseThrow(() -> new RuntimeException("Template not found: " + sr.getTemplate()));
                                 singleAnswer.setTemplate(template);
-                            }
-
-                            try {
-                                double reasonVal = Double.parseDouble(sr.getReason());
-                                singleAnswer.setReason(reasonVal);
-                            } catch (NumberFormatException | NullPointerException e) {
-                                singleAnswer.setReason(0.0);
                             }
 
                             return singleAnswer;
@@ -156,6 +142,43 @@ public class EmailServiceImpl implements EmailService {
         answers.setEmail(email);
         email.setAnswers(answers);
         emailRepository.save(email);
+    }
+
+    @Transactional
+    @Override
+    public EmailDto updateAndSendEmail(UpdateAnswerDto updateAnswerDto) {
+        Email email = emailRepository.findByAnswers_Id(updateAnswerDto.getId())
+                .orElseThrow(() -> new RuntimeException("Email not found for Answers id: " + updateAnswerDto.getId()));
+
+        if(email.getAnswers().getAnswered())
+            throw new RuntimeException("Answers already provided for Answers id: " + updateAnswerDto.getId());
+
+        List<SingleAnswer> updatedSingleAnswers = updateAnswerDto.getSingleAnswers()
+                .stream()
+                .map(dto -> {
+                    SingleAnswer singleAnswer = modelMapper.map(dto, SingleAnswer.class);
+
+                    if(dto.getTemplateId() != null){
+                        Template template = templateRepository.findById(dto.getTemplateId())
+                                .orElseThrow(() -> new RuntimeException("Template not found: " + dto.getTemplateId()));
+
+                        singleAnswer.setTemplate(template);
+                    }
+
+                    return singleAnswer;
+                })
+                .toList();
+
+        email.getAnswers().setSingleAnswers(updatedSingleAnswers);
+        email.getAnswers().setAnswered(true);
+
+
+        Email updatedEmail = emailRepository.save(email);
+        gmailSender.sendEmail(updatedEmail);
+
+        EmailDto emailDto = modelMapper.map(updatedEmail, EmailDto.class);
+        System.out.println("Updated Email mapped to EmailDto.");
+        return emailDto;
     }
 
 }

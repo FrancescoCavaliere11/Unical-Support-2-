@@ -3,7 +3,6 @@ import {EmailDto} from '../../model/email-dto';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Email} from '../../services/email';
 import {Mail01Icon} from '@hugeicons/core-free-icons';
-import {Answer} from '../../services/answer';
 
 
 @Component({
@@ -29,13 +28,12 @@ export class AnswersPage implements OnInit {
   protected isLoading: boolean = false;
   protected isFetching: boolean = false;
 
-  protected responseMaxLength = 500;
+  protected responseMaxLength = 5000;
 
   constructor(
     private emailService: Email,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
-    private answerService: Answer
   ) {
     this.skeletons = Array(15).fill(0);
 
@@ -106,6 +104,13 @@ export class AnswersPage implements OnInit {
     if(this.selectedEmail !== null) {
       if(!this.selectedEmail.answer) {
         alert("Errore nella generazione delle risposte")
+        this.isLoading = false;
+        return;
+      }
+
+      if(this.selectedEmail.answer.answered) {
+        alert("Hai già inviato le risposte per questa email")
+        this.isLoading = false;
         return;
       }
 
@@ -113,7 +118,12 @@ export class AnswersPage implements OnInit {
         sa.answer = this.responses.at(index).value;
       });
 
-      this.answerService.updateAndSendResponse(this.selectedEmail).subscribe({
+      let updateAnswerDto = {
+        id: this.selectedEmail.answer.id,
+        singleAnswers: this.selectedEmail.answer.singleAnswers.map(sa => ({ answer: sa.answer, template_id: sa.template ? sa.template.id : null }))
+      };
+
+      this.emailService.updateAndSendResponse(updateAnswerDto).subscribe({
         next: _ => {
           this.isLoading = false;
           alert("Risposte inviate con successo");
@@ -123,8 +133,9 @@ export class AnswersPage implements OnInit {
           alert("Errore nell'invio delle risposte");
         }
       })
+    } else {
+      this.isLoading = false;
     }
 
-    this.isLoading = false;
   }
 }

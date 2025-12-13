@@ -42,7 +42,7 @@
       </div>
 
       <div class="responses" formArrayName="responses">
-        @if (classification?.isClassified === true) {
+        @if (classification?.classified === true) {
           @if (!answer) {
             <p class="error">Errore nella generazione delle risposte. Riprova</p>
           } @else {

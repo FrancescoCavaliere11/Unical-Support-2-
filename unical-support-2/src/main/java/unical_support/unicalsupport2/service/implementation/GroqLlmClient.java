@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -46,6 +47,7 @@ public class GroqLlmClient implements LlmClient {
 
         req.set("messages", messages);
 
+        /*
         String body = groqWebClient.post()
                 .uri("/chat/completions")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -55,6 +57,22 @@ public class GroqLlmClient implements LlmClient {
                 .timeout(Duration.ofSeconds(groqProperties.timeoutSeconds()))
                 .onErrorResume(ex -> Mono.error(new RuntimeException("Errore API Groq: " + ex.getMessage(), ex)))
                 .block();
+
+         */
+
+        ResponseEntity<String> responseEntity = groqWebClient.post()
+                .uri("/chat/completions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(mapper.writeValueAsString(req))
+                .retrieve()
+                .toEntity(String.class)
+                .block();
+
+        // Header quota token
+        String remainingTokens = responseEntity.getHeaders().getFirst("x-ratelimit-remaining-tokens");
+        String totalTokens = responseEntity.getHeaders().getFirst("x-ratelimit-limit-tokens");
+        log.info("Token rimanenti: {} / {}", remainingTokens, totalTokens);
+        String body = responseEntity.getBody();
 
         JsonNode root = mapper.readTree(body);
         JsonNode content = root.path("choices").get(0).path("message").path("content");
