@@ -1,17 +1,21 @@
 <div class="item" [class.selected]="isSelected">
-  <div class="item-header">
-    <p>
-      <hugeicons-icon [icon]="Mail01Icon"></hugeicons-icon>
-      {{ emailDto | addressesFormat }}
+  @if (!emailDto.answer) {
+    <p class="invalid">Non Risposta</p>
+  } @else {
+    <p [class]="emailDto.answer.answered ? 'valid' : 'invalid'">
+      {{ emailDto.answer.answered ? 'Risposta' : 'Non Risposta'}}
     </p>
-    @if (!emailDto.answer) {
-      <p class="invalid">Non Risposta</p>
-    } @else {
-      <p [class]="emailDto.answer.answered ? 'valid' : 'invalid'">
-        {{ emailDto.answer.answered ? 'Risposta' : 'Non Risposta'}}
-      </p>
-    }
+  }
+  <hugeicons-icon [icon]="Mail01Icon"></hugeicons-icon>
+  <div class="item-content">
+    <h3>{{ emailDto.subject }}</h3>
+    <div class="item-sec">
+      <p>From:</p>
+      <p>{{ emailDto | addressesFormat }}</p>
+    </div>
+    <div class="item-sec">
+      <p>Body:</p>
+      <p>{{ emailDto.body }}</p>
+    </div>
   </div>
-  <h3>{{ emailDto.subject }}</h3>
-  <p>{{ emailDto.body }}</p>
 </div>

@@ -5,6 +5,7 @@ export class TemplateDto {
   id: string;
   name: string;
   content: string;
+  description: string;
   category: CategoryDto;
   parameters: ParameterDto[];
 
@@ -12,6 +13,7 @@ export class TemplateDto {
     this.id = data.id;
     this.name = data.name;
     this.content = data.content;
+    this.description = data.description;
     this.category = data.category;
     this.parameters = data.parameters;
   }

@@ -15,7 +15,7 @@
 }
 
 .preview {
-  top: calc(16pt + 47px);
+  top: calc(16pt + 59px);
   position: sticky;
   display: flex;
   flex-direction: column;

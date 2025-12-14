@@ -30,6 +30,7 @@ nav {
   position: sticky;
   top: 0;
   background: var(--background);
+  border-bottom: 1px solid var(--stroke-weak);
   z-index: 99;
 }
 
@@ -37,6 +38,7 @@ nav > div {
   display: flex;
   gap: 16pt;
   overflow-x: auto;
+  padding-top: 8pt;
 }
 
 a {
@@ -72,20 +74,23 @@ a:last-of-type {
   border-radius: 8pt;
   background: var(--fill);
   backdrop-filter: blur(8pt);
-  border: 1px solid var(--brand-stroke-weak);
-  stroke: var(--brand-strong);
+  border: 1.5px solid var(--stroke-weak);
+  stroke: var(--text-weak);
+  stroke-width: 1.5px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .third-btn:hover {
+  stroke: var(--brand-strong);
   background: var(--brand-fill);
-  border: 1px solid var(--brand-stroke-strong);
+  border: 1.5px solid var(--brand-stroke-strong);
 }
 
 .nav-icon {
   stroke: var(--text-weak);
+  stroke-width: 1.5px;
   transition: .3s ease-in-out;
 }
 

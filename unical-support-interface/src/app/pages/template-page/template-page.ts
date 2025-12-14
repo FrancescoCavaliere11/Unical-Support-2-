@@ -47,9 +47,10 @@ export class TemplatePage implements OnInit, OnDestroy {
   ) {
     this.form = this.formBuilder.group({
       id: [null],
-      name: ['', [Validators.required, Validators.maxLength(50)]],
+      name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
       categoryId: ['', Validators.required],
-      content: ['', [Validators.required, Validators.maxLength(5000)]],
+      content: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(5000)]],
+      description: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(300)]],
       parameters: this.formBuilder.array([])
     });
   }
@@ -58,7 +59,6 @@ export class TemplatePage implements OnInit, OnDestroy {
     this.isFetching = true;
 
     this.categoryService.getCategories().subscribe(categories => this.categories = categories);
-
 
     this.templateService.getTemplates().subscribe({
       next: templates => {
@@ -89,7 +89,6 @@ export class TemplatePage implements OnInit, OnDestroy {
     return this.form.get('parameters') as FormArray;
   }
 
-
   private createParameterGroup(name: string, required: boolean): FormGroup {
     return this.formBuilder.group({
       name: [name, [Validators.pattern(SNAKE_CASE_REGEX)]],
@@ -104,6 +103,7 @@ export class TemplatePage implements OnInit, OnDestroy {
       id: template.id,
       name: template.name,
       categoryId: template.category.id,
+      description: template.description,
       content: template.content
     }, { emitEvent: false });
 
@@ -124,6 +124,7 @@ export class TemplatePage implements OnInit, OnDestroy {
       id: null,
       name: '',
       categoryId: '',
+      description: '',
       content: '',
       required: true
     });
@@ -140,6 +141,7 @@ export class TemplatePage implements OnInit, OnDestroy {
       name: formValue.name,
       categoryId: formValue.categoryId,
       content: formValue.content,
+      description: formValue.description,
       parameters: formValue.parameters
     };
 
@@ -205,10 +207,8 @@ export class TemplatePage implements OnInit, OnDestroy {
       return;
     }
 
-    // 1. Estrazione nomi dal testo (Usando un Set per unicità)
     const foundNamesInText = new Set<string>();
     let match;
-    // IMPORTANTE: Resettiamo lastIndex per sicurezza se la regex è globale
     PERMISSIVE_REGEX.lastIndex = 0;
 
     while ((match = PERMISSIVE_REGEX.exec(content)) !== null) {

@@ -1,13 +1,17 @@
 <div class="item" [class.selected]="isSelected">
-  <div class="item-header">
-    <p>
-      <hugeicons-icon [icon]="Mail01Icon"></hugeicons-icon>
-      {{ emailDto | addressesFormat }}
-    </p>
-    <p [class]="emailDto.classify.classified ? 'valid' : 'invalid'">
-      {{ emailDto.classify.classified ? 'Classificata' : 'Non Classificata'}}
-    </p>
+  <p [class]="emailDto.classify.classified ? 'valid' : 'invalid'">
+    {{ emailDto.classify.classified ? 'Classificata' : 'Non Classificata'}}
+  </p>
+  <hugeicons-icon [icon]="LabelIcon"></hugeicons-icon>
+  <div class="item-content">
+    <h3>{{ emailDto.subject }}</h3>
+    <div class="item-sec">
+      <p>From:</p>
+      <p>{{ emailDto | addressesFormat }}</p>
+    </div>
+    <div class="item-sec">
+      <p>Body:</p>
+      <p>{{ emailDto.body }}</p>
+    </div>
   </div>
-  <h3>{{ emailDto.subject }}</h3>
-  <p>{{ emailDto.body }}</p>
 </div>

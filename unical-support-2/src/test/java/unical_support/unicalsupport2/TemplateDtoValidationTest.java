@@ -41,6 +41,7 @@ class TemplateDtoValidationTest {
         dto.setName("Valid Template Name");
         dto.setCategoryId("2560a7fd-bcdd-4ec3-b13a-a4a2cf4d31f0");
         dto.setContent("Hello {{user_name}}, welcome to {{service_name}}");
+        dto.setDescription("Valid template description");
 
         List<ParameterDto> params = new ArrayList<>();
         params.add(createParam("user_name"));

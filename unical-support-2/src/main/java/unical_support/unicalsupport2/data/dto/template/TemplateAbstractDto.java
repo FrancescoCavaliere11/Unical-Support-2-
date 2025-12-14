@@ -17,13 +17,17 @@ public abstract class TemplateAbstractDto {
     @Size(min = 1, max = 50, message = "Template name must be between 1 and 50 characters")
     private String name;
 
-    @NotNull(message = "Category id is required")
     @ValidIdFormat
+    @NotNull(message = "Category id is required")
     private String categoryId;
 
     @NotBlank(message = "Template content cannot be empty")
-    @Size(min = 1, max = 5000, message = "Template content must be at least 1 character long")
+    @Size(min = 1, max = 5000, message = "Template content must be between 1 and 5000 characters")
     private String content;
+
+    @NotBlank(message = "Template description cannot be empty")
+    @Size(min = 1, max = 300, message = "Template content must be between 1 and 300 characters")
+    private String description;
 
     @Valid
     private List<ParameterDto> parameters;
