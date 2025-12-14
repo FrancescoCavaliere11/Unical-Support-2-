@@ -23,7 +23,7 @@
 .item hugeicons-icon {
   height: 29px;
   stroke-width: 1.5px;
-  stroke: var(--brand-strong);
+  stroke: var(--brand-weak);
 }
 
 .valid, .invalid {

@@ -14,6 +14,33 @@
   width: 100%;
 }
 
+.header-list {
+  position: sticky;
+  top: calc(59px);
+  background: var(--background);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8pt 0;
+  gap: 8pt;
+  width: 100%;
+}
+
+.header-list > hugeicons-icon {
+  stroke: var(--stroke-strong);
+  transition: .3s ease-in-out;
+  cursor: pointer;
+}
+
+.header-list > hugeicons-icon:hover {
+  stroke: var(--brand-stroke-weak);
+}
+
+.header-list > hugeicons-icon.active {
+  stroke: var(--brand-stroke-strong);
+}
+
 .preview {
   top: calc(16pt + 59px);
   position: sticky;

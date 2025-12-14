@@ -11,12 +11,22 @@
       </div>
     }
     @else {
+      <div class="header-list">
+        <h4>{{ isFiltered ? 'Email da rispondere' : 'Tutte le Email' }}</h4>
+        <hugeicons-icon
+          [class.active]="isFiltered"
+          [icon]="FilterMailCircleIcon"
+          (click)="isFiltered = !isFiltered">
+        </hugeicons-icon>
+      </div>
       @for (email of emails; track email) {
-        <app-email-to-answer-item
-          [emailDto]="email"
-          [isSelected]="(selectedEmail?.id ?? '') === email.id "
-          (click)="selectEmail(email)">
-        </app-email-to-answer-item>
+        @if (!isFiltered || !email.answer.answered) {
+          <app-email-to-answer-item
+            [emailDto]="email"
+            [isSelected]="(selectedEmail?.id ?? '') === email.id "
+            (click)="selectEmail(email)">
+          </app-email-to-answer-item>
+        }
       }
     }
   </div>
