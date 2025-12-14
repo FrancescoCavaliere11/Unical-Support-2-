@@ -1,5 +1,11 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Add01Icon,Delete02Icon,LabelIcon,CheckmarkCircleIcon} from '@hugeicons/core-free-icons';import {Email} from '../../services/email';
+import {
+  Add01Icon,
+  Delete02Icon,
+  LabelIcon,
+  FilterMailCircleIcon
+} from '@hugeicons/core-free-icons';
+import {Email} from '../../services/email';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../services/category';
 import {CategoryDto} from '../../model/category-dto';
@@ -19,7 +25,7 @@ export class ClassificationPage implements OnInit {
   protected readonly LabelIcon = LabelIcon;
   protected readonly Delete02Icon = Delete02Icon;
   protected readonly Add01Icon = Add01Icon;
-  protected readonly CheckmarkCircleIcon = CheckmarkCircleIcon;
+  protected readonly FilterMailCircleIcon = FilterMailCircleIcon;
 
   protected emails: EmailDto[] = []
   protected categories: CategoryDto[] = []
@@ -31,6 +37,8 @@ export class ClassificationPage implements OnInit {
 
   protected isLoading: boolean = false;
   protected isFetching: boolean = false;
+
+  protected isFiltered: boolean = false;
 
   constructor(
     private emailService: Email,
@@ -78,20 +86,6 @@ export class ClassificationPage implements OnInit {
     });
   }
 
-  toggleClassifiedStatus(emailToToggle: EmailDto): void {
-    emailToToggle.classify.classified = !emailToToggle.classify.classified;
-
-    if (emailToToggle.classify.classified) {
-      this.emails = this.emails.filter(email => email.id !== emailToToggle.id);
-    }
-
-    if (this.selectedEmail?.id === emailToToggle.id){
-      this.selectedEmail = null;
-      this.classifications.clear();
-    }
-
-    this.changeDetectorRef.detectChanges();
-  }
   addClassification() {
     this.classifications.push(this.createClassificationGroup());
   }

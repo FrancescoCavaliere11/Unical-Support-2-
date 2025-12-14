@@ -11,25 +11,21 @@
       </div>
     }
     @else {
+      <div class="header-list">
+        <h4>{{ isFiltered ? 'Email da classificare' : 'Tutte le Email' }}</h4>
+        <hugeicons-icon
+          [class.active]="isFiltered"
+          [icon]="FilterMailCircleIcon"
+          (click)="isFiltered = !isFiltered">
+        </hugeicons-icon>
+      </div>
       @for (email of emails; track email.id) {
-        @if (!email.classify.classified) {
-          <app-email-to-classify-item
-            [emailDto]="email"
-            [isSelected]="(selectedEmail?.id ?? '') === email.id "
-            (click)="selectEmail(email)">
-
-            <button
-              class="icon-button"
-              (click)="toggleClassifiedStatus(email); $event.stopPropagation()"
-              [title]="email.classify.classified ? 'Marca come non classificata' : 'Marca come classificata'">
-              <hugeicons-icon [icon]="CheckmarkCircleIcon" size="24"
-              [ngClass]="{
-                    'classified-icon': email.classify.classified,
-                    'unclassified-icon': !email.classify.classified
-                }"
-              ></hugeicons-icon>
-            </button>
-          </app-email-to-classify-item>
+        @if (!isFiltered || !email.classify.classified) {
+            <app-email-to-classify-item
+              [emailDto]="email"
+              [isSelected]="(selectedEmail?.id ?? '') === email.id "
+              (click)="selectEmail(email)">
+            </app-email-to-classify-item>
         }
       }
     }

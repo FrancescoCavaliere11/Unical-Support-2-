@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {EmailDto} from '../../model/email-dto';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Email} from '../../services/email';
-import {Mail01Icon} from '@hugeicons/core-free-icons';
+import {FilterMailCircleIcon, Mail01Icon} from '@hugeicons/core-free-icons';
 
 
 @Component({
@@ -17,6 +17,7 @@ import {Mail01Icon} from '@hugeicons/core-free-icons';
 })
 export class AnswersPage implements OnInit {
   protected readonly Mail01Icon = Mail01Icon;
+  protected readonly FilterMailCircleIcon = FilterMailCircleIcon;
 
   protected emails: EmailDto[] = []
   protected skeletons: number[] = []
@@ -28,6 +29,7 @@ export class AnswersPage implements OnInit {
 
   protected isLoading: boolean = false;
   protected isFetching: boolean = false;
+  protected isFiltered: boolean = false;
 
   protected responseMaxLength = 5000;
 
