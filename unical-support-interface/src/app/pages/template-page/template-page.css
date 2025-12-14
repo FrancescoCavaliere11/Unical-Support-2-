@@ -3,7 +3,7 @@
   align-items: flex-start;
   gap: 4pt;
   width: 100%;
-  padding: 12pt;
+  padding: 8pt;
   border-radius: 8pt;
   cursor: pointer;
   background: var(--fill);
@@ -12,20 +12,22 @@
 }
 
 .list-item:hover {
-  border-color: var(--stroke-weak);
+  border-color: var(--brand-stroke-weak);
 }
 
 .list-item.selected {
-  border-color: var(--brand-strong);
+  border-color: var(--brand-stroke-strong);
 }
 
 .list-item hugeicons-icon {
+  height: 29px;
   stroke: var(--brand-strong);
 }
 
 .text-info {
   display: flex;
   flex-direction: column;
+  gap: 4pt;
   overflow: hidden;
 }
 

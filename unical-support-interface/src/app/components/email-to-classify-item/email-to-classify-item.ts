@@ -12,6 +12,5 @@ export class EmailToClassifyItem {
   @Input({required: true}) emailDto!: EmailDto;
   @Input({required: true}) isSelected!: boolean;
 
-  protected readonly Mail01Icon = Mail01Icon;
   protected readonly LabelIcon = LabelIcon;
 }

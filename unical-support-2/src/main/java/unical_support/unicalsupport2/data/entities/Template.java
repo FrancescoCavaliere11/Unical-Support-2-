@@ -19,7 +19,7 @@ public class Template {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")

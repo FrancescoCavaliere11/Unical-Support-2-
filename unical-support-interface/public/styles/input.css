@@ -45,7 +45,7 @@ button:hover {
 }
 
 button:disabled {
-  background: var(--stroke-strong);
+  background: var(--stroke-weak);
   color: var(--text-weak);
   cursor: not-allowed;
 }
