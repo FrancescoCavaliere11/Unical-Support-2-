@@ -18,3 +18,5 @@ export class EmailDto {
     this.answer = data.answer;
   }
 }
+
+export { ClassifyDto };
