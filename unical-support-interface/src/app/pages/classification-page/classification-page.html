@@ -12,11 +12,25 @@
     }
     @else {
       @for (email of emails; track email.id) {
-        <app-email-to-classify-item
-          [emailDto]="email"
-          [isSelected]="(selectedEmail?.id ?? '') === email.id "
-          (click)="selectEmail(email)">
-        </app-email-to-classify-item>
+        @if (!email.classify.classified) {
+          <app-email-to-classify-item
+            [emailDto]="email"
+            [isSelected]="(selectedEmail?.id ?? '') === email.id "
+            (click)="selectEmail(email)">
+
+            <button
+              class="icon-button"
+              (click)="toggleClassifiedStatus(email); $event.stopPropagation()"
+              [title]="email.classify.classified ? 'Marca come non classificata' : 'Marca come classificata'">
+              <hugeicons-icon [icon]="CheckmarkCircleIcon" size="24"
+              [ngClass]="{
+                    'classified-icon': email.classify.classified,
+                    'unclassified-icon': !email.classify.classified
+                }"
+              ></hugeicons-icon>
+            </button>
+          </app-email-to-classify-item>
+        }
       }
     }
   </div>
