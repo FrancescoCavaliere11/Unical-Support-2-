@@ -33,10 +33,34 @@ export class Email {
   updateCategoryForEmail(
     updateDto: { id: string, updateSingleClassificationDtos: Array<{ categoryId: string, text: string }> }
   ) {
-    return this.http.patch(this._apiUrl, updateDto)
+    return this.http.patch<EmailDto>(this._apiUrl, updateDto).pipe(
+      tap((updatedEmail: EmailDto) => {
+        const currentEmails = this.emailsCache$.value;
+
+        if (currentEmails) {
+          const newEmailsList = currentEmails.map(email =>
+            email.id === updatedEmail.id ? updatedEmail : email
+          );
+
+          this.emailsCache$.next(newEmailsList);
+        }
+      })
+    );
   }
 
-  updateAndSendResponse(updateAnswerDto: { id: string, singleAnswers: Array<{ answer: string, template_id: string | null }> }) {
-    return this.http.put<EmailDto>(this._apiUrl + "/answer", updateAnswerDto);
+  updateAndSendResponse(
+    updateAnswerDto: { id: string, singleAnswers: Array<{ answer: string, template_id: string | null }> }
+  ) {
+    return this.http.put<EmailDto>(this._apiUrl + "/answer", updateAnswerDto).pipe(
+      tap((updatedEmail: EmailDto) => {
+        const currentEmails = this.emailsCache$.value;
+        if (currentEmails) {
+          const newEmailsList = currentEmails.map(email =>
+            email.id === updatedEmail.id ? updatedEmail : email
+          );
+          this.emailsCache$.next(newEmailsList);
+        }
+      })
+    );
   }
 }

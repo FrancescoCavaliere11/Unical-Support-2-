@@ -63,10 +63,20 @@ export class AnswersPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isFetching = true;
+
     this.emailService.getEmails().subscribe({
       next: emails => {
-        this.emails = emails
+        this.emails = emails;
         this.isFetching = false;
+
+        if (this.selectedEmail) {
+          const updatedSelected = this.emails.find(e => e.id === this.selectedEmail?.id);
+          if (updatedSelected) {
+            this.selectedEmail = updatedSelected;
+          }
+        }
+
         this.changeDetectorRef.detectChanges();
       },
       error: _ => {
@@ -75,95 +85,85 @@ export class AnswersPage implements OnInit {
         alert("Errore nel caricamento delle email");
       },
     });
-
   }
 
   selectEmail(email: EmailDto) {
     this.selectedEmail = email;
     this.originalEmail = email;
-    this.responses.clear();
 
-    email.classify.singleClassifications.forEach((sc, index) => {
-      this.responses.push(
-        this.formBuilder.control(
-          this.selectedEmail?.answer?.singleAnswers[index]?.answer || '',
-          [
-            Validators.required,
-            Validators.maxLength(this.responseMaxLength)
-          ]
-        )
-      );
-    });
+    const newControls: any[] = [];
+
+    if (email.classify && email.classify.singleClassifications) {
+      email.classify.singleClassifications.forEach((_, index) => {
+        const existingAnswer = email.answer?.singleAnswers?.[index]?.answer || '';
+
+        newControls.push(
+          this.formBuilder.control(
+            existingAnswer,
+            [
+              Validators.required,
+              Validators.maxLength(this.responseMaxLength)
+            ]
+          )
+        );
+      });
+    }
+
+    this.form.setControl('responses', this.formBuilder.array(newControls));
 
     this.form.patchValue({
-      id: email.id
+      id: email.id,
     });
   }
 
   submit() {
-    if (this.form.invalid || this.isLoading) return;
+    if (this.form.invalid || this.isLoading || !this.selectedEmail) return;
+
+    if (!this.selectedEmail.answer) {
+      alert("Errore: struttura dati email incompleta (manca oggetto answer)");
+      return;
+    }
+
+    if (this.selectedEmail.answer.answered) {
+      alert("Hai già inviato le risposte per questa email");
+      return;
+    }
 
     this.isLoading = true;
 
-    if(this.selectedEmail !== null) {
-      if(!this.selectedEmail.answer) {
-        alert("Errore nella generazione delle risposte")
-        this.isLoading = false;
-        return;
-      }
+    const updateAnswerDto = {
+      id: this.selectedEmail.answer.id,
+      singleAnswers: this.selectedEmail.answer.singleAnswers.map((sa, index) => {
+        const formValue = this.responses.at(index).value;
+        let templateId: string | null = sa.template ? sa.template.id : null;
 
-
-      if(this.selectedEmail.answer.answered) {
-        alert("Hai già inviato le risposte per questa email")
-        this.isLoading = false;
-        return;
-      }
-
-      this.selectedEmail.answer.singleAnswers.forEach((sa, index) => {
-        sa.answer = this.responses.at(index).value;
-      });
-
-      let updateAnswerDto = {
-        id: this.selectedEmail.answer.id,
-        singleAnswers: this.selectedEmail.answer.singleAnswers.map((sa, index) => {
-          let templateId: string | null = sa.template ? sa.template.id : null;
-
-          if(sa.answer !== this.originalEmail?.answer?.singleAnswers[index].answer)
-            templateId = null;
-
-          return ({
-            answer: sa.answer,
-            template_id: templateId
-          })
-        })
-      };
-
-      this.emailService.updateAndSendResponse(updateAnswerDto).subscribe({
-        next: (updatedEmail: EmailDto) => {
-          this.isLoading = false;
-
-          this.selectedEmail = updatedEmail;
-
-          const index = this.emails.findIndex(e => e.id === updatedEmail.id);
-          if (index !== -1) {
-            this.emails = [
-              ...this.emails.slice(0, index),
-              updatedEmail,
-              ...this.emails.slice(index + 1),
-            ];
-          }
-
-          this.changeDetectorRef.detectChanges();
-          alert("Risposte inviate con successo");
-        },
-        error: _ => {
-          this.isLoading = false;
-          alert("Errore nell'invio delle risposte");
+        if (this.originalEmail?.answer?.singleAnswers[index] &&
+          formValue !== this.originalEmail.answer.singleAnswers[index].answer) {
+          templateId = null;
         }
-      })
-    } else {
-      this.isLoading = false;
-    }
 
+        return {
+          answer: formValue,
+          template_id: templateId
+        };
+      })
+    };
+
+    this.emailService.updateAndSendResponse(updateAnswerDto).subscribe({
+      next: (updatedEmail: EmailDto) => {
+        this.isLoading = false;
+
+        this.selectedEmail = updatedEmail;
+        this.originalEmail = updatedEmail;
+
+        alert("Risposte inviate con successo");
+        this.changeDetectorRef.detectChanges();
+      },
+      error: _ => {
+        this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
+        alert("Errore nell'invio delle risposte");
+      }
+    });
   }
 }

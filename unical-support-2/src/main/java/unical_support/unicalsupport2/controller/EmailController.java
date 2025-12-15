@@ -26,14 +26,12 @@ public class EmailController {
     }
 
     @PatchMapping
-    public ResponseEntity<HttpStatus> updateCategory(
+    public ResponseEntity<EmailDto> updateCategory(
             @Valid @RequestBody UpdateEmailCategoryDto updateEmailCategoryDto
     ) {
-        emailService.updateEmailCategory(updateEmailCategoryDto);
-
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
+                .status(HttpStatus.OK)
+                .body(emailService.updateEmailCategory(updateEmailCategoryDto));
     }
 
     @PutMapping("/answer")

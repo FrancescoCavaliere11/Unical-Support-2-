@@ -62,13 +62,12 @@ export class TemplatePage implements OnInit, OnDestroy {
 
     this.templateService.getTemplates().subscribe({
       next: templates => {
-        this.templates = templates
+        this.templates = templates;
         this.isFetching = false;
         this.changeDetector.detectChanges();
       },
       error: _ => {
         this.isFetching = false;
-        this.changeDetector.detectChanges();
         alert("Errore nel caricamento dei template");
       },
     });
@@ -146,10 +145,7 @@ export class TemplatePage implements OnInit, OnDestroy {
     };
 
     if (this.selectedTemplate) {
-      const updatePayload = {
-        ...dto,
-        id: this.selectedTemplate.id
-      };
+      const updatePayload = { ...dto, id: this.selectedTemplate.id };
 
       this.templateService.updateTemplate(updatePayload).subscribe({
         next: () => {
@@ -165,7 +161,6 @@ export class TemplatePage implements OnInit, OnDestroy {
       });
 
     } else {
-
       this.templateService.createTemplate(dto).subscribe({
         next: (_) => {
           this.isLoading = false;

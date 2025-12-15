@@ -126,7 +126,6 @@ export class ClassificationPage implements OnInit {
     this.isLoading = true;
 
     const formValue = this.form.value;
-
     const payload = {
       id: formValue.id,
       updateSingleClassificationDtos: formValue.classifications.map((item: any) => ({
@@ -135,13 +134,13 @@ export class ClassificationPage implements OnInit {
       }))
     };
 
-    console.log(payload);
-
     this.emailService.updateCategoryForEmail(payload).subscribe({
-      next: () => {
+      next: (_) => {
         this.selectedEmail = null;
         this.classifications.clear();
         this.isLoading = false;
+
+        alert('Classificazione confermata con successo');
       },
       error: (error: any) => {
         console.error(error);

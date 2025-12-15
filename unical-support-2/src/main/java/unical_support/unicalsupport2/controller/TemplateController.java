@@ -44,10 +44,9 @@ public class TemplateController {
     public ResponseEntity<TemplateDto> updateTemplate(
             @Valid @RequestBody TemplateUpdateDto templateUpdateDto
     ){
-        templateService.updateTemplate(templateUpdateDto);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .build();
+                .body(templateService.updateTemplate(templateUpdateDto));
     }
 
     @DeleteMapping("/{id}")

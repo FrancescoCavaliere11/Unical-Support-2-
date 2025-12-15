@@ -29,42 +29,50 @@ export class Template {
     );
   }
 
-  createTemplate(
-    createDto: {
-      name: string;
-      categoryId: string;
-      content: string;
-      parameters: {
-        name: string;
-        required: boolean;
-      }[]
-    }
-  ) {
+  createTemplate(createDto: {
+    name: string; categoryId: string; content: string; description: string;
+    parameters: { name: string; required: boolean; }[]
+  }) {
     return this.http.post<TemplateDto>(this._apiUrl, createDto).pipe(
-      tap(() => this.getTemplates(true).subscribe())
+      tap((newTemplate: TemplateDto) => {
+        console.log(newTemplate);
+        const currentTemplates = this.templatesCache$.value;
+        if (currentTemplates) {
+          this.templatesCache$.next([newTemplate, ...currentTemplates]);
+        }
+      })
     );
   }
 
   updateTemplate(
-    createDto: {
-      id: string;
-      name: string;
-      categoryId: string;
-      content: string;
-      parameters: {
-        name: string;
-        required: boolean;
-      }[]
+    updateDto: {
+      id: string; name: string; categoryId: string; content: string, description: string;
+      parameters: { name: string; required: boolean; }[]
     }
   ) {
-    return this.http.put(this._apiUrl, createDto).pipe(
-      tap(() => this.getTemplates(true).subscribe())
+    return this.http.put<TemplateDto>(this._apiUrl, updateDto).pipe(
+      tap((updatedTemplate: TemplateDto) => {
+        const currentTemplates = this.templatesCache$.value;
+          if (currentTemplates) {
+            const newTemplatesList = currentTemplates.map(template =>
+              template.id === updatedTemplate.id ? updatedTemplate : template
+            );
+
+            this.templatesCache$.next(newTemplatesList);
+          }
+      })
     );
   }
 
   deleteTemplate(templateId: string) {
     return this.http.delete(`${this._apiUrl}/${templateId}`).pipe(
-      tap(() => this.getTemplates(true).subscribe())
+      tap(() => {
+        const currentTemplates = this.templatesCache$.value;
+        if (currentTemplates) {
+          const newTemplatesList = currentTemplates.filter(t => t.id !== templateId);
+          this.templatesCache$.next(newTemplatesList);
+        }
+      })
     );
   }
 }

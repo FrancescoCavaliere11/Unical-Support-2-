@@ -100,7 +100,7 @@ public class TemplateServiceImpl implements TemplateService {
      * @throws RuntimeException if the template is not found or the name is already taken by another entity
      */
     @Override
-    public void updateTemplate(TemplateUpdateDto templateUpdateDto) {
+    public TemplateDto updateTemplate(TemplateUpdateDto templateUpdateDto) {
         if (templateRepository.existsByNameIgnoreCaseAndIdNot(templateUpdateDto.getName(), templateUpdateDto.getId()))
             // TODO fare custom exception
             throw new RuntimeException("Template with name: '"+ templateUpdateDto.getName()  +"' already exists");
@@ -116,6 +116,8 @@ public class TemplateServiceImpl implements TemplateService {
 
         modelMapper.map(templateUpdateDto, template);
         templateRepository.save(template);
+
+        return modelMapper.map(template, TemplateDto.class);
     }
 
     /**
