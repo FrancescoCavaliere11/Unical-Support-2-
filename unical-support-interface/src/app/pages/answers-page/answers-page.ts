@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {EmailDto} from '../../model/email-dto';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Email} from '../../services/email';
-import {FilterMailCircleIcon, Mail01Icon} from '@hugeicons/core-free-icons';
+import {FilterMailCircleIcon, Mail01Icon, Refresh01Icon} from '@hugeicons/core-free-icons';
 
 
 @Component({
@@ -63,9 +63,12 @@ export class AnswersPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isFetching = true;
+    this.getEmails(false);
+  }
 
-    this.emailService.getEmails().subscribe({
+  getEmails(refresh: boolean) {
+    this.isFetching = true;
+    this.emailService.getEmails(refresh).subscribe({
       next: emails => {
         this.emails = emails;
         this.isFetching = false;
@@ -166,4 +169,6 @@ export class AnswersPage implements OnInit {
       }
     });
   }
+
+  protected readonly Refresh01Icon = Refresh01Icon;
 }

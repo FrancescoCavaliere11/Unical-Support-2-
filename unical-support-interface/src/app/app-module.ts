@@ -13,6 +13,7 @@ import {AddressesFormatPipe} from "./model/pipes/AddressesFormatPipe";
 import {ConfidenceFormatPipe} from './model/pipes/ConfidenceFormatPipe';
 import { UploadDocument } from './components/upload-document/upload-document';
 import { TemplatePage } from './pages/template-page/template-page';
+import { DocumentPage } from './pages/document-page/document-page';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { TemplatePage } from './pages/template-page/template-page';
     EmailToAnswerItem,
     UploadDocument,
     TemplatePage,
+    DocumentPage,
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { FileAddIcon, FileEditIcon, NoteIcon} from '@hugeicons/core-free-icons';
 import {CategoryDto} from '../../model/category-dto';
-import {TemplateDto} from '../../model/TemplateDto';
+import {TemplateDto} from '../../model/template-dto';
 import {Category} from '../../services/category';
 import {Template} from '../../services/template';
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {CloudUploadIcon, LabelIcon, Mail01Icon, NoteIcon} from '@hugeicons/core-free-icons'
+import {CloudUploadIcon, File02Icon, LabelIcon, Mail01Icon, NoteIcon} from '@hugeicons/core-free-icons'
 import {Settings} from './services/settings';
 
 @Component({
@@ -11,6 +11,9 @@ import {Settings} from './services/settings';
 export class App {
   protected readonly LabelIcon = LabelIcon;
   protected readonly Mail01Icon = Mail01Icon;
+  protected readonly NoteIcon = NoteIcon;
+  protected readonly CloudUploadIcon = CloudUploadIcon;
+  protected readonly File02Icon = File02Icon;
 
   protected isUploadDocumentPopupOpen: boolean = false;
 
@@ -26,6 +29,4 @@ export class App {
     this.isUploadDocumentPopupOpen = false;
   }
 
-  protected readonly NoteIcon = NoteIcon;
-  protected readonly CloudUploadIcon = CloudUploadIcon;
 }
