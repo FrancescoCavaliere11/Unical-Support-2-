@@ -16,10 +16,7 @@ import unical_support.unicalsupport2.data.dto.responder.ResponderResultDto;
 import unical_support.unicalsupport2.data.embeddables.SingleAnswer;
 import unical_support.unicalsupport2.data.embeddables.SingleClassification;
 import unical_support.unicalsupport2.data.entities.*;
-import unical_support.unicalsupport2.data.repositories.CategoryRepository;
-import unical_support.unicalsupport2.data.repositories.ClassificationsRepository;
-import unical_support.unicalsupport2.data.repositories.EmailRepository;
-import unical_support.unicalsupport2.data.repositories.TemplateRepository;
+import unical_support.unicalsupport2.data.repositories.*;
 import unical_support.unicalsupport2.service.interfaces.EmailService;
 
 @Service
@@ -27,6 +24,7 @@ import unical_support.unicalsupport2.service.interfaces.EmailService;
 public class EmailServiceImpl implements EmailService {
     
     private final EmailRepository emailRepository;
+    private final AnswersRepository answersRepository;
     private final ClassificationsRepository classificationsRepository;
     private final CategoryRepository categoryRepository;
     private final TemplateRepository templateRepository;
@@ -38,32 +36,15 @@ public class EmailServiceImpl implements EmailService {
      public List<EmailDto> getStoredEmail() {
          return emailRepository.findAll()
                  .stream()
-                 .map(email -> {
-                     //TODO verificare cjhe il mapping avvenga correttamente
-                     EmailDto emailDto = modelMapper.map(email, EmailDto.class);
-
-                     ClassifyDto classifyDto = modelMapper.map(email.getClassifications(), ClassifyDto.class);
-                     classifyDto.getSingleClassifications()
-                             .forEach(singleClassificationDto ->
-                                     singleClassificationDto.setConfidence(singleClassificationDto.getConfidence() * 100));
-
-                     emailDto.setClassify(classifyDto);
-
-                     AnswerDto answerDto = modelMapper.map(email.getAnswers(), AnswerDto.class);
-                     emailDto.setAnswer(answerDto);
-
-                     return emailDto;
-                 })
+                 .map(this::emailToEmailDto)
                  .toList();
     }
 
     @Override
-    public void updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto) {
+    public EmailDto updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto) {
         Classifications classifications = classificationsRepository.findById(updateEmailCategoryDto.getId())
                 //Todo Aggiungere eccezione personalizzata
                 .orElseThrow(() -> new RuntimeException("Classifications not found: " + updateEmailCategoryDto.getId()));
-
-
 
         List<SingleClassification> newClassifications = updateEmailCategoryDto.getUpdateSingleClassificationDtos().
                 stream()
@@ -83,6 +64,7 @@ public class EmailServiceImpl implements EmailService {
         classifications.setClassified(true);
 
         classificationsRepository.save(classifications);
+        return emailToEmailDto(classifications.getEmail());
     }
 
     @Override
@@ -147,13 +129,11 @@ public class EmailServiceImpl implements EmailService {
     @Transactional
     @Override
     public EmailDto updateAndSendEmail(UpdateAnswerDto updateAnswerDto) {
-        Email email = emailRepository.findByAnswers_Id(updateAnswerDto.getId())
-                .orElseThrow(() -> new RuntimeException("Email not found for Answers id: " + updateAnswerDto.getId()));
+        Answers answers  = answersRepository.findById(updateAnswerDto.getId())
+                .orElseThrow(() -> new RuntimeException("Answers not found for Answers id: " + updateAnswerDto.getId()));
 
-        if(email.getAnswers().getAnswered())
+        if(answers.getAnswered())
             throw new RuntimeException("Answers already provided for Answers id: " + updateAnswerDto.getId());
-
-        Answers answers = modelMapper.map(updateAnswerDto, Answers.class);
 
         List<SingleAnswer> updatedSingleAnswers = updateAnswerDto.getSingleAnswers()
                 .stream()
@@ -171,38 +151,34 @@ public class EmailServiceImpl implements EmailService {
                 })
                 .toList();
 
-        answers.setSingleAnswers(updatedSingleAnswers);
+        answers.setSingleAnswers(new ArrayList<>(updatedSingleAnswers));
         answers.setAnswered(true);
-        answers.setEmail(email);
 
-        email.setAnswers(answers);
+        answersRepository.save(answers);
 
+        EmailMessage emailToSend = modelMapper.map(answers.getEmail(), EmailMessage.class);
 
-        Email updatedEmail = emailRepository.save(email);
-
-        // Ricostruisco l'email con le risposte aggiornate e la invio
-        String body = updatedEmail.getAnswers().getSingleAnswers()
+        String body = answers.getSingleAnswers()
                 .stream()
                 .map(SingleAnswer::getAnswer)
                 .collect(Collectors.joining("\n\n"));
 
-        Email emailToSend = new Email();
-        emailToSend.setSubject("Re: " + updatedEmail.getSubject());
         emailToSend.setBody(body);
-        emailToSend.setTo(updatedEmail.getTo());
-        emailToSend.setInReplyToHeader(updatedEmail.getInReplyToHeader());
-        emailToSend.setReferencesHeader(updatedEmail.getReferencesHeader());
         gmailSender.sendEmail(emailToSend);
 
-        EmailDto emailDto = modelMapper.map(updatedEmail, EmailDto.class);
+        return emailToEmailDto(answers.getEmail());
+    }
 
-        ClassifyDto classifyDto = modelMapper.map(updatedEmail.getClassifications(), ClassifyDto.class);
+    private EmailDto emailToEmailDto(Email email) {
+        EmailDto emailDto = modelMapper.map(email, EmailDto.class);
+
+        ClassifyDto classifyDto = modelMapper.map(email.getClassifications(), ClassifyDto.class);
         classifyDto.getSingleClassifications()
                 .forEach(singleClassificationDto ->
                         singleClassificationDto.setConfidence(singleClassificationDto.getConfidence() * 100));
         emailDto.setClassify(classifyDto);
 
-        AnswerDto answerDto = modelMapper.map(updatedEmail.getAnswers(), AnswerDto.class);
+        AnswerDto answerDto = modelMapper.map(email.getAnswers(), AnswerDto.class);
         emailDto.setAnswer(answerDto);
 
         return emailDto;

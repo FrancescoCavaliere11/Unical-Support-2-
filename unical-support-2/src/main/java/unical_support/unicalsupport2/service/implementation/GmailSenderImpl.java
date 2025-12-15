@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import unical_support.unicalsupport2.data.entities.Email;
+import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
 
 /**
@@ -54,7 +54,7 @@ public class GmailSenderImpl implements EmailSender {
      * @param email message containing recipients, subject and body
      */
     @Override
-    public void sendEmail(Email email) {
+    public void sendEmail(EmailMessage email) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");

@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
-import unical_support.unicalsupport2.data.entities.Email;
+import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.service.implementation.GmailSenderImpl;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class GmailSenderImplTest {
         MimeMessage mockMessage = Mockito.mock(MimeMessage.class);
         when(mailSender.createMimeMessage()).thenReturn(mockMessage);
 
-        Email email = new Email();
+        EmailMessage email = new EmailMessage();
         email.setTo(List.of("test@example.com"));
         email.setSubject("Test Subject");
         email.setBody("Hello, World!");

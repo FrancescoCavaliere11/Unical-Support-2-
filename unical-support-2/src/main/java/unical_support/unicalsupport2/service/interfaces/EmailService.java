@@ -12,7 +12,7 @@ import unical_support.unicalsupport2.data.entities.Email;
 public interface EmailService {
     List<EmailDto> getStoredEmail();
 
-    void updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto);
+    EmailDto updateEmailCategory(UpdateEmailCategoryDto updateEmailCategoryDto);
     
     Email saveEmail(EmailMessage emailToSave, ClassificationResultDto classificationResultDto);
 

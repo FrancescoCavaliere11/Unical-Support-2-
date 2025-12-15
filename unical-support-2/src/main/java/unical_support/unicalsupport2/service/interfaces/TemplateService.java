@@ -10,7 +10,7 @@ public interface TemplateService {
     //Metodi per il controller Rest
     List<TemplateDto> getAll(String categoryId);
     TemplateDto createTemplate(TemplateCreateDto templateCreateDto);
-    void updateTemplate(TemplateUpdateDto templateUpdateDto);
+    TemplateDto updateTemplate(TemplateUpdateDto templateUpdateDto);
     void deleteTemplateById(String id);
 
     //Metodi per il command shell
