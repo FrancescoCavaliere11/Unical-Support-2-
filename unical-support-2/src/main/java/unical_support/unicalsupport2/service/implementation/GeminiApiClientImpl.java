@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import unical_support.unicalsupport2.configurations.GeminiLlmConfig;
@@ -15,17 +14,15 @@ import unical_support.unicalsupport2.service.interfaces.LlmClient;
 
 import java.time.Duration;
 
-@Service
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class GeminiApiClientImpl implements LlmClient {
     private final WebClient geminiWebClient;
-    private final GeminiLlmConfig.GeminiProperties geminiProperties;
-    private final WebClient geminiEmbeddingWebClient;
+    private final GeminiLlmConfig.GeminiSingleConfig singleConfig;
 
     @Override
     public String chat(String prompt) throws Exception {
-        log.info("Invoco Gemini generateContent, model={}", geminiProperties.model());
+        log.info("Invoco Gemini generateContent, model={}, name={}", singleConfig.model(), singleConfig.providerName());
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -44,7 +41,7 @@ public class GeminiApiClientImpl implements LlmClient {
         req.set("contents", contents);
 
         String url = String.format("/v1beta/models/%s:generateContent?key=%s",
-                geminiProperties.model(), geminiProperties.apiKey());
+                singleConfig.model(), singleConfig.apiKey());
 
         String body = geminiWebClient.post()
                 .uri(url)
@@ -52,7 +49,7 @@ public class GeminiApiClientImpl implements LlmClient {
                 .bodyValue(mapper.writeValueAsString(req))
                 .retrieve()
                 .bodyToMono(String.class)
-                .timeout(Duration.ofSeconds(geminiProperties.timeoutSeconds()))
+                .timeout(Duration.ofSeconds(singleConfig.timeoutSeconds()))
                 .onErrorResume(ex -> Mono.error(new RuntimeException("Errore API Gemini: " + ex.getMessage(), ex)))
                 .block();
 
@@ -77,15 +74,16 @@ public class GeminiApiClientImpl implements LlmClient {
         }
         """.formatted(text.replace("\"", "\\\""));
 
-        String uri = "/v1beta/models/" + geminiProperties.embeddingModel() + ":embedContent";
+        String uri = String.format("/v1beta/models/%s:embedContent?key=%s",
+                singleConfig.embeddingModel(), singleConfig.apiKey());
 
-        return geminiEmbeddingWebClient.post()
+        return geminiWebClient.post()
                 .uri(uri)
                 .bodyValue(payload)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .map(this::parseEmbedding)
-                .block(Duration.ofSeconds(geminiProperties.timeoutSeconds()));
+                .block(Duration.ofSeconds(singleConfig.timeoutSeconds()));
     }
 
     private float[] parseEmbedding(JsonNode json){
@@ -98,6 +96,6 @@ public class GeminiApiClientImpl implements LlmClient {
     }
     @Override
     public String getProviderName() {
-        return "gemini";
+        return singleConfig.providerName();
     }
 }

@@ -7,6 +7,11 @@
   gap: 16pt;
 }
 
+.svg-email {
+  height: 50pt;
+  width: 100%;
+}
+
 .list {
   display: flex;
   flex-direction: column;
@@ -27,18 +32,23 @@
   width: 100%;
 }
 
-.header-list > hugeicons-icon {
+.list-actions {
+  display: flex;
+  gap: 8pt;
+}
+
+.list-actions > hugeicons-icon {
   stroke: var(--stroke-strong);
   transition: .3s ease-in-out;
   cursor: pointer;
 }
 
-.header-list > hugeicons-icon:hover {
-  stroke: var(--brand-stroke-weak);
+.list-actions > hugeicons-icon:hover {
+  stroke: var(--brand-stroke-strong);
 }
 
-.header-list > hugeicons-icon.active {
-  stroke: var(--brand-stroke-strong);
+.list-actions > hugeicons-icon.active {
+  stroke: var(--brand-strong);
 }
 
 .preview {

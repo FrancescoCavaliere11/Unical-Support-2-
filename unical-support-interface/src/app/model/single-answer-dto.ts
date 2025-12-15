@@ -1,4 +1,4 @@
-import {TemplateDto} from './TemplateDto';
+import {TemplateDto} from './template-dto';
 
 export class SingleAnswerDto {
   answer: string;

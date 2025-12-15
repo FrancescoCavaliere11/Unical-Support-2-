@@ -3,7 +3,10 @@ package unical_support.unicalsupport2.configurations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.reactive.function.client.WebClient;
+import unical_support.unicalsupport2.service.implementation.GeminiApiClientImpl;
+import unical_support.unicalsupport2.service.interfaces.LlmClient;
 
 /**
  * Configurazione per l'integrazione con il modello Gemini di Google.
@@ -11,8 +14,11 @@ import org.springframework.web.reactive.function.client.WebClient;
  */
 @Configuration
 public class GeminiLlmConfig {
-    @Value("${gemini.api-key}")
-    private String apiKey;
+    @Value("${gemini.api-key-1}")
+    private String apiKey1;
+
+    @Value("${gemini.api-key-2}")
+    private String apiKey2;
 
     @Value("${gemini.model}")
     private String model;
@@ -21,26 +27,11 @@ public class GeminiLlmConfig {
     private String baseUrl;
 
     @Value("${gemini.embedding-model}")
+
     private String embeddingModel;
 
     @Value("${llm.timeout-seconds}")
     private int timeoutSeconds;
-
-
-    /**
-     * Configura un WebClient specifico per le richieste di embedding al servizio Gemini.
-     * Imposta l'URL di base e le intestazioni necessarie, inclusa la chiave API.
-     */
-    @Bean
-    public WebClient geminiEmbeddingWebClient(WebClient.Builder builder) {
-
-        return builder
-                .baseUrl(baseUrl)
-                .defaultHeader("Content-Type", "application/json")
-                .defaultHeader("x-goog-api-key", apiKey)
-                .build();
-    }
-
 
     /**
      * Configura un WebClient generico per le richieste al servizio Gemini.
@@ -50,26 +41,24 @@ public class GeminiLlmConfig {
     public WebClient geminiWebClient(WebClient.Builder builder) {
         return builder
                 .baseUrl(baseUrl)
+                .defaultHeader("Content-Type", "application/json")
                 .build();
     }
 
-
-    /**
-     * Crea un bean GeminiProperties che incapsula tutte le proprietà di configurazione
-     * necessarie per interagire con l'API Gemini.
-     * Verifica che la chiave API non sia vuota e lancia un'eccezione se lo è.
-     */
     @Bean
-    public GeminiProperties geminiProperties() {
-        if (this.apiKey == null || this.apiKey.isBlank()) {
-            throw new IllegalArgumentException("La proprietà 'llm.api-key' non può essere vuota. Configurazione fallita.");
-        }
-        return new GeminiProperties(this.apiKey, this.model, this.embeddingModel, this.timeoutSeconds);
+    @Primary
+    public LlmClient geminiClientPrimary(WebClient geminiWebClient) {
+        return new GeminiApiClientImpl(geminiWebClient, createConfig("gemini-1", apiKey1));
     }
 
-    /**
-     * Record immutabile per incapsulare tutte le proprietà di configurazione.
-     * Sarà iniettato nel GeminiApiClient.
-     */
-    public record GeminiProperties(String apiKey, String model, String embeddingModel, int timeoutSeconds) {}
+    @Bean
+    public LlmClient geminiClientSecondary(WebClient geminiWebClient) {
+        return new GeminiApiClientImpl(geminiWebClient, createConfig("gemini-2", apiKey2));
+    }
+
+    public record GeminiSingleConfig(String providerName, String apiKey, String model, String embeddingModel, int timeoutSeconds) {}
+
+    private GeminiSingleConfig createConfig(String providerName, String apiKey) {
+        return new GeminiSingleConfig(providerName, apiKey, this.model, this.embeddingModel, this.timeoutSeconds);
+    }
 }

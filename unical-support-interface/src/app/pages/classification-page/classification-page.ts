@@ -3,7 +3,7 @@ import {
   Add01Icon,
   Delete02Icon,
   LabelIcon,
-  FilterMailCircleIcon
+  FilterMailCircleIcon, Refresh01Icon
 } from '@hugeicons/core-free-icons';
 import {Email} from '../../services/email';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -22,6 +22,8 @@ import {EmailDto} from '../../model/email-dto';
   ],
 })
 export class ClassificationPage implements OnInit {
+
+  protected readonly Refresh01Icon = Refresh01Icon;
   protected readonly LabelIcon = LabelIcon;
   protected readonly Delete02Icon = Delete02Icon;
   protected readonly Add01Icon = Add01Icon;
@@ -55,23 +57,27 @@ export class ClassificationPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isFetching = true;
-
     this.categoryService.getCategories()
       .subscribe(categories => this.categories = categories);
 
-    this.emailService.getEmails().subscribe({
-        next: emails => {
-          this.emails = emails
-          this.isFetching = false;
-          this.changeDetectorRef.detectChanges();
-        },
-        error: _ => {
-          this.isFetching = false;
-          this.changeDetectorRef.detectChanges();
-          alert("Errore nel caricamento delle email");
-        },
-      });
+    this.getEmails(false)
+  }
+
+  getEmails(refresh: boolean) {
+    this.isFetching = true;
+
+    this.emailService.getEmails(refresh).subscribe({
+      next: emails => {
+        this.emails = emails
+        this.isFetching = false;
+        this.changeDetectorRef.detectChanges();
+      },
+      error: _ => {
+        this.isFetching = false;
+        this.changeDetectorRef.detectChanges();
+        alert("Errore nel caricamento delle email");
+      },
+    });
   }
 
   get classifications(): FormArray {

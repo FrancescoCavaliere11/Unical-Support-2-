@@ -18,9 +18,9 @@ prompt:
         zeroShot: "classpath:prompts/responder_zero_shot_chain_of_thought.txt"
 
 llm:
-  default-provider: "gemini"
+  default-provider: "gemini-1"
   modules:
-    classifier: "gemini"
+    classifier: "gemini-1"
     judger: "groq"
-    embedding: "gemini"
-    responder: "groq"
+    embedding: "gemini-1"
+    responder: "gemini-2"
