@@ -25,20 +25,16 @@ header  > img {
 }
 
 nav {
-  display: flex;
-  align-items: center;
   position: sticky;
   top: 0;
-  background: var(--background);
-  border-bottom: 1px solid var(--stroke-weak);
-  z-index: 99;
-}
-
-nav > div {
   display: flex;
+  align-items: center;
   gap: 16pt;
   overflow-x: auto;
   padding-top: 8pt;
+  background: var(--background);
+  border-bottom: 1px solid var(--stroke-weak);
+  z-index: 99;
 }
 
 a {
@@ -59,33 +55,6 @@ a:first-of-type {
 
 a:last-of-type {
   margin-right: 64pt;
-}
-
-.actions {
-  position: absolute;
-  right: 16pt;
-  display: flex;
-  align-items: center;
-  gap: 16pt;
-}
-
-.third-btn {
-  padding: 8pt;
-  border-radius: 8pt;
-  background: var(--fill);
-  backdrop-filter: blur(8pt);
-  border: 1.5px solid var(--stroke-weak);
-  stroke: var(--text-weak);
-  stroke-width: 1.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.third-btn:hover {
-  stroke: var(--brand-strong);
-  background: var(--brand-fill);
-  border: 1.5px solid var(--brand-stroke-strong);
 }
 
 .nav-icon {

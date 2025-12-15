@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Environment} from '../utils/environment';
 import {BehaviorSubject, map, Observable, tap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {TemplateDto} from '../model/TemplateDto';
+import {TemplateDto} from '../model/template-dto';
 
 @Injectable({
   providedIn: 'root',

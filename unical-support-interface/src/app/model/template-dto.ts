@@ -1,4 +1,4 @@
-import {ParameterDto} from './ParameterDto';
+import {ParameterDto} from './parameter-dto';
 import {CategoryDto} from './category-dto';
 
 export class TemplateDto {

@@ -9,26 +9,22 @@
   }
 
   <nav>
-    <div>
-      <a routerLink="classification" routerLinkActive="active">
-        <hugeicons-icon [icon]="LabelIcon" class="nav-icon"></hugeicons-icon>
-        Classificazioni
-      </a>
-      <a routerLink="answers" routerLinkActive="active">
-        <hugeicons-icon [icon]="Mail01Icon" class="nav-icon"></hugeicons-icon>
-        Risposte
-      </a>
-      <a routerLink="template" routerLinkActive="active">
-        <hugeicons-icon [icon]="NoteIcon" class="nav-icon"></hugeicons-icon>
-        Template
-      </a>
-    </div>
-
-    <div class="actions">
-      <button class="third-btn" (click)="openUploadDocumentPopup()" aria-label="Carica Documenti">
-        <hugeicons-icon [icon]="CloudUploadIcon"></hugeicons-icon>
-      </button>
-    </div>
+    <a routerLink="classifications" routerLinkActive="active">
+      <hugeicons-icon [icon]="LabelIcon" class="nav-icon"></hugeicons-icon>
+      Classificazioni
+    </a>
+    <a routerLink="answers" routerLinkActive="active">
+      <hugeicons-icon [icon]="Mail01Icon" class="nav-icon"></hugeicons-icon>
+      Risposte
+    </a>
+    <a routerLink="templates" routerLinkActive="active">
+      <hugeicons-icon [icon]="NoteIcon" class="nav-icon"></hugeicons-icon>
+      Template
+    </a>
+    <a routerLink="documents" routerLinkActive="active">
+      <hugeicons-icon [icon]="File02Icon" class="nav-icon"></hugeicons-icon>
+      Documenti
+    </a>
   </nav>
 
   <main>
