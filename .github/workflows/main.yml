@@ -61,7 +61,8 @@ jobs:
       LLM_PROVIDER: gemini
 
       # Gemini config
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
+      GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
       GEMINI_MODEL: gemini-2.5-flash
       GEMINI_BASE_URL: https://generativelanguage.googleapis.com
       GEMINI_EMBEDDING_MODEL: gemini-embedding-001
