@@ -2,11 +2,14 @@ package unical_support.unicalsupport2.service.implementation;
 
 import com.pgvector.PGvector;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import unical_support.unicalsupport2.configurations.factory.LlmStrategyFactory;
-import unical_support.unicalsupport2.data.dto.Document.DocumentProcessingResult;
+import unical_support.unicalsupport2.data.dto.document.DocumentCreateDto;
+import unical_support.unicalsupport2.data.dto.document.DocumentDto;
+import unical_support.unicalsupport2.data.dto.document.DocumentProcessingResult;
 import unical_support.unicalsupport2.data.entities.Category;
 import unical_support.unicalsupport2.data.entities.ChunkEmbedding;
 import unical_support.unicalsupport2.data.entities.Document;
@@ -30,6 +33,7 @@ public class DocumentServiceImpl implements DocumentService {
     private final TextExtractorService textExtractorService;
     private final CategoryRepository categoryRepository;
     private final LlmStrategyFactory llmStrategyFactory;
+    private final ModelMapper modelMapper;
 
     @Transactional
     @Override
@@ -95,21 +99,23 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void processAndSaveDocumentFromMultipart(MultipartFile multipart, String categoryId) {
+    @Transactional
+    public DocumentDto processAndSaveDocumentFromMultipart(MultipartFile multipart, DocumentCreateDto documentCreateDto) {
         if (multipart == null || multipart.isEmpty()) {
             throw new IllegalArgumentException("Multipart file non valido");
         }
 
-        Category category = categoryRepository.findById(categoryId)
+        Category category = categoryRepository.findById(documentCreateDto.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Category not found"));
 
-        Document doc = new Document();
-        doc.setOriginalFilename(multipart.getOriginalFilename());
+        Document doc = modelMapper.map(documentCreateDto, Document.class);
         doc.setFileType(extractExtension(multipart.getOriginalFilename()));
         doc.setCategory(category);
 
-
         getTextFromFile(doc, textExtractorService.extractText(multipart));
+
+        return modelMapper.map(doc, DocumentDto.class);
+        // todo vedere se prende createInDate
     }
 
     private String extractExtension(String filename) {
@@ -165,5 +171,13 @@ public class DocumentServiceImpl implements DocumentService {
         sb.append("Totale documenti: ").append(documents.size()).append("\n");
 
         return sb.toString();
+    }
+
+    @Override
+    public List<DocumentDto> getAll() {
+        return documentRepository.findAll()
+                .stream()
+                .map(document -> modelMapper.map(document, DocumentDto.class))
+                .toList();
     }
 }

@@ -15,16 +15,14 @@ public class Document {
     @Id
     private String id;
 
-    // todo non so se tenerlo
-//    @Column(name = "title", nullable = false)
-//    private String title;
-
-
     @Column(name = "original_filename", nullable = false)
     private String originalFilename;
 
     @Column(name = "file_type", nullable = false)
     private String fileType;
+
+    @Column(name = "document_link")
+    private String documentLink;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
