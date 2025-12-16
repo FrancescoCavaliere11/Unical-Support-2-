@@ -20,6 +20,17 @@ export class Document {
   }
 
   getDocuments(forceRefresh: boolean = false): Observable<DocumentDto[]> {
+    if (forceRefresh || this.documentsCache$.value === null) {
+      this.loadDocuments().subscribe(
+        documents => this.documentsCache$.next(documents)
+      );
+    }
+
+    return this.documentsCache$.asObservable().pipe(
+      map(documents => documents ?? [])
+    );
+
+    /*
     if (!forceRefresh && this.documentsCache$.value !== null) {
       return this.documentsCache$.asObservable().pipe(
         map(documents => documents ?? [])
@@ -29,13 +40,16 @@ export class Document {
     return this.loadDocuments().pipe(
       tap(documents => this.documentsCache$.next(documents))
     );
+     */
   }
 
-  uploadDocuments(file: File, categoryId: string) {
+  uploadDocuments(file: File, documentCreateDto: {categoryId: string, documentLink: string | null}) {
     const formData = new FormData();
 
     formData.append('document', file);
-    formData.append('categoryId', categoryId);
+    formData.append(
+      'documentCreateDto',
+      new Blob( [JSON.stringify(documentCreateDto)], { type: 'application/json' } ) );
 
     return this.http.post<DocumentDto>(this._apiUrl, formData).pipe(
       tap((newDocument: DocumentDto) => {
@@ -43,6 +57,18 @@ export class Document {
         const currentDocument = this.documentsCache$.value;
         if (currentDocument) {
           this.documentsCache$.next([newDocument, ...currentDocument]);
+        }
+      })
+    );
+  }
+
+  deleteDocument(documentId: string) {
+    return this.http.delete(`${this._apiUrl}/${documentId}`).pipe(
+      tap(() => {
+        const currentDocuments = this.documentsCache$.value;
+        if (currentDocuments) {
+          const newDocumentsList = currentDocuments.filter(t => t.id !== documentId);
+          this.documentsCache$.next(newDocumentsList);
         }
       })
     );

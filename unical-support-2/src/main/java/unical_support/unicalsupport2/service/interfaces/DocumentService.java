@@ -13,4 +13,5 @@ public interface DocumentService {
     String removeDocument(String fileName);
     String listDocuments();
     List<DocumentDto> getAll();
+    void removeById(String id);
 }

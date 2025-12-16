@@ -11,14 +11,16 @@
           <hugeicons-icon [icon]="File02Icon"></hugeicons-icon>
           <div class="text-info">
             <div class="info">
-              <h3>{{ document.name }}</h3>
-              <p>{{ document.createInDate }}</p>
+              <h3>{{ document.originalFilename }}</h3>
+              <p>{{ document.createAt | date:'dd/MM/yyyy HH:mm' }}</p>
             </div>
             <div class="item-actions">
-              <a [href]="document.documentLink" target="_blank">
-                <hugeicons-icon [icon]="FileViewIcon"></hugeicons-icon>
-              </a>
-              <hugeicons-icon [icon]="Delete02Icon"></hugeicons-icon>
+              @if (document.documentLink){
+                <a [href]="document.documentLink" target="_blank">
+                  <hugeicons-icon [icon]="FileViewIcon" title="Visualizza documento"></hugeicons-icon>
+                </a>
+              }
+              <hugeicons-icon [icon]="Delete02Icon" title="Elimina documento" (click)="deleteDocument(document)"></hugeicons-icon>
             </div>
           </div>
         </div>
@@ -47,6 +49,11 @@
           <option [value]="category.id">{{ category.name }}</option>
         }
       </select>
+    </div>
+
+    <div class="sec">
+      <span>Link al documento</span>
+      <input type="text" formControlName="documentLink" placeholder="Link">
     </div>
 
     <div class="file-uploader" [class.drag]="dragOver" (dragover)="onDragOver($event)"  (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
