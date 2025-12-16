@@ -8,8 +8,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.service.interfaces.EmailSender;
+import org.thymeleaf.context.Context;
 
 /**
  * Service that sends email messages using the configured {@code JavaMailSender}.
@@ -34,10 +36,21 @@ public class GmailSenderImpl implements EmailSender {
     private final JavaMailSender javaMailSender;
 
     /**
+     * Spring's template engine used to render html email to send.
+     */
+    private final SpringTemplateEngine templateEngine;
+
+    /**
      * Default sender address injected from {@code spring.mail.username}.
      */
     @Value("${spring.mail.username}")
     private String fromEmail;
+
+    /**
+     * Unical logo injected from {@code email.template.logo-url}.
+     */
+    @Value("${email.template.logo-url}")
+    private String logoUrl;
 
     /**
      * Sends the provided {@code EmailMessage} as a plain-text MIME email.
@@ -57,7 +70,7 @@ public class GmailSenderImpl implements EmailSender {
     public void sendEmail(EmailMessage email) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setFrom(fromEmail);
             helper.setTo(email.getTo().toArray(new String[0]));
@@ -73,7 +86,14 @@ public class GmailSenderImpl implements EmailSender {
             }
 
             helper.setSubject(email.getSubject());
-            helper.setText(email.getBody(), false);
+
+            Context context = new Context();
+            context.setVariable("messageBody", email.getBody());
+            context.setVariable("logoUrl", logoUrl);
+
+            String htmlContent = templateEngine.process("email-reply", context);
+
+            helper.setText(htmlContent, true);
 
             if (email.getInReplyToHeader() != null && !email.getInReplyToHeader().isEmpty()) {
                 message.setHeader("In-Reply-To", email.getInReplyToHeader());

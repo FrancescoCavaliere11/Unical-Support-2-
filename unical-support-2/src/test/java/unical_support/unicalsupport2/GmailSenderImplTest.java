@@ -3,12 +3,15 @@ package unical_support.unicalsupport2;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import unical_support.unicalsupport2.data.EmailMessage;
 import unical_support.unicalsupport2.service.implementation.GmailSenderImpl;
+import org.thymeleaf.context.Context;
 
 import java.util.List;
 
@@ -16,15 +19,18 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
 public class GmailSenderImplTest {
+    @Mock
     private JavaMailSender mailSender;
+
+    @Mock
+    private SpringTemplateEngine templateEngine;
+
     private GmailSenderImpl gmailSender;
 
     @BeforeEach
     void setUp() {
-        mailSender = Mockito.mock(JavaMailSender.class);
-        gmailSender = new GmailSenderImpl(mailSender);
+        gmailSender = new GmailSenderImpl(mailSender, templateEngine);
 
-        // imposto il campo @Value per il test
         ReflectionTestUtils.setField(gmailSender, "fromEmail", "noreply@test.com");
     }
 
@@ -32,6 +38,9 @@ public class GmailSenderImplTest {
     void shouldSendEmailSuccessfully() {
         MimeMessage mockMessage = Mockito.mock(MimeMessage.class);
         when(mailSender.createMimeMessage()).thenReturn(mockMessage);
+
+        when(templateEngine.process(anyString(), any(Context.class)))
+                .thenReturn("<html><body>Mock Body</body></html>");
 
         EmailMessage email = new EmailMessage();
         email.setTo(List.of("test@example.com"));
@@ -41,6 +50,8 @@ public class GmailSenderImplTest {
         gmailSender.sendEmail(email);
 
         verify(mailSender, times(1)).send(mockMessage);
+
+        verify(templateEngine).process(eq("email-reply"), any(Context.class));
     }
 
 //    Test reale che invia una mail vera, commentare il codice sopra prima di eseguirlo e assicurarsi

@@ -56,6 +56,9 @@ jobs:
       SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
+      #Email template
+      EMAIL_TEMPLATE_LOGO_URL: https://museo-multimediale-cosenza.s3.eu-north-1.amazonaws.com/logo.png
+
       # LLM config
       LLM_TIMEOUT_SECONDS: 30
       LLM_PROVIDER: gemini

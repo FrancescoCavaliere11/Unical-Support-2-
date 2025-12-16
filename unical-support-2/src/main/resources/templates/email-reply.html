@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Notification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; background-color: #FAFAFA; }
+        p { font-family: 'Poppins', Helvetica, Arial, sans-serif; }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #FAFAFA;">
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #FAFAFA; margin: 0 auto;">
+
+    <tr>
+        <td align="center" style="padding: 40px 0 20px 0;">
+            <img th:if="${logoUrl != null}"
+                 th:src="${logoUrl}"
+                 alt="Logo" width="120" style="width: 120px; height: auto; display: block; border: 0;">
+        </td>
+    </tr>
+
+    <tr>
+        <td align="left" style="padding: 20px 30px;">
+            <p style="
+                    font-family: 'Poppins', Helvetica, Arial, sans-serif;
+                    font-size: 16px;
+                    color: #1E1E1E;
+                    line-height: 1.6;
+                    letter-spacing: 0.01em;
+                    margin: 0;
+                    white-space: pre-line;
+                " th:text="${messageBody}">
+                Testo di fallback per anteprima...
+            </p>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 20px;"></td>
+    </tr>
+</table>
+
+</body>
+</html>
