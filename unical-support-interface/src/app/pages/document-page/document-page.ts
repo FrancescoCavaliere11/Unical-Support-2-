@@ -30,6 +30,7 @@ export class DocumentPage implements OnInit {
   protected readonly Cancel01Icon = Cancel01Icon;
   protected readonly Delete02Icon = Delete02Icon;
   protected readonly FileUploadIcon = FileUploadIcon;
+  protected readonly FileViewIcon = FileViewIcon;
 
   protected isFetching: boolean = false;
   protected isLoading: boolean = false;
@@ -51,6 +52,7 @@ export class DocumentPage implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       categoryId: ['', Validators.required],
+      documentLink: [null],
       file: [null, Validators.required]
     })
   }
@@ -70,23 +72,13 @@ export class DocumentPage implements OnInit {
       next: documents => {
         this.isFetching = false;
         this.documents = documents;
+        console.log(documents)
         this.changeDetectorRef.detectChanges();
       },
       error: error => {
         console.log(error);
         this.isFetching = false;
-        this.documents = [
-          new DocumentDto(
-            {
-              id:"milf",
-              name: "Tasse 2025",
-              documentLink: "link.com",
-              createInDate: new Date().toISOString().substring(0, 10),
-            }
-          )
-        ];
         alert("Errore nel caricamento dei documenti");
-        this.changeDetectorRef.detectChanges();
       }
     });
 
@@ -141,7 +133,12 @@ export class DocumentPage implements OnInit {
   }
 
   reset() {
-    //TODO svuotare il form
+    this.form.reset({
+      categoryId: '',
+      documentLink: null,
+      file: null
+    });
+    this.file.clear();
   }
 
 
@@ -151,21 +148,45 @@ export class DocumentPage implements OnInit {
 
     this.isLoading = true;
 
-    this.documentService.uploadDocuments(this.file, this.form.value.categoryId)
+    let documentCreateDto = {
+      categoryId: this.form.value.categoryId,
+      documentLink: this.form.value.documentLink
+    }
+
+    this.documentService.uploadDocuments(this.file, documentCreateDto)
       .subscribe({
         next: () => {
           alert("Documenti caricati con successo");
           this.isLoading = false;
+          this.reset()
           this.changeDetectorRef.detectChanges();
         },
         error: err => {
           console.log(err);
           alert("Errore durante l'upload dei documenti");
           this.isLoading = false;
-          this.changeDetectorRef.detectChanges();
         }
       });
   }
 
-  protected readonly FileViewIcon = FileViewIcon;
+  deleteDocument(document: DocumentDto): void {
+    if (!document) return;
+
+    if (confirm('Sei sicuro di voler eliminare questo documento?')) {
+      this.isLoading = true;
+
+      this.documentService.deleteDocument(document.id).subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.changeDetectorRef.detectChanges();
+        },
+        error: (err) => {
+          console.error(err);
+          this.isLoading = false;
+          alert('Errore durante l\'eliminazione');
+        }
+      });
+    }
+  }
+
 }

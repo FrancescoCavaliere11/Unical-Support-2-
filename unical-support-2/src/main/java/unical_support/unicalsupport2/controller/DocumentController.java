@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import unical_support.unicalsupport2.data.dto.document.DocumentCreateDto;
 import unical_support.unicalsupport2.data.dto.document.DocumentDto;
+import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidIdFormat;
 import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidMultipartExtension;
 import unical_support.unicalsupport2.service.interfaces.DocumentService;
 
@@ -44,12 +45,12 @@ public class DocumentController {
 
     @PostMapping
     public ResponseEntity<DocumentDto> uploadDocument(
-            @RequestParam("document")
+            @RequestPart("document")
             @NotNull
             @ValidMultipartExtension
             MultipartFile document,
 
-            @RequestParam("documentCreateDto")
+            @RequestPart("documentCreateDto")
             @Valid
             DocumentCreateDto documentCreateDto
     ) {
@@ -63,5 +64,18 @@ public class DocumentController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(documentService.getAll());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteDocument(
+            @PathVariable
+            @NotNull(message = "Id is required")
+            @ValidIdFormat
+            String id
+    ) {
+        documentService.removeById(id);
+        return  ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
     }
 }

@@ -48,7 +48,6 @@ public class DocumentServiceImpl implements DocumentService {
         doc.setOriginalFilename(file.getName());
         doc.setFileType("pdf");
         doc.setCategory(category);
-        doc = documentRepository.save(doc);
 
         List<String> chunksText = getTextFromFile(doc, textExtractorService.extractText(file));
 
@@ -110,12 +109,12 @@ public class DocumentServiceImpl implements DocumentService {
 
         Document doc = modelMapper.map(documentCreateDto, Document.class);
         doc.setFileType(extractExtension(multipart.getOriginalFilename()));
+        doc.setOriginalFilename(multipart.getOriginalFilename());
         doc.setCategory(category);
 
         getTextFromFile(doc, textExtractorService.extractText(multipart));
 
         return modelMapper.map(doc, DocumentDto.class);
-        // todo vedere se prende createInDate
     }
 
     private String extractExtension(String filename) {
@@ -179,5 +178,13 @@ public class DocumentServiceImpl implements DocumentService {
                 .stream()
                 .map(document -> modelMapper.map(document, DocumentDto.class))
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public void removeById(String id) {
+        Document doc = documentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("document not found")); // TODO fare custom exception
+        documentRepository.delete(doc);
     }
 }

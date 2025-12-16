@@ -1,5 +1,6 @@
 package unical_support.unicalsupport2.configurations;
 
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
@@ -15,11 +16,17 @@ import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.Email;
 import unical_support.unicalsupport2.data.entities.Template;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Configuration
 public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
+
+        Converter<DocumentCreateDto, LocalDateTime> nowConverter =
+                ctx -> LocalDateTime.now();
 
         modelMapper.addMappings(new PropertyMap<TemplateCreateDto, Template>() {
 
@@ -57,9 +64,14 @@ public class ModelMapperConfig {
         modelMapper.addMappings(new PropertyMap<DocumentCreateDto, Document>() {
             @Override
             protected void configure() {
+                skip().setId(null);
+                skip().setOriginalFilename(null);
                 skip().setChunks(null);
                 skip().setCategory(null);
                 skip().setFileType(null);
+
+
+                using(nowConverter).map(source, destination.getCreateAt());
             }
         });
 

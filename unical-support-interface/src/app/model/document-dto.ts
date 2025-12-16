@@ -1,13 +1,15 @@
 export class DocumentDto {
   id: string;
-  name: string;
+  originalFilename: string;
   documentLink: string;
-  createInDate: Date;
+  createAt: Date;
 
   constructor(data: any) {
     this.id = data.id;
-    this.name = data.name;
+    this.originalFilename = data.originalFilename;
     this.documentLink = data.documentLink;
-    this.createInDate = data.createInDate;
+    this.createAt = data.createAt;
   }
 }
+
+
