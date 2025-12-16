@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.command.annotation.Command;
 import org.springframework.shell.command.annotation.Option;
 import org.springframework.validation.annotation.Validated;
-import unical_support.unicalsupport2.data.dto.Document.DocumentProcessingResult;
+import unical_support.unicalsupport2.data.dto.document.DocumentProcessingResult;
 import unical_support.unicalsupport2.security.customAnnotations.annotation.ValidCategoryName;
 import unical_support.unicalsupport2.service.interfaces.DocumentService;
 

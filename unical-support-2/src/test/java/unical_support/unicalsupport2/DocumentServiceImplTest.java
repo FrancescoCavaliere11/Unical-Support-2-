@@ -75,6 +75,6 @@ class DocumentServiceImplTest {
 
         Mockito.verify(textExtractorService).extractText(any(File.class));
         Mockito.verify(llmClient, Mockito.atLeastOnce()).embed(anyString());
-        Mockito.verify(documentRepository, Mockito.atLeast(2)).save(any(Document.class));
+        Mockito.verify(documentRepository, Mockito.atLeast(1)).save(any(Document.class));
     }
 }

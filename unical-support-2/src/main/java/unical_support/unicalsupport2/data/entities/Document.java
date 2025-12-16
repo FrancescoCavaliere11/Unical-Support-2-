@@ -3,8 +3,12 @@ package unical_support.unicalsupport2.data.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -15,16 +19,18 @@ public class Document {
     @Id
     private String id;
 
-    // todo non so se tenerlo
-//    @Column(name = "title", nullable = false)
-//    private String title;
-
-
     @Column(name = "original_filename", nullable = false)
     private String originalFilename;
 
     @Column(name = "file_type", nullable = false)
     private String fileType;
+
+    @Column(name = "document_link")
+    private String documentLink;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createAt;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
