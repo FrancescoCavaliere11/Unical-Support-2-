@@ -22,5 +22,5 @@ llm:
   modules:
     classifier: "gemini-1"
     judger: "groq"
-    embedding: "gemini-1"
+    embedder: "gemini-1"
     responder: "gemini-2"
