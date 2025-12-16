@@ -1,4 +1,4 @@
-    package unical_support.unicalsupport2.data.dto.Document;
+    package unical_support.unicalsupport2.data.dto.document;
 
     import lombok.AllArgsConstructor;
     import lombok.Data;

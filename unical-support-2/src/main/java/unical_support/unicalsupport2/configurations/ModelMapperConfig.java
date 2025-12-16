@@ -4,12 +4,14 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import unical_support.unicalsupport2.data.dto.document.DocumentCreateDto;
 import unical_support.unicalsupport2.data.dto.email.EmailDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateSingleAnswerDto;
 import unical_support.unicalsupport2.data.dto.email.UpdateSingleClassificationDto;
 import unical_support.unicalsupport2.data.dto.template.TemplateCreateDto;
 import unical_support.unicalsupport2.data.embeddables.SingleAnswer;
 import unical_support.unicalsupport2.data.embeddables.SingleClassification;
+import unical_support.unicalsupport2.data.entities.Document;
 import unical_support.unicalsupport2.data.entities.Email;
 import unical_support.unicalsupport2.data.entities.Template;
 
@@ -48,6 +50,16 @@ public class ModelMapperConfig {
             @Override
             protected void configure() {
                 skip().setTemplate(null);
+            }
+        });
+
+        // mapping da DocumentCreateDto a Document
+        modelMapper.addMappings(new PropertyMap<DocumentCreateDto, Document>() {
+            @Override
+            protected void configure() {
+                skip().setChunks(null);
+                skip().setCategory(null);
+                skip().setFileType(null);
             }
         });
 
